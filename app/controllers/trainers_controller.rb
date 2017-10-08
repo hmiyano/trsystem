@@ -1,4 +1,6 @@
 class TrainersController < ApplicationController
+  before_action :require_tr_logged_in, only: [:show]
+
   def show
     @trainer = Trainer.find(params[:id])
   end

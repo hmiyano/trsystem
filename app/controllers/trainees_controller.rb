@@ -1,4 +1,6 @@
 class TraineesController < ApplicationController
+  before_action :require_te_logged_in, only: [:show]
+
   def show
     @trainee = Trainee.find(params[:id])
   end
