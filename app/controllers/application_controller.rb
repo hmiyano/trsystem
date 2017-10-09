@@ -3,7 +3,8 @@ class ApplicationController < ActionController::Base
   
     include TeSessionsHelper
     include TrSessionsHelper
-    include AdminSessionsH
+    include AdminSessionsHelper
+    
   private
 
   def require_te_logged_in

@@ -7,8 +7,6 @@ class ToppagesController < ApplicationController
 #  end
 
   def index
-    @checklists = Checklist.all
+
   end
-
-
 end

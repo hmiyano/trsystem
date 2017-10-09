@@ -1,4 +1,27 @@
 
+<% if admin_logged_in? %>
+
+    <table class="table table-bordered table-hover">
+      <tr>
+        <th>チャプター</th>
+        <th>セクション</th>
+        <th>チェック項目</th>
+        <th>編集</th>
+        <th>削除</th>
+      </tr>
+      <% checklists.each do |checklist| %>
+        <tr>
+          <td><%= checklist.chapter %></td>
+          <td><%= checklist.section %></td>
+          <td><%= checklist.content %></td>
+          <td>編集</td>
+          <td>削除</td>
+        </tr>
+      <% end %>
+    </table>
+
+<% else %>
+
     <table class="table table-bordered table-hover">
       <tr>
         <th rowspan="2">チャプター</th>
@@ -24,3 +47,4 @@
         </tr>
       <% end %>
     </table>
+<% end %>
