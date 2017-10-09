@@ -1,0 +1,19 @@
+<% if te_logged_in? %>
+
+  <% if current_trainee.first?(checklist) %>
+    <% time_japan = Date.current.strftime('%m/%d') %>
+
+    <%= form_tag(te_check_path(checklist.id), method: :delete) do %>
+    <%= hidden_field_tag :checklist_id, checklist.id %>
+    <%= hidden_field_tag :type, 'First' %>
+    <%= submit_tag time_japan + ' チェック済', class: 'btn btn-success btn-xs' %>
+    <% end %>
+  <% else %>
+    <%= form_tag(te_checks_path) do %>
+    <%= hidden_field_tag :checklist_id, checklist.id %>
+    <%= hidden_field_tag :type, 'First' %>
+    <%= submit_tag 'チェックする', class: 'btn btn-info btn-xs' %>
+  <% end %>
+<% end %>
+
+<% end %>

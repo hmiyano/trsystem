@@ -1,0 +1,2 @@
+class Third < TeCheck
+end

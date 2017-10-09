@@ -2,11 +2,24 @@
   <div class="cover">
     <div class="cover-inner">
       <div class="cover-contents">
-        <h1>クリスプ・トレーニングシステム</h1>
-          <% unless te_logged_in? || tr_logged_in? %>
-            <%= link_to 'トレーニングを始める', te_signup_path, class: 'btn btn-success btn-lg' %>
-          <% end %>
+        <h1>CRISP TRAINING SYSTEM</h1>
+
+        <% if te_logged_in? %>
+          <h1><%= current_trainee.name %>さん、今日も頑張りましょう！</h1>
+
+        <% elsif tr_logged_in? %>
+          <h1><%= current_trainer.name %>さん、ようこそ！</h1>
+
+        <% else %>
+          <%= link_to 'トレーニングを始める', te_signup_path, class: 'btn btn-success btn-lg' %>
+        <% end %>
       </div>
     </div>
   </div>
+  
+    <% unless !te_logged_in? && !tr_logged_in? %>
+      <%= render 'checklists/checklists', checklists: @checklists %>
+    <% end %>
+
 <% end %>
+

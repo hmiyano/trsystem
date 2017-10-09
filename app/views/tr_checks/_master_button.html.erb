@@ -1,0 +1,15 @@
+<% if tr_logged_in? %>
+  <% if current_trainer.mastering?(checklist) %>
+    <%= form_for(current_trainer.tr_checks.find_by(checklist_id: checklist.id), html: { method: :delete }) do |f| %>
+      <%= hidden_field_tag :checklist_id, checklist.id %>
+      <%= f.submit 'MASTER', class: 'btn btn-warning btn-xs' %>
+    <% end %>
+  <% else %>
+    <%= form_for(current_trainer.tr_checks.build) do |f| %>
+      <%= hidden_field_tag :checklist_id, checklist.id %>
+      <%= f.submit 'MASTERする', class: 'btn btn-danger btn-xs' %>
+    <% end %>
+  <% end %>
+<% elsif te_logged_in? %>
+  
+<% end %>

@@ -1,0 +1,26 @@
+
+    <table class="table table-bordered table-hover">
+      <tr>
+        <th rowspan="2">チャプター</th>
+        <th rowspan="2">セクション</th>
+        <th rowspan="2">チェック項目</th>
+        <th colspan="3">セルフチェック</th>
+        <th rowspan="2">トレーナーチェック</th>
+      </tr>
+      <tr>
+        <th>1回目</th>
+        <th>2回目</th>
+        <th>3回目</th>
+      </tr>
+      <% checklists.each do |checklist| %>
+        <tr>
+          <td><%= checklist.chapter %></td>
+          <td><%= checklist.section %></td>
+          <td><%= checklist.content %></td>
+          <td><%= render 'te_checks/first_button', checklist: checklist %></td>
+          <td><%= render 'te_checks/second_button', checklist: checklist %></td>
+          <td><%= render 'te_checks/third_button', checklist: checklist %></td>
+          <td><%= render 'tr_checks/master_button', checklist: checklist %></td>
+        </tr>
+      <% end %>
+    </table>

@@ -46,7 +46,23 @@
                 </li>
               </ul>
             </li>            
-            
+          <% elsif admin_logged_in? %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+
+                <%= current_admin.name %>
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <%= link_to 'マイページ', admin_path(current_admin) %>
+                </li>
+                <li role="separator" class="divider"></li>
+                <li>
+                  <li><%= link_to 'ログアウト', admin_logout_path, method: :delete %></li>
+                </li>
+              </ul>
+            </li>                        
             
             
             
@@ -55,6 +71,8 @@
             <li><%= link_to 'トレーニーログイン', te_login_path %></li>
             <li><%= link_to 'トレーナー新規登録', tr_signup_path %></li>
             <li><%= link_to 'トレーナーログイン', tr_login_path %></li>
+            <li><%= link_to '管理者ログイン', admin_login_path %></li>
+
           <% end %>
         </ul>
       </div>
