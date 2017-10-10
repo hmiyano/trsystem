@@ -1,26 +1,37 @@
 
 <% if admin_logged_in? %>
+  <div class="col-md-11 col-sm-11 col-xs-11">
 
+<p>
+  <%= link_to '新規トレーニング項目の作成', new_checklist_path, class: 'btn btn-danger' %>
+</p>
     <table class="table table-bordered table-hover">
       <tr>
+        <th>ID</th>
+        <th>WG</th>
         <th>チャプター</th>
         <th>セクション</th>
-        <th>チェック項目</th>
+        <th>トレーニング項目</th>
         <th>編集</th>
         <th>削除</th>
       </tr>
       <% checklists.each do |checklist| %>
         <tr>
+          <td><%= checklist.id %></td>
+          <td><%= checklist.grade %></td>
           <td><%= checklist.chapter %></td>
           <td><%= checklist.section %></td>
           <td><%= checklist.content %></td>
-          <td>編集</td>
-          <td>削除</td>
+          <td><%= link_to '編集', edit_checklist_path(checklist) %></td>
+          <td><%= link_to '削除', checklist, method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %></td>
         </tr>
       <% end %>
     </table>
+  </div>
 
 <% else %>
+
+  <div class="col-md-11 col-sm-11 col-xs-11">
 
     <table class="table table-bordered table-hover">
       <tr>
@@ -47,4 +58,5 @@
         </tr>
       <% end %>
     </table>
+  </div>
 <% end %>

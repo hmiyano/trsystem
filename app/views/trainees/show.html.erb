@@ -1,5 +1,31 @@
-<div class="user-profile">
+  <div class="user-profile">
+  <div class="icon text-center">
+    <img src="/images/te_logo.png" width="120" height="120" alt="" class="img-circle">
+  </div>
+  
   <div class="name text-center">
     <h1><%= @trainee.name %></h1>
+        <h5>[ <%= @trainee.branch %> ]</h5>
+
+  </div>
+  <div class="status text-center">
+
+    <ul>
+      <li><div class="status-label"><%= @trainee.email %></div></li>
+
+    </ul>
+    <ul>
+      <li>
+        <div class="status-label"><%= link_to '編集', edit_trainee_path(@trainee) %></div>
+
+      </li>
+      <li>
+        <div class="status-label"><%= link_to '削除', @trainee, method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %></div>
+
+      </li>
+    </ul>
+        <hr class="line" />
+
   </div>
 </div>
+

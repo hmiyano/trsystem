@@ -53,9 +53,61 @@ footer {
   text-align: center;
   position: relative;
 }
-.cover .cover-inner .cover-contents h1 {
+.cover .cover-inner .cover-contents h1, h4 {
   margin: 0 0 20px 0;
   color: #fff;
   font-weight: bold;
   letter-spacing: 0.15em;
+}
+.cover .cover-inner .cover-contents h5 {
+  margin: 20px 0 0 0;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+}
+
+/* users */
+.user-profile .name {
+  margin-bottom: 20px;
+}
+.user-profile .name h1 {
+  text-shadow: 1px 1px 1px #fff;
+  font-weight: bold;
+}
+.user-profile .status ul {
+  margin: 0 auto 10px;
+  padding: 0;
+  display: table;
+}
+.user-profile .status ul li {
+  width: 120px;
+  padding: 5px 0;
+  border-right: 1px solid #ddd;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  color: #777;
+}
+.user-profile .status ul li:last-child {
+  border: none;
+}
+.user-profile .status ul li .status-label {
+  font-size: 12px;
+}
+.user-profile .status ul li .status-value {
+  font-size: 18px;
+}
+
+/*
+セパレータ・区切り線
+*/
+.line {                              /* hrタグに付ける（最大3ライン対応の水平罫線） */
+    display:block;
+    border:none;                     /* 左右のボーダーを消すために必要 */
+    margin:100 0 100 0;
+    padding:0;
+    height:1px;                      /* 上線px＋中線px＋下線px＝高さpx */
+    border-top:solid 1px #CCC;       /* 上線の色、pxを指定 */
+    background:none;                 /* 中線の色を指定 */
+    border-bottom:none;              /* 下線の色、pxを指定 */
 }

@@ -1,0 +1,22 @@
+<% if trainees.any? %>
+  <ul class="media-list">
+    <% trainees.each do |trainee| %>
+      <li class="media">
+        <div class="media-left">
+          <img class="media-object img-rounded" src="/images/te_logo.png" width="20" height="20" alt="" class="img-circle">
+        </div>
+    
+        <div class="media-body">
+          <div>
+            <%= trainee.name %>
+          </div>
+        
+          <div>
+            <p><%= link_to 'プロフィールをみる', trainee_path(trainee) %></p>
+          </div>
+        </div> 
+      </li>
+      <% end %>
+  </ul>
+  <%= paginate trainees %>
+<% end %>

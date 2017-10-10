@@ -9,15 +9,28 @@
 
         <% elsif tr_logged_in? %>
           <h1><%= current_trainer.name %>さん、ようこそ！</h1>
+          <h4>[ 現在トレーナーとしてログインしています]</h4>
 
+        <% elsif admin_logged_in? %>
+          <h1><%= current_admin.name %>さん、ようこそ！</h1>
+          <h4>[ 現在管理者としてログインしています]</h4>
+        
         <% else %>
-          <%= link_to 'トレーニングを始める', te_signup_path, class: 'btn btn-success btn-lg' %>
+          <%= link_to 'トレーニングを始める', te_login_path, class: 'btn btn-success btn-lg' %>
+          
+          <hr class="line" />
+          
+          <p><h5>[テストログイン用ID]</h5></p>
+          <p><h5>トレーニー: te@te.com / te　　・
+          トレーナー: tr@tr.com / tr　　・
+          管理者: admin@admin.com / admin</h5></p>
+          
         <% end %>
       </div>
     </div>
   </div>
   
-    <% unless !te_logged_in? && !tr_logged_in? %>
+    <% unless !te_logged_in? && !tr_logged_in? && !admin_logged_in? %>
       <%= render 'checklists/checklists', checklists: @checklists %>
     <% end %>
 

@@ -23,3 +23,7 @@ module Trsystem
     # -- all .rb files in that directory are automatically loaded.
   end
 end
+
+# config/application.rb
+#config.time_zone = 'Tokyo'
+#config.i18n.default_locale = :ja

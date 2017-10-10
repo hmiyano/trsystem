@@ -7,6 +7,6 @@ class ToppagesController < ApplicationController
 #  end
 
   def index
-
+    @checklists = Checklist.order('updated_at DESC')
   end
 end

@@ -18,11 +18,12 @@ Rails.application.routes.draw do
 
   get 'te_signup', to: 'trainees#new'
   get 'tr_signup', to: 'trainers#new'
+  get 'admin_signup', to: 'admins#new'
   
-  resources :trainees, only: [:show, :new, :create]
-  resources :trainers, only: [:show, :new, :create]
+  resources :trainees
+  resources :trainers
   resources :checklists
   resources :te_checks, only: [:create, :destroy]
   resources :tr_checks, only: [:create, :destroy]
-  resources :admins, only: [:show, :new, :create]
+  resources :admins
 end
