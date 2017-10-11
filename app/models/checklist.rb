@@ -13,6 +13,9 @@ class Checklist < ApplicationRecord
   has_many :te_checks
   has_many :trainees, through: :te_checks
   
+  # tr_check テーブルを通じて trainers と多対多の関係性
+  has_many :tr_checks
+  has_many :trainers, through: :tr_checks
   
   has_many :firsts
   has_many :first_trainees, through: :firsts, class_name: 'Trainee', source: :trainee

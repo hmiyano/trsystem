@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009140410) do
+ActiveRecord::Schema.define(version: 20171010093247) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -47,7 +47,9 @@ ActiveRecord::Schema.define(version: 20171009140410) do
     t.integer  "checklist_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.integer  "trainee_id"
     t.index ["checklist_id"], name: "index_tr_checks_on_checklist_id", using: :btree
+    t.index ["trainee_id"], name: "index_tr_checks_on_trainee_id", using: :btree
     t.index ["trainer_id"], name: "index_tr_checks_on_trainer_id", using: :btree
   end
 
@@ -89,5 +91,6 @@ ActiveRecord::Schema.define(version: 20171009140410) do
   add_foreign_key "te_checks", "checklists"
   add_foreign_key "te_checks", "trainees"
   add_foreign_key "tr_checks", "checklists"
+  add_foreign_key "tr_checks", "trainees"
   add_foreign_key "tr_checks", "trainers"
 end

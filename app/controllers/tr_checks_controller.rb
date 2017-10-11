@@ -3,7 +3,7 @@ class TrChecksController < ApplicationController
     checklist = Checklist.find(params[:checklist_id])
     current_trainer.master(checklist)
     flash[:success] = '項目をMASTERしました'
-    redirect_to root_url
+    redirect_back(fallback_location: root_path)
   end
 
   def destroy

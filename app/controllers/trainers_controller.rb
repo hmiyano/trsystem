@@ -3,10 +3,13 @@ class TrainersController < ApplicationController
 
   def index
     @trainers = Trainer.order(created_at: :desc).page(params[:page]).per(25)
+
   end
   
   def show
     @trainer = Trainer.find(params[:id])
+    @trainees = Trainee.all
+
   end
 
   def new

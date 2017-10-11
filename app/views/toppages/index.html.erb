@@ -30,9 +30,9 @@
     </div>
   </div>
   
-    <% unless !te_logged_in? && !tr_logged_in? && !admin_logged_in? %>
-      <%= render 'checklists/checklists', checklists: @checklists %>
-    <% end %>
+      <ul>
+      <li><div class="status-label"><%= link_to 'トレーニー一覧', trainees_path %></div></li>
 
+    </ul>
 <% end %>
 

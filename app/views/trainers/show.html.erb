@@ -39,16 +39,22 @@
     <hr class="line" />
 
     <ul>
-      <li><div class="status-label">ユーザ一覧</div></li>
-
+      <li><div class="status-label">トレーニーの一覧</div></li>
     </ul>
     
-    <ul>
-      <li><div class="status-label">トレーナー</div></li>
-      <li><div class="status-label"><%= link_to 'トレーニー一覧', trainees_path %></div></li>
 
-    </ul>
-    
+  <ul>
+    <% @trainees.each do |trainee| %>
+      <li>
+
+        <div class="status-label">
+            <%= link_to trainee.name + '(' + trainee.branch + ')', trainee_path(trainee) %>
+        </div> 
+      </li>
+      <% end %>
+  </ul>
+
+
   </div>
 </div>
 
