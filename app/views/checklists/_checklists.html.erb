@@ -35,7 +35,7 @@
 
     <table class="table table-bordered table-hover">
       <tr>
-        <th rowspan="2">チャプター</th>
+        <th rowspan="2">ID</th>
         <th rowspan="2">セクション</th>
         <th rowspan="2">チェック項目</th>
         <th colspan="3">セルフチェック</th>
@@ -48,7 +48,7 @@
       </tr>
       <% checklists.each do |checklist| %>
         <tr>
-          <td><%= checklist.chapter %></td>
+          <td><%= checklist.id %></td>
           <td><%= checklist.section %></td>
           <td><%= checklist.content %></td>
           <td><%= render 'te_checks/first_button', checklist: checklist %></td>
