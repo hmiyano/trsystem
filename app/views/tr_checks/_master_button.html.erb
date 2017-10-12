@@ -1,17 +1,25 @@
 <% if tr_logged_in? %>
   <% if current_trainer.mastering?(checklist) %>
+    <font size="1">MASTERされた日：<%= checklist.tr_checks.first.updated_at if checklist.tr_checks.first %> </font>
     <%= form_for(current_trainer.tr_checks.find_by(checklist_id: checklist.id), html: { method: :delete }) do |f| %>
       <%= hidden_field_tag :checklist_id, checklist.id %>
-      <%= f.submit 'MASTER', class: 'btn btn-warning btn-xs' %>
-
+      <%= hidden_field_tag :trainee_id, trainee.id %>
+      <%= f.submit 'UNMASTER', class: 'btn btn-warning btn-xs' %>
     <% end %>
   <% else %>
     <%= form_for(current_trainer.tr_checks.build) do |f| %>
       <%= hidden_field_tag :checklist_id, checklist.id %>
+      <%= hidden_field_tag :trainee_id, trainee.id %>
       <%= f.submit 'MASTERする', class: 'btn btn-danger btn-xs' %>
+
     <% end %>
   <% end %>
 <% elsif te_logged_in? %>
-  <% checklist.tr_checks.first.updated_at if checklist.tr_checks.first %>
-  <% checklist.tr_checks.inspect %>
+  <% master = checklist.tr_checks.find_by(trainee_id: trainee.id) %>
+  <% if master %>
+    MASTERED AT: 
+    <%= checklist.tr_checks.first.updated_at if checklist.tr_checks.first %>
+  <% else %>
+    MASTERされていません
+  <% end %>
 <% end %>

@@ -32,9 +32,9 @@
     </ul>
     
     <ul>
-      <li><div class="status-label"><%= link_to '管理者', new_admin_path, class: 'btn btn-danger btn-xs' %></div></li>
-      <li><div class="status-label"><%= link_to 'トレーナー', new_trainer_path, class: 'btn btn-warning btn-xs' %></div></li>
       <li><div class="status-label"><%= link_to 'トレーニー', new_trainee_path, class: 'btn btn-success btn-xs' %></div></li>
+      <li><div class="status-label"><%= link_to 'トレーナー', new_trainer_path, class: 'btn btn-warning btn-xs' %></div></li>
+      <li><div class="status-label"><%= link_to '管理者', new_admin_path, class: 'btn btn-danger btn-xs' %></div></li>
 
     </ul>
     
@@ -42,14 +42,12 @@
 
     <ul>
       <li><div class="status-label">ユーザ一覧</div></li>
-
     </ul>
     
     <ul>
-      <li><div class="status-label">管理者</div></li>
-      <li><div class="status-label">トレーナー</div></li>
-      <li><div class="status-label">トレーニー</div></li>
-
+      <li><div class="status-label"><%= link_to 'トレーニー一覧', trainees_path %></div></li>
+      <li><div class="status-label"><%= link_to 'トレーナー一覧', trainers_path %></div></li>
+      <li><div class="status-label"><%= link_to '管理者一覧', admins_path %></div></li>
     </ul>
     
   </div>

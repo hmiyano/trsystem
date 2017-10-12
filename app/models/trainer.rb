@@ -13,8 +13,8 @@ class Trainer < ApplicationRecord
   has_many :tr_checks
   has_many :masterings, through: :tr_checks, source: :checklist
 
-  def master(checklist)
-    self.tr_checks.find_or_create_by(checklist_id: checklist.id)
+  def master(checklist, trainee)
+    self.tr_checks.find_or_create_by(checklist_id: checklist.id, trainee_id: trainee.id)
   end
   
   def unmaster(checklist)

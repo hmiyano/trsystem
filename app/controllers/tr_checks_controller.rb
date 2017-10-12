@@ -1,7 +1,8 @@
 class TrChecksController < ApplicationController
   def create
     checklist = Checklist.find(params[:checklist_id])
-    current_trainer.master(checklist)
+    trainee = Trainee.find(params[:trainee_id])
+    current_trainer.master(checklist, trainee)
     flash[:success] = '項目をMASTERしました'
     redirect_back(fallback_location: root_path)
   end
@@ -10,6 +11,6 @@ class TrChecksController < ApplicationController
     checklist = Checklist.find(params[:checklist_id])
     current_trainer.unmaster(checklist)
     flash[:success] = 'MASTERを解除しました'
-    redirect_to root_url
+    redirect_back(fallback_location: root_path)
   end
 end
