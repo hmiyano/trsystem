@@ -3,12 +3,11 @@
   <% if @trainee == current_trainee %>
 
     <% if current_trainee.second?(checklist) %>
-      <% time_japan = Date.current.strftime('%m/%d') %>
 
       <%= form_tag(te_check_path(checklist.id), method: :delete) do %>
       <%= hidden_field_tag :checklist_id, checklist.id %>
       <%= hidden_field_tag :type, 'Second' %>
-      <%= submit_tag time_japan + ' チェック済', class: 'btn btn-success btn-xs' %>
+      <%= submit_tag ' チェック済', class: 'btn btn-success btn-xs' %>
       <% end %>
     <% else %>
       <%= form_tag(te_checks_path) do %>
@@ -18,15 +17,14 @@
       <% end %>
     <% end %>
   <% else %>
-    違う人のです
+    違う人のや
   <% end %>
 
 <% elsif tr_logged_in? %>
-  <% second = checklist.te_checks.find_by(trainee_id: @trainee.id) %>
-  <% if second %>
+  <% if checklist.te_checks.find_by(type: Second, trainee_id: @trainee.id) %>
     済
-    <%= checklist.te_checks.second.updated_at if checklist.te_checks.second %>
+    <%= checklist.te_checks.first.updated_at if checklist.te_checks.first %>
   <% else %>
-  　なし
+  　未
   <% end %>
 <% end %>

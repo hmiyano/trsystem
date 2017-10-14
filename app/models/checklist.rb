@@ -21,7 +21,7 @@ class Checklist < ApplicationRecord
   has_many :first_trainees, through: :firsts, class_name: 'Trainee', source: :trainee
   
   has_many :seconds
-  has_many :second_trainees, through: :seonds, class_name: 'Trainee', source: :trainee
+  has_many :second_trainees, through: :seconds, class_name: 'Trainee', source: :trainee
   
   has_many :thirds
   has_many :third_trainees, through: :thirds, class_name: 'Trainee', source: :trainee

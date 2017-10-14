@@ -1,20 +1,32 @@
 <% if te_logged_in? %>
 
-<% if current_trainee.third?(checklist) %>
-    <% time_japan = Date.current.strftime('%m/%d') %>
+  <% if @trainee == current_trainee %>
 
-    <%= form_tag(te_check_path(checklist.id), method: :delete) do %>
-    <%= hidden_field_tag :checklist_id, checklist.id %>
-    <%= hidden_field_tag :type, 'Third' %>
-    <%= submit_tag time_japan + ' チェック済', class: 'btn btn-success btn-xs' %>
+    <% if current_trainee.third?(checklist) %>
+      <% time_japan = Date.current.strftime('%m/%d') %>
+
+      <%= form_tag(te_check_path(checklist.id), method: :delete) do %>
+        <%= hidden_field_tag :checklist_id, checklist.id %>
+        <%= hidden_field_tag :type, 'Third' %>
+        <%= submit_tag time_japan + ' チェック済', class: 'btn btn-success btn-xs' %>
+      <% end %>
+    <% else %>
+      <%= form_tag(te_checks_path) do %>
+        <%= hidden_field_tag :checklist_id, checklist.id %>
+        <%= hidden_field_tag :type, 'Third' %>
+        <%= submit_tag 'チェックする', class: 'btn btn-warning btn-xs' %>
+      <% end %>
+    <% end %>
+  <% else %>
+    違うやつ
   <% end %>
-<% else %>
-  <%= form_tag(te_checks_path) do %>
   
-
-    <%= hidden_field_tag :checklist_id, checklist.id %>
-    <%= hidden_field_tag :type, 'Third' %>
-    <%= submit_tag 'チェックする', class: 'btn btn-warning btn-xs' %>
+<% elsif tr_logged_in? %>
+  <% if checklist.te_checks.find_by(type: Third, trainee_id: @trainee.id) %>
+    済
+    <%= checklist.te_checks.first.updated_at if checklist.te_checks.first %>
+  <% else %>
+  　未
   <% end %>
-<% end %>
+
 <% end %>

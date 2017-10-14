@@ -8,6 +8,7 @@ class TraineesController < ApplicationController
   def show
     @trainee = Trainee.find(params[:id])
     @checklists = Checklist.all
+    @trainer = Trainer.find(params[:id])
   end
 
   def new

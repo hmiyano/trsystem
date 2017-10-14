@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   resources :trainees
   resources :trainers
   resources :checklists
-  resources :te_checks, only: [:create, :destroy]
-  resources :tr_checks, only: [:create, :destroy]
+  resources :te_checks, only: [:create, :destroy, :show]
+  resources :tr_checks, only: [:create, :destroy, :show]
   resources :admins
 end
