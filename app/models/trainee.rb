@@ -1,6 +1,7 @@
 class Trainee < ApplicationRecord
   before_save { self.email.downcase! }
   validates :name, presence: true, length: { maximum: 50 }
+  validates :nickname, presence: true, length: { maximum: 50 }
   validates :branch, presence: true, length: { maximum: 50 }
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
@@ -60,5 +61,9 @@ class Trainee < ApplicationRecord
   def third?(checklist)
     self.third_checklists.include?(checklist)
   end
-  
+
+  def self.branch_names
+    [["CR麻布十番店", 1],
+     ["CR恵比寿店", 2]]
+  end
 end

@@ -54,6 +54,6 @@ class TrainersController < ApplicationController
   private
 
   def trainer_params
-    params.require(:trainer).permit(:name, :email, :branch, :password, :password_confirmation)
+    params.require(:trainer).permit(:name, :nickname, :email, :branch, :password, :password_confirmation)
   end
 end

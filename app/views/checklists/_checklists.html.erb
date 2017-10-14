@@ -1,19 +1,20 @@
 
 <% if admin_logged_in? %>
-  <div class="col-md-11 col-sm-11 col-xs-11">
 
 <p>
   <%= link_to '新規トレーニング項目の作成', new_checklist_path, class: 'btn btn-danger' %>
 </p>
-    <table class="table table-bordered table-hover">
+
+  <div class="admin">
+    <table class="table table-bordered">
       <tr>
-        <th>ID</th>
-        <th>WG</th>
-        <th>チャプター</th>
-        <th>セクション</th>
-        <th>トレーニング項目</th>
-        <th>編集</th>
-        <th>削除</th>
+        <th class="id">ID</th>
+        <th class="wg">WG</th>
+        <th class="chap">チャプター</th>
+        <th class="sec">セクション</th>
+        <th class="content">トレーニング項目</th>
+        <th class="edit">編集</th>
+        <th class="delete">削除</th>
       </tr>
       <% checklists.each do |checklist| %>
         <tr>
@@ -27,36 +28,36 @@
         </tr>
       <% end %>
     </table>
-  </div>
-
+    </div>
 <% else %>
 
-  <div class="col-md-11 col-sm-11 col-xs-11">
+<div class="trainee">
+    <h3 align="left">▼ハウスルール</h3>
+    <table class="table table-bordered">
 
-    <table class="table table-bordered table-hover">
       <tr>
-        <th rowspan="2">ID</th>
+        <th rowspan="2" class="id">ID</th>
         <th rowspan="2">セクション</th>
         <th rowspan="2">チェック項目</th>
-        <th colspan="3">セルフチェック</th>
-        <th rowspan="2">トレーナーチェック</th>
+        <th colspan="3" class="bottom">セルフチェック</th>
+        <th rowspan="2" class="tcheck">トレーナーチェック</th>
       </tr>
       <tr>
-        <th>1回目</th>
-        <th>2回目</th>
-        <th>3回目</th>
+        <th class="">1回目</th>
+        <th class="">2回目</th>
+        <th class="">3回目</th>
       </tr>
-      <% checklists.each do |checklist| %>
+      <% checklists.where(chapter: 'ハウスルール').each do |checklist| %>
         <tr>
           <td><%= checklist.id %></td>
           <td><%= checklist.section %></td>
           <td><%= checklist.content %></td>
-          <td><%= render 'te_checks/first_button', checklist: checklist %></td>
-          <td><%= render 'te_checks/second_button', checklist: checklist %></td>
-          <td><%= render 'te_checks/third_button', checklist: checklist %></td>
-          <td><%= render 'tr_checks/master_button', checklist: checklist, trainee: trainee %></td>
+          <td class="check"><%= render 'te_checks/first_button', checklist: checklist %></td>
+          <td class="check"><%= render 'te_checks/second_button', checklist: checklist %></td>
+          <td class="check"><%= render 'te_checks/third_button', checklist: checklist %></td>
+          <td class="tcheck"><%= render 'tr_checks/master_button', checklist: checklist, trainee: trainee %></td>
         </tr>
       <% end %>
     </table>
-  </div>
 <% end %>
+</div>

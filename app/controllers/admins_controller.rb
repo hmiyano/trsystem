@@ -1,5 +1,5 @@
 class AdminsController < ApplicationController
-#  before_action :require_admin_logged_in, only: [:show]
+  before_action :require_admin_logged_in, only: [:show]
 
   def index
     @admins = Admin.order(created_at: :desc).page(params[:page]).per(25)
@@ -7,6 +7,8 @@ class AdminsController < ApplicationController
   
   def show
     @admin = Admin.find(params[:id])
+    @checklists = Checklist.all
+
   end
 
   def new
@@ -41,9 +43,10 @@ class AdminsController < ApplicationController
   end
 
   def destroy
+    @admin = Admin.find(params[:id])
     @admin.destroy
     flash[:success] = '管理者は正常に削除されました'
-    redirect_back(fallback_location: root_path)
+    render :new   
   end
   
   private

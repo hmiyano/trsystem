@@ -1,27 +1,33 @@
 <% if tr_logged_in? %>
   <% if checklist.tr_checks.find_by(trainee_id: trainee.id) %>
-    <font size="1">MASTERされた日：<%= checklist.tr_checks.first.updated_at if checklist.tr_checks.first %> </font>
-
-
-    <%= form_for(checklist.tr_checks.find_by(trainee_id: trainee.id), html: { method: :delete }) do |f| %>
-      <%= hidden_field_tag :checklist_id, checklist.id %>
-      <%= hidden_field_tag :trainee_id, trainee.id %>
-      <%= f.submit 'UNMASTER', class: 'btn btn-warning btn-xs' %>
+    <% if !checklist.te_checks.find_by(type: Third, trainee_id: @trainee.id) %>
+    <button class="btn btn-warning" onClick="disp()">解除されています</button>
+    <% else %>
+      <% tn = Trainer.find(checklist.tr_checks.first.trainer_id) %>
+        
+      <%= form_for(checklist.tr_checks.find_by(trainee_id: trainee.id), html: { method: :delete, data: { confirm: 'この項目のMASTERが解除されます。本当に解除してよろしいですか？' } }) do |f| %>
+        <%= hidden_field_tag :checklist_id, checklist.id %>
+        <%= hidden_field_tag :trainee_id, trainee.id %>
+        <%= f.submit 'MASTER: ' + checklist.tr_checks.first.updated_at.in_time_zone('Tokyo').strftime('%m/%d') + '(' + tn.name + ')', class: 'btn btn-danger' %>
+      <% end %>
     <% end %>
-  <% else %>
+  <% elsif checklist.te_checks.find_by(type: Third, trainee_id: @trainee.id) %>
     <%= form_for(current_trainer.tr_checks.build) do |f| %>
       <%= hidden_field_tag :checklist_id, checklist.id %>
       <%= hidden_field_tag :trainee_id, trainee.id %>
-      <%= f.submit 'MASTERする', class: 'btn btn-danger btn-xs' %>
+      <%= f.submit 'MASTERする', class: 'btn btn-default' %>
 
     <% end %>
   <% end %>
 <% elsif te_logged_in? %>
   <% master = checklist.tr_checks.find_by(trainee_id: trainee.id) %>
   <% if master %>
-    MASTERED AT :
-    <%= checklist.tr_checks.first.updated_at.in_time_zone('Tokyo') if checklist.tr_checks.first %>
-  <% else %>
-    MASTERされていません
+    <button class="btn btn-danger">MASTER:
+    <%= checklist.tr_checks.first.updated_at.in_time_zone('Tokyo').strftime('%m/%d') if checklist.tr_checks.first %>
+        <% tn = Trainer.find(checklist.tr_checks.first.trainer_id) %>
+        (<%= tn.name %>)
+        </button>
+  <% elsif current_trainee.third?(checklist) %>
+        <button class="btn btn-warning">MASTER 待ち</button>
   <% end %>
 <% end %>

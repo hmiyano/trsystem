@@ -50,6 +50,10 @@
       <li><div class="status-label"><%= link_to '管理者一覧', admins_path %></div></li>
     </ul>
     
+    <% unless !te_logged_in? && !tr_logged_in? && !admin_logged_in? %>
+      <%= render 'checklists/checklists', checklists: @checklists %>
+    <% end %>
+    
   </div>
 </div>
 

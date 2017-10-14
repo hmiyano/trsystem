@@ -8,7 +8,7 @@ class TraineesController < ApplicationController
   def show
     @trainee = Trainee.find(params[:id])
     @checklists = Checklist.all
-    @trainer = Trainer.find(params[:id])
+#    @trainer = Trainer.find(params[:id])
   end
 
   def new
@@ -48,10 +48,13 @@ class TraineesController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
   
-
+  def branch_names
+    branch_names = params[:note][:point]
+  end
+ 
   private
 
   def trainee_params
-    params.require(:trainee).permit(:name, :email, :branch, :password, :password_confirmation)
+    params.require(:trainee).permit(:name, :nickname, :email, :branch, :password, :password_confirmation)
   end
 end

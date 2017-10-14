@@ -1,22 +1,36 @@
 <% if trainees.any? %>
-  <ul class="media-list">
-    <% trainees.each do |trainee| %>
-      <li class="media">
-        <div class="media-left">
-          <img class="media-object img-rounded" src="/images/te_logo.png" width="20" height="20" alt="" class="img-circle">
-        </div>
-    
-        <div class="media-body">
-          <div>
-            <%= trainee.name %>
-          </div>
+
+<%= select_tag 'branchname', options_for_select(["CR麻布十番店", "CR恵比寿店"]) %>
+
+  <div class="trainee">
+    <table class="table table-bordered">
+      <tr>
+        <th>ID</th>
+        <th>所属店舗</th>
+        <th>名前(ニックネーム)</th>
+        <th>進捗<br> (セルフ)</th>
+        <th>進捗%<br> (MASTER)</th>
+        <th>TS</th>
+      </tr>
+      <% trainees.where(branch: 'CR麻布十番店').each do |trainee| %>
+      
+        <% listcount = Checklist.count %>
+        <% te_checkcount = TeCheck.where(trainee_id: trainee.id).count %>
+        <% tr_checkcount = TrCheck.where(trainee_id: trainee.id).count %>
+        <% s_percent = te_checkcount.to_f / (listcount.to_f * 3) * 100 %>
+        <% m_percent = tr_checkcount.to_f / listcount.to_f * 100 %>
         
-          <div>
-            <p><%= link_to 'プロフィールをみる', trainee_path(trainee) %></p>
-          </div>
-        </div> 
-      </li>
+        <tr>
+          <td><%= trainee.id %></td>
+          <td><%= trainee.branch %></td>
+          <td><%= trainee.name %> ( <%= trainee.nickname %> )</td>
+          <td class="check"><%= s_percent.round(0) %>%</td>
+          <td class="check"><%= m_percent.round(0) %>%</td>
+          <td class="check"><%= link_to 'チェックする', trainee, class: 'btn btn-default' %></td>
+
+       </tr>
       <% end %>
-  </ul>
-  <%= paginate trainees %>
+    </table>
+    </div>
+    
 <% end %>

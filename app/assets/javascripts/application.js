@@ -14,3 +14,11 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+function disp(){
+
+	// 「OK」時の処理開始 ＋ 確認ダイアログの表示
+	window.alert('トレーニーの3回目のセルフチェックが解除されているようです。\n\nトレーニング内容に不安なことがあって本人が解除したのであれば、\nもう一度トレーニングをしなおした上で、再チェックしてもらいましょう。');
+
+
+}

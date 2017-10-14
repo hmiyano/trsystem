@@ -8,23 +8,16 @@
     
           <%= form_for(@trainee) do |f| %>
 
-      <% if @trainee.errors.any? %>
-        <div class="alert alert-warning">
-          <ul>
-            <% @trainee.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
-
-
-
       <div class="form-group">
         <%= f.label :name, '名前' %>
         <%= f.text_field :name, class: 'form-control' %>
       </div>
-      
+
+          <div class="form-group">
+            <%= f.label :nickname, 'ニックネーム' %>
+            <%= f.text_field :nickname, class: 'form-control' %>
+          </div>
+          
       <div class="form-group">
         <%= f.label :email, 'Email' %>
         <%= f.email_field :email, class: 'form-control' %>

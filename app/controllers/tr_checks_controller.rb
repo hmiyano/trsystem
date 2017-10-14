@@ -8,8 +8,8 @@ class TrChecksController < ApplicationController
   end
 
   def destroy
-    checklist = Checklist.find(params[:checklist_id])
-    current_trainer.unmaster(checklist)
+    checklist = TrCheck.find_by(params[:checklist_id], params[:trainee_id])
+    checklist.destroy
     flash[:success] = 'MASTERを解除しました'
     redirect_back(fallback_location: root_path)
   end
