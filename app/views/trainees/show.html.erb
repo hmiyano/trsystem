@@ -5,63 +5,30 @@
 
   <% if te_logged_in? %>  
     <div class="name text-center">
-      <h1><%= @trainee.nickname %>さん、ようこそ！</h1>
+      <h2><%= @trainee.nickname %>さん、今日もお疲れさまです！</h2>
       <h5>[ <%= @trainee.name %> : <%= @trainee.branch %> ]</h5>
     </div>
     <div class="status text-center">
       <ul>
         <li><div class="status-label"><%= link_to 'プロフィール編集', edit_trainee_path(@trainee) %></div></li>
       </ul>
-      
-      <hr class="line_s" />
-
-      <ul>
-        <li><div class="status-label">項目数</div></li>
-        <li><div class="status-label">セルフチェック数</div></li>
-        <li><div class="status-label">MASTER数</div></li>
-        <li><div class="status-label">セルフチェック率（％）</div></li>
-        <li><div class="status-label">MASTER率（％）</div></li>
-      </ul>
-
-      <ul>
-        <% listcount = Checklist.count %>
-        <% te_checkcount = TeCheck.where(trainee_id: @trainee.id).count %>
-        <% tr_checkcount = TrCheck.where(trainee_id: @trainee.id).count %>
-        <% s_percent = te_checkcount.to_f / (listcount.to_f * 3) * 100 %>
-        <% m_percent = tr_checkcount.to_f / listcount.to_f * 100 %>
-        <li><div class="status-value"><%= listcount %></div></li>
-        <li><div class="status-value"><%= te_checkcount %> /  <font size="2"><%= listcount * 3 %></font></div></li>
-        <li><div class="status-value"><%= tr_checkcount %> /  <font size="2"><%= listcount %></font></div></li>
-        
-
-        <% if s_percent == 100 %>
-          <li><div class="status-max"><%= s_percent.round(0) %>% (完了)</div></li>
-        <% elsif s_percent >= 80  %>
-          <li><div class="status-max"><%= s_percent.round(0) %>%</div></li>
-        <% else %>
-          <li><div class="status-value"><%= s_percent.round(0) %>%</div></li>
-        <% end %>
-        <li><div class="status-value"><%= m_percent.round(0)  %>%</div></li>
-      </ul>
-      
-      
-      
-      <hr class="line" />
-        <%= render 'checklists/checklists', checklists: @checklists, trainee: @trainee %>
     </div>
+
+        <%= render 'progress', checklists: @checklists, trainee: @trainee %>
+
   <% elsif tr_logged_in? %>
     <div class="name text-center">
-      <h1><%= @trainee.name %>さんのトレーニングシート</h1>
-      <h5>[ <%= @trainee.branch %> ]</h5>
+      <h1><%= @trainee.nickname %>さんのトレーニングシート</h1>
+      <h5>[ <%= @trainee.name %> : <%= @trainee.branch %> ]</h5>
     </div>
-      
-      <hr class="line" />
-        <%= render 'checklists/checklists', checklists: @checklists, trainee: @trainee %>
-    </div>
+
+        <%= render 'progress', checklists: @checklists, trainee: @trainee %>
+
+    
   <% elsif admin_logged_in? %>
     <div class="name text-center">
-      <h1><%= @trainee.name %>さんのトレーニングシート</h1>
-      <h5>[ <%= @trainee.branch %> ]</h5>
+      <h1><%= @trainee.nickname %>さんのトレーニングシート</h1>
+      <h5>[ <%= @trainee.name %> : <%= @trainee.branch %> ]</h5>
     </div>
     <div class="status text-center">
       <ul>
@@ -69,7 +36,7 @@
         <li><div class="status-label"><%= link_to '削除', @trainee, method: :delete, data: { confirm: '本当にユーザを削除してよろしいですか？' } %></div></li>
       </ul>
     </div>
-      <hr class="line" />
+    
         <%= render 'checklists/checklists', checklists: @checklists, trainee: @trainee %>
     <% end %>
 </div>

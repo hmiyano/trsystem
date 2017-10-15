@@ -5,16 +5,38 @@
         <h1>CRISP TRAINING SYSTEM</h1>
 
         <% if te_logged_in? %>
-          <h1><%= current_trainee.name %>さん、今日も頑張りましょう！</h1>
+          <h1><%= current_trainee.nickname %>さん、今日も頑張りましょう！</h1>
+          <%= link_to 'トレーニングシートをチェックする', trainee_path(current_trainee) , class: 'btn btn-info btn-lg' %>
+
+      </div>
+    </div>
+  </div>
 
         <% elsif tr_logged_in? %>
-          <h1><%= current_trainer.name %>さん、ようこそ！</h1>
-          <h4>[ 現在トレーナーとしてログインしています]</h4>
+          <h1><%= current_trainer.nickname %>さん、ようこそ！</h1>
+          <h4>[ 現在トレーナーとしてログインしています ]</h4>
+          
+               </div>
+    </div>
+  </div>
+
+  <div class="user-profile">
+    <div class="status text-center">
+      <p>ユーザーごとの権限・アクセス設定などはまだ実装していません</p>
+      <ul>
+        <li><div class="status-label"><%= link_to 'トレーニー一覧', trainees_path %></div></li>
+        <li><div class="status-label"><%= link_to 'トレーナー一覧', trainers_path %></div></li>
+      </ul>
+    </div>
+  </div>
 
         <% elsif admin_logged_in? %>
           <h1><%= current_admin.name %>さん、ようこそ！</h1>
           <h4>[ 現在管理者としてログインしています]</h4>
-        
+      </div>
+    </div>
+  </div>
+
         <% else %>
           <%= link_to 'トレーニングを始める', te_login_path, class: 'btn btn-success btn-lg' %>
           
@@ -32,18 +54,5 @@
     </div>
   </div>
 
-  <div class="user-profile">
-    <div class="status text-center">
-      <p>ユーザーごとの権限・アクセス設定などはまだ実装していません</p>
-      <ul>
-        <li><div class="status-label"><%= link_to 'トレーニー一覧', trainees_path %></div></li>
-        <li><div class="status-label"><%= link_to 'トレーナー一覧', trainers_path %></div></li>
-        <li><div class="status-label"><%= link_to '管理者一覧', admins_path %></div></li>
-      </ul>
-    </div>
-  </div>
-  
-  <%= render 'trainees/trainees', trainees: @trainees %>
-  
 <% end %>
 

@@ -1,35 +1,41 @@
-  <div class="user-profile">
+<div class="user-profile">
   <div class="icon text-center">
     <img src="/images/tr_logo.png" width="120" height="120" alt="" class="img-circle">
   </div>
   
-  <div class="name text-center">
-    <h1><%= @trainer.name %></h1>
-    <h5>[ <%= @trainer.branch %> : トレーナー]</h5>
-  </div>
-  <div class="status text-center">
-
-    <ul>
-      <li><div class="status-label"><%= @trainer.email %></div></li>
-
-    </ul>
-    <ul>
-      <li>
-        <div class="status-label"><%= link_to '編集', edit_trainer_path(@trainer) %></div>
-
-      </li>
-      <li>
-        <div class="status-label"><%= link_to '削除', @trainer, method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %></div>
-
-      </li>
-    </ul>
+  <% if tr_logged_in? %>  
+    <div class="name text-center">
+      <h2><%= @trainer.nickname %>さん、いつもお疲れ様です！</h2>
+      <h5>WG：トレーナー</h5>
+      <h5>[ <%= @trainer.name %> : <%= @trainer.branch %> ]</h5>
+    </div>
+    <div class="status text-center">
+      <ul>
+        <li><div class="status-label"><%= link_to '編集', edit_trainer_path(@trainer) %></div></li>
+      </ul>
     
+    <hr class="line_s" />
     
-    <hr class="line" />
+      <ul>
+        <li><div class="status-label">累積トレーニー数</div></li>
+        <li><div class="status-label">累積MASTER数</div></li>
+      </ul>
+
+      <ul>
+        <% te_count = TrCheck.where(trainee_id: @trainee.id, trainer_id: @trainer.id).count %>
+        <% m_count = TrCheck.where(trainer_id: @trainer.id).count %>
+
+        <li><div class="status-value"><%= te_count %></div></li>
+        <li><div class="status-value"><%= m_count %></div></li>
+
+      </ul>
+      
+      
+      
+      <hr class="line_s" />
 
     <ul>
       <li><div class="status-label">ユーザの新規作成</div></li>
-
     </ul>
     
     <ul>
@@ -37,17 +43,35 @@
     </ul>
     
     <hr class="line" />
-
-    <ul>
-      <li><div class="status-label">ユーザ一覧</div></li>
-    </ul>
     
-    <ul>
-      <li><div class="status-label"><%= link_to 'トレーニー一覧', trainees_path %></div></li>
-      <li><div class="status-label"><%= link_to 'トレーナー一覧', trainers_path %></div></li>
-    </ul>
+  <% elsif admin_logged_in? %>
+      <div class="name text-center">
+      <h1><%= @trainer.nickname %>さん、ようこそ！</h1>
+      <h5>WG：トレーナー</h5>
+      <h5>[ <%= @trainer.name %> : <%= @trainer.branch %> ]</h5>
+    </div>
+    <div class="status text-center">
+      <ul>
+        <li><div class="status-label"><%= link_to '編集', edit_trainer_path(@trainer) %></div></li>
+        <li><div class="status-label"><%= link_to '削除', @trainer, method: :delete, data: { confirm: '本当にトレーナーを削除してよろしいですか？全てのトレーナーのデータが失われます' } %></div></li>
+        
+      </ul>
+    
+    <hr class="line_s" />
+    
+      <ul>
+        <li><div class="status-label">累積トレーニー数</div></li>
+        <li><div class="status-label">累積MASTER数</div></li>
+      </ul>
 
-
-  </div>
+      <ul>
+        <% te_count = TrCheck.where(trainee_id: @trainee.id, trainer_id: @trainer.id).count %>
+        <% m_count = TrCheck.where(trainer_id: @trainer.id).count %>
+        <li><div class="status-value"><%= te_count %></div></li>
+        <li><div class="status-value"><%= m_count %></div></li>
+      </ul>
+      
+      <hr class="line" />
+  <% end %>
 </div>
 

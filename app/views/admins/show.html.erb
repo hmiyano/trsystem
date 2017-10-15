@@ -39,16 +39,6 @@
     </ul>
     
         <hr class="line" />
-
-    <ul>
-      <li><div class="status-label">ユーザ一覧</div></li>
-    </ul>
-    
-    <ul>
-      <li><div class="status-label"><%= link_to 'トレーニー一覧', trainees_path %></div></li>
-      <li><div class="status-label"><%= link_to 'トレーナー一覧', trainers_path %></div></li>
-      <li><div class="status-label"><%= link_to '管理者一覧', admins_path %></div></li>
-    </ul>
     
     <% unless !te_logged_in? && !tr_logged_in? && !admin_logged_in? %>
       <%= render 'checklists/checklists', checklists: @checklists %>

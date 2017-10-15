@@ -3,7 +3,7 @@ class ChecklistsController < ApplicationController
 #  before_action :require_admin_logged_in, only: [:show]
 
   def index
-    @checklists = Checklist.order(created_at: :desc).page(params[:page]).per(25)
+      @checklists = Checklist.order(created_at: :desc).page(params[:page]).per(25)
   end
   
   def show
@@ -12,6 +12,7 @@ class ChecklistsController < ApplicationController
 
   def new
     @checklist = Checklist.new
+    checklist = Checklist.new
   end
 
   def create
@@ -19,7 +20,7 @@ class ChecklistsController < ApplicationController
     
     if @checklist.save
       flash[:success] = 'トレーニング項目が正常に登録されました'
-      redirect_to root_url
+      redirect_to new_checklist_path
     else
       flash.now[:danger] = 'トレーニング項目が登録されませんでした'
       render :new

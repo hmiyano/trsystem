@@ -2,14 +2,22 @@ class TrainersController < ApplicationController
   before_action :require_tr_logged_in, only: [:show]
 
   def index
-    @trainers = Trainer.order(created_at: :desc).page(params[:page]).per(25)
+    @trainees = Trainee.order(created_at: :desc).page(params[:page]).per(25)
 
+    if params[:branchname] == '全店'
+      @trainers = Trainer.order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:branchname]
+      @trainers = Trainer.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+    else
+      @trainers = Trainer.order(created_at: :asc).page(params[:page]).per(25)
+    end
   end
+  
   
   def show
     @trainer = Trainer.find(params[:id])
     @trainees = Trainee.all
-
+    @trainee = Trainee.find(params[:id])
   end
 
   def new

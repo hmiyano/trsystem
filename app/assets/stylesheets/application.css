@@ -177,14 +177,17 @@ footer {
 }
 .trainee .table .tcheck {
     text-align: center;
-    width: 195px;
+    width: 180px;
     vertical-align: central;
     
 }
 .trainee .table .bottom {
     border-bottom: 0px;
-    width: 300px;
     vertical-align: bottom;
-
-
+}
+.trainee .table .top {
+    border-bottom: 1px solid #ccc;
+    background: #bdb76b;
+    vertical-align: bottom;
+    text-align: left;
 }

@@ -62,8 +62,15 @@ class Trainee < ApplicationRecord
     self.third_checklists.include?(checklist)
   end
 
-  def self.branch_names
-    [["CR麻布十番店", 1],
-     ["CR恵比寿店", 2]]
+  def chapcount(chapter, trainee)
+    lists = Checklist.where(chapter: chapter)
+    tchecks = TeCheck.where(trainee_id: trainee.id)
+
+    result = 0
+    lists.each do |list|
+      result += tchecks.where(checklist_id: list.id).count
+    end
+    return result
   end
+  
 end

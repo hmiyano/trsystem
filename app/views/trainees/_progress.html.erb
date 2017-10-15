@@ -1,0 +1,84 @@
+<div class="status text-center">
+  
+  <hr class="line_s" />
+
+
+  <ul>
+    <li><div class="status-label">TR経過日数</div></li>
+    <li><div class="status-label">項目数</div></li>
+    <li><div class="status-label">セルフチェック回数</div></li>
+    <li><div class="status-label">MASTER数</div></li>
+    <li><div class="status-label">セルフチェック率（％）</div></li>
+    <li><div class="status-label">MASTER率（％）</div></li>
+  </ul>
+  <ul>
+    <% start_date = TeCheck.where(trainee_id: @trainee.id) %>
+    <% start_date = Time.now - start_date.first.created_at.in_time_zone('Tokyo') if start_date.first  %>
+    <% start_date = start_date.round(0) / 60 / 60 / 24 %>
+    <% listcount = Checklist.count %>
+    <% te_checkcount = TeCheck.where(trainee_id: @trainee.id).count %>
+    <% tr_checkcount = TrCheck.where(trainee_id: @trainee.id).count %>
+    <% s_percent = te_checkcount.to_f / (listcount.to_f * 3) * 100 %>
+    <% m_percent = tr_checkcount.to_f / listcount.to_f * 100 %>
+      
+    <li><div class="status-value"><%= start_date %> <font size="2">日</font></div></li>
+    <li><div class="status-value"><%= listcount %></div></li>
+    <li><div class="status-value"><%= te_checkcount %> /  <font size="2"><%= listcount * 3 %>回</font></div></li>
+    <li><div class="status-value"><%= tr_checkcount %> /  <font size="2"><%= listcount %>個</font></div></li>
+      
+    <% if s_percent == 100 %>
+      <li><div class="status-max"><%= s_percent.round(0) %>% (完了)</div></li>
+    <% elsif s_percent >= 80  %>
+      <li><div class="status-max"><%= s_percent.round(0) %>%</div></li>
+    <% else %>
+      <li><div class="status-value"><%= s_percent.round(0) %>%</div></li>
+    <% end %>
+    <li><div class="status-value"><%= m_percent.round(0)  %>%</div></li>
+  </ul>
+   
+  <hr class="line" />
+  <div class="status text-center">
+    <ul>
+      <li><div class="status-label">チャプター別<br>セルフチェック進捗️</div></li>
+    </ul>
+  </div>
+    
+
+    
+  <ul>
+    <li><div class="status-label"><%= $chap1 %></div></li>
+    <li><div class="status-label"><%= $chap2 %></div></li>
+    <li><div class="status-label"><%= $chap3 %></div></li>
+    <li><div class="status-label"><%= $chap4 %></div></li>
+    <li><div class="status-label"><%= $chap5 %></div></li>
+    <li><div class="status-label"><%= $chap6 %></div></li>
+    <li><div class="status-label"><%= $chap7 %></div></li>
+    <li><div class="status-label"><%= $chap8 %></div></li>
+    <li><div class="status-label"><%= $chap9 %></div></li>
+  </ul>
+  <ul>
+    <li><div class="status-value"><%= trainee.chapcount($chap1, @trainee) %>
+ <font size="2">/<%= Checklist.where(chapter: $chap1).count * 3 %>回</font></div></li>
+    <li><div class="status-value"><%= trainee.chapcount($chap2, @trainee) %>
+ <font size="2">/<%= Checklist.where(chapter: $chap2).count * 3 %>回</font></div></li>
+    <li><div class="status-value"><%= trainee.chapcount($chap3, @trainee) %>
+ <font size="2">/<%= Checklist.where(chapter: $chap3).count * 3 %>回</font></div></li>
+    <li><div class="status-value"><%= trainee.chapcount($chap4, @trainee) %>
+ <font size="2">/<%= Checklist.where(chapter: $chap4).count * 3 %>回</font></div></li>
+    <li><div class="status-value"><%= trainee.chapcount($chap5, @trainee) %>
+ <font size="2">/<%= Checklist.where(chapter: $chap5).count * 3 %>回</font></div></li>
+    <li><div class="status-value"><%= trainee.chapcount($chap6, @trainee) %>
+ <font size="2">/<%= Checklist.where(chapter: $chap6).count * 3 %>回</font></div></li>
+    <li><div class="status-value"><%= trainee.chapcount($chap7, @trainee) %>
+ <font size="2">/<%= Checklist.where(chapter: $chap7).count * 3 %>回</font></div></li>
+    <li><div class="status-value"><%= trainee.chapcount($chap8, @trainee) %>
+ <font size="2">/<%= Checklist.where(chapter: $chap8).count * 3 %>回</font></div></li>
+    <li><div class="status-value"><%= trainee.chapcount($chap9, @trainee) %>
+ <font size="2">/<%= Checklist.where(chapter: $chap9).count * 3 %>回</font></div></li>
+
+  </ul>
+   
+  <hr class="line" />
+</div>  
+    
+<%= render 'checklists/checklists', checklists: @checklists, trainee: @trainee %>

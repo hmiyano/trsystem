@@ -1,22 +1,56 @@
 <% if trainers.any? %>
-  <ul class="media-list">
-    <% trainers.each do |trainer| %>
-      <li class="media">
-        <div class="media-left">
-          <img class="media-object img-rounded" src="/images/tr_logo.png" width="20" height="20" alt="" class="img-circle">
-        </div>
-    
-        <div class="media-body">
-          <div>
-            <%= trainer.name %>
-          </div>
-        
-          <div>
-            <p><%= link_to 'プロフィールをみる', trainer_path(trainer) %></p>
-          </div>
-        </div> 
-      </li>
+
+<% content_for :cover do %>
+
+  <div class="cover">
+    <div class="cover-inner">
+      <div class="cover-contents">
+        <h1>トレーナー一覧</h1>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+
+<div class="user-profile">
+  <div class="panel panel-default">
+    <div class="panel-heading">所属店舗</div>
+      <div class="panel-body">
+        <%= form_tag(trainers_path, method: :get, class: 'form-inline') do %>
+          <div class="form-group">
+            <%= select_tag :branchname, options_for_select(['全店','CR麻布十番店','CR恵比寿店','CR六本木ヒルズ店','CR代官山店','CR広尾店']), class: 'form-control' %>   
+          </div>  
+          <%= button_tag( class: "btn btn-default") do %>
+            <%= content_tag :span, "", class: "glyphicon glyphicon-search" %>
+          <% end %>
+        <% end %> 
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="trainee">
+    <table class="table table-bordered">
+      <tr>
+        <th>ID</th>
+        <th>所属店舗</th>
+        <th>名前(ニックネーム)</th>
+        <th>MASTER数<br></th>
+        <th>マイページ</th>
+      </tr>
+      <% trainers.each do |trainer| %>
+      
+        <tr>
+          <td><%= trainer.id %></td>
+          <td><%= trainer.branch %></td>
+          <td><%= trainer.name %> ( <%= trainer.nickname %> )</td>
+          <td class="check"><%= TrCheck.where(trainer_id: trainer.id).count %>個</td>
+          <td class="check"><%= link_to 'マイページ', trainer, class: 'btn btn-default' %></td>
+
+       </tr>
       <% end %>
-  </ul>
+    </table>
+    </div>
+    
   <%= paginate trainers %>
 <% end %>

@@ -8,7 +8,7 @@ class TrChecksController < ApplicationController
   end
 
   def destroy
-    checklist = TrCheck.find_by(params[:checklist_id], params[:trainee_id])
+    checklist = TrCheck.find_by(checklist_id:params[:checklist_id])
     checklist.destroy
     flash[:success] = 'MASTERを解除しました'
     redirect_back(fallback_location: root_path)
