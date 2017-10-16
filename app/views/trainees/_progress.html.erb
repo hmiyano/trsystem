@@ -12,18 +12,20 @@
     <li><div class="status-label">MASTER率（％）</div></li>
   </ul>
   <ul>
+    <% checkminus = (Checklist.where(chapter: $chap1).count * 2) + (Checklist.where(chapter: $chap9).count *2) %>
     <% start_date = TeCheck.where(trainee_id: @trainee.id) %>
     <% start_date = Time.now - start_date.first.created_at.in_time_zone('Tokyo') if start_date.first  %>
     <% start_date = start_date.round(0) / 60 / 60 / 24 %>
     <% listcount = Checklist.count %>
     <% te_checkcount = TeCheck.where(trainee_id: @trainee.id).count %>
     <% tr_checkcount = TrCheck.where(trainee_id: @trainee.id).count %>
-    <% s_percent = te_checkcount.to_f / (listcount.to_f * 3) * 100 %>
+    <% s_percent = te_checkcount.to_f / (listcount.to_f * 3 - checkminus) * 100 %>
     <% m_percent = tr_checkcount.to_f / listcount.to_f * 100 %>
-      
+    
+    
     <li><div class="status-value"><%= start_date %> <font size="2">日</font></div></li>
     <li><div class="status-value"><%= listcount %></div></li>
-    <li><div class="status-value"><%= te_checkcount %> /  <font size="2"><%= listcount * 3 %>回</font></div></li>
+    <li><div class="status-value"><%= te_checkcount %> /  <font size="2"><%= listcount * 3 - checkminus %>回</font></div></li>
     <li><div class="status-value"><%= tr_checkcount %> /  <font size="2"><%= listcount %>個</font></div></li>
       
     <% if s_percent == 100 %>
@@ -58,7 +60,7 @@
   </ul>
   <ul>
     <li><div class="status-value"><%= trainee.chapcount($chap1, @trainee) %>
- <font size="2">/<%= Checklist.where(chapter: $chap1).count * 3 %>回</font></div></li>
+ <font size="2">/<%= Checklist.where(chapter: $chap1).count %>回</font></div></li>
     <li><div class="status-value"><%= trainee.chapcount($chap2, @trainee) %>
  <font size="2">/<%= Checklist.where(chapter: $chap2).count * 3 %>回</font></div></li>
     <li><div class="status-value"><%= trainee.chapcount($chap3, @trainee) %>
@@ -74,7 +76,7 @@
     <li><div class="status-value"><%= trainee.chapcount($chap8, @trainee) %>
  <font size="2">/<%= Checklist.where(chapter: $chap8).count * 3 %>回</font></div></li>
     <li><div class="status-value"><%= trainee.chapcount($chap9, @trainee) %>
- <font size="2">/<%= Checklist.where(chapter: $chap9).count * 3 %>回</font></div></li>
+ <font size="2">/<%= Checklist.where(chapter: $chap9).count %>回</font></div></li>
 
   </ul>
    

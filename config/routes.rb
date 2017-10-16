@@ -26,4 +26,5 @@ Rails.application.routes.draw do
   resources :te_checks, only: [:create, :destroy, :show]
   resources :tr_checks, only: [:create, :destroy, :show]
   resources :admins
+  resources :comments, only: [:create, :destroy]
 end

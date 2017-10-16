@@ -1,29 +1,39 @@
 <% if tr_logged_in? %>
   <% if checklist.tr_checks.find_by(trainee_id: trainee.id) %>
-    <% if checklist.te_checks.find_by(type: Third, trainee_id: @trainee.id) %>
+    <% if checklist.te_checks.find_by(type: Third, trainee_id: @trainee.id) || checklist.chapter == $chap1 || $chap9 %>
       <% tn = Trainer.find(checklist.tr_checks.first.trainer_id) %>
       <%= form_for(checklist.tr_checks.find_by(trainee_id: trainee.id), html: { method: :delete, data: { confirm: 'この項目のMASTERが解除されます。本当に解除してよろしいですか？' } }) do |f| %>
         <%= hidden_field_tag :checklist_id, checklist.id %>
         <%= hidden_field_tag :trainee_id, trainee.id %>
-        <%= button_tag( class: "btn btn-danger") do %>
+        <%= button_tag( class: "btn btn-danger btn-xs") do %>
           <%= content_tag :span, checklist.tr_checks.first.updated_at.in_time_zone('Tokyo').strftime('%m/%d') + '【' + tn.nickname + '】', class: "glyphicon glyphicon-fire" %>
         <% end %>
       <% end %>
     <% else %>
-      <%= form_for(checklist.tr_checks.find_by(trainee_id: trainee.id), html: { method: :delete, data: { confirm: 'この項目のセルフチェックがトレーニーにより解除されています。OKを押すと一旦MASTERが解除されますので、再度トレーニーの不安を解消したのちMASTERをしてください。' } }) do |f| %>
+        <%= form_for(checklist.tr_checks.find_by(trainee_id: trainee.id), html: { method: :delete, data: { confirm: 'この項目のセルフチェックがトレーニーにより解除されています。OKを押すと一旦MASTERが解除されますので、再度トレーニーの不安を解消したのちMASTERをしてください。' } }) do |f| %>
+          <%= hidden_field_tag :checklist_id, checklist.id %>
+          <%= hidden_field_tag :trainee_id, trainee.id %>
+          <%= button_tag( class: "btn btn-warning btn-xs") do %>
+            <%= content_tag :span, '解除されてます', class: "glyphicon glyphicon-warning-sign" %>
+          <% end %>
+        <% end %>
+    <% end %>
+  <% elsif checklist.chapter == $chap1 || $chap9 %>
+    <% if checklist.te_checks.find_by(type: First, trainee_id: @trainee.id) %>
+      <%= form_for(current_trainer.tr_checks.build) do |f| %>
         <%= hidden_field_tag :checklist_id, checklist.id %>
         <%= hidden_field_tag :trainee_id, trainee.id %>
-        <%= button_tag( class: "btn btn-warning") do %>
-          <%= content_tag :span, '解除されてます', class: "glyphicon glyphicon-warning-sign" %>
+        <%= button_tag( class: "btn btn-default btn-xs") do %>
+          <%= content_tag :span, " MASTERする", class: "glyphicon glyphicon-fire" %>
         <% end %>
-      <% end %>      
+      <% end %>
     <% end %>
   <% elsif checklist.te_checks.find_by(type: Third, trainee_id: @trainee.id) %>
     <%= form_for(current_trainer.tr_checks.build) do |f| %>
       <%= hidden_field_tag :checklist_id, checklist.id %>
       <%= hidden_field_tag :trainee_id, trainee.id %>
 
-      <%= button_tag( class: "btn btn-default") do %>
+      <%= button_tag( class: "btn btn-default btn-xs") do %>
         <%= content_tag :span, " MASTERする", class: "glyphicon glyphicon-fire" %>
       <% end %>
 
@@ -32,12 +42,17 @@
 <% elsif te_logged_in? %>
   <% master = checklist.tr_checks.find_by(trainee_id: trainee.id) %>
   <% if master %>
-    <button class="btn btn-danger"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> MASTER:
+    <button class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> MASTER:
     <%= checklist.tr_checks.first.updated_at.in_time_zone('Tokyo').strftime('%m/%d') if checklist.tr_checks.first %>
         <% tn = Trainer.find(checklist.tr_checks.first.trainer_id) %>
         (<%= tn.nickname %>)
         </button>
+  <% elsif checklist.chapter == $chap1 || $chap9 %>
+    <% if checklist.te_checks.find_by(type: First, trainee_id: @trainee.id) %>
+        <button class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> MASTER 待ち</button>
+    <% end %>
+    
   <% elsif current_trainee.third?(checklist) %>
-        <button class="btn btn-warning"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> MASTER 待ち</button>
+        <button class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-time" aria-hidden="true"></span> MASTER 待ち</button>
   <% end %>
 <% end %>

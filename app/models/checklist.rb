@@ -25,4 +25,8 @@ class Checklist < ApplicationRecord
   
   has_many :thirds
   has_many :third_trainees, through: :thirds, class_name: 'Trainee', source: :trainee
+  
+  scope :selfcheck, -> (trainee_id, type) {
+    joins(:te_checks).where(trainee_id: trainee_id).where(type: type)
+  }
 end

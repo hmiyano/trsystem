@@ -1,0 +1,19 @@
+<ul class="media-list">
+  <% comments.each do |comment| %>
+    <% trainee = comment.trainee %>
+    <li class="media">
+      <div class="media-left">
+        <img src="/images/te_logo.png" width="50" height="50" alt="" class="img-circle">
+      </div>
+      <div class="media-body">
+        <div>
+          <%= link_to trainee.name, trainee_path(trainee) %> <span class="text-muted">投稿日 <%= comment.created_at.in_time_zone('Tokyo').strftime('%F') %></span>
+        </div>
+        <div>
+          <p><%= comment.content %></p>
+        </div>
+      </div>
+    </li>
+  <% end %>
+  <%= paginate comments %>
+</ul>

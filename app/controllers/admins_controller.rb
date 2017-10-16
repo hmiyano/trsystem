@@ -7,8 +7,14 @@ class AdminsController < ApplicationController
   
   def show
     @admin = Admin.find(params[:id])
-    @checklists = Checklist.all
 
+    if params[:chapname] == 'ALL'
+      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:chapname]
+      @checklists = Checklist.where(chapter: params[:chapname]).order(created_at: :asc).page(params[:page]).per(25)
+    else
+      @checklists = Checklist.order(created_at: :desc).page(params[:page]).per(25)
+    end
   end
 
   def new

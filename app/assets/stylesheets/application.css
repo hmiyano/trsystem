@@ -134,26 +134,35 @@ footer {
 */
 
 .admin .table th {
-    width: 50px;
-    vertical-align: center;
+    font-size: 12px;
+    vertical-align: bottom;
     background: #dcdcd1;
     border-left: 1px solid #ccc;
     border-bottom: 3px solid #c00;
-    text-align: left;
-    padding: 10px;
+    text-align: center;
+    height: 20px;
 }
 .admin .table td {
-    vertical-align: top;
+    font-size: 12px;
     background: #eee;
     border: 1px solid #ccc;
     text-align: left;
-    padding: 10px;
+    height: 35px;
+    line-height: 35px;
+    color: #696969;
+}
+.admin .table .op {
+    text-align: center;
+    width: 50px;
+    vertical-align: central;
+
 }
 
 .trainee .table {
 }
 
 .trainee .table th {
+    font-size: 12px;
     vertical-align: bottom;
     background: #dcdcd1;
     border-left: 1px solid #ccc;
@@ -162,6 +171,7 @@ footer {
     height: 20px;
 }
 .trainee .table  td {
+    font-size: 12px;
     background: #eee;
     border: 1px solid #ccc;
     text-align: left;
@@ -171,13 +181,13 @@ footer {
 }
 .trainee .table .check {
     text-align: center;
-    width: 100px;
+    width: 80px;
     vertical-align: central;
     
 }
 .trainee .table .tcheck {
     text-align: center;
-    width: 180px;
+    width: 130px;
     vertical-align: central;
     
 }

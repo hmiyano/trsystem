@@ -5,38 +5,10 @@
   <%= link_to '新規トレーニング項目の作成', new_checklist_path, class: 'btn btn-danger' %>
 </p>
 
-
-
-  <div class="admin">
-    <table class="table table-bordered">
-      <tr>
-        <th class="id">ID</th>
-        <th class="wg">WG</th>
-        <th class="chap">チャプター</th>
-        <th class="sec">セクション</th>
-        <th class="content">トレーニング項目</th>
-        <th class="edit">編集</th>
-        <th class="delete">削除</th>
-      </tr>
-      <% checklists.each do |checklist| %>
-        <tr>
-          <td><%= checklist.id %></td>
-          <td><%= checklist.grade %></td>
-          <td><%= checklist.chapter %></td>
-          <td><%= checklist.section %></td>
-          <td><%= checklist.content %></td>
-          <td><%= link_to '編集', edit_checklist_path(checklist) %></td>
-          <td><%= link_to '削除', checklist, method: :delete, data: { confirm: '本当に削除してよろしいですか？' } %></td>
-        </tr>
-      <% end %>
-    </table>
-    </div>
-<% else %>
-
   <div class="panel panel-default">
     <div class="panel-heading">チャプター検索</div>
       <div class="panel-body">
-        <%= form_tag(trainee_path, method: :get, class: 'form-inline') do %>
+        <%= form_tag(admin_path, method: :get, class: 'form-inline') do %>
           <div class="form-group">
             <%= select_tag :chapname, options_for_select(["ALL", $chap1, $chap2, $chap3, $chap4, $chap5, $chap6, $chap7, $chap8, $chap9]), class: 'form-control' %>   
           </div>  
@@ -44,6 +16,63 @@
             <%= content_tag :span, "", class: "glyphicon glyphicon-search" %>
           <% end %>
         <% end %> 
+      </div>
+    </div>
+  </div>
+
+  <div class="admin">
+    <table class="table table-bordered">
+      <tr>
+        <th class="id">ID</th>
+        <th class="chap">チャプター</th>
+        <th class="sec">セクション</th>
+        <th class="content">トレーニング項目</th>
+        <th class="op">編集</th>
+        <th class="op">削除</th>
+      </tr>
+      <% checklists.each do |checklist| %>
+        <tr>
+          <td><%= checklist.id %></td>
+          <td><%= checklist.chapter %></td>
+          <td><%= checklist.section %></td>
+          <td><%= checklist.content %></td>
+          
+          <td class="op"><%= link_to edit_checklist_path(checklist), class: "btn btn-default" do %>
+                <i class="glyphicon glyphicon-edit"></i><% end %></td>
+          <td class="op"><%= link_to checklist, method: :delete, data: { confirm: '本当に削除してよろしいですか？' }, class: "btn btn-danger" do %>
+                <i class="glyphicon glyphicon-trash"></i><% end %></td>
+        </tr>
+      <% end %>
+    </table>
+  <%= paginate checklists %>
+    </div>
+  </div>
+
+<% else %>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">検索</div>
+      <div class="panel-body">
+
+        <%= form_tag(trainee_path, method: :get, class: 'form-inline') do %>
+          <div class="form-group">
+            <%= select_tag :chapname, options_for_select(["ALL", $chap1, $chap2, $chap3, $chap4, $chap5, $chap6, $chap7, $chap8, $chap9]), class: 'form-control' %>   
+          </div>  
+          <%= button_tag( class: "btn btn-default") do %>
+            <%= content_tag :span, " チャプター", class: "glyphicon glyphicon-search" %>
+          <% end %>
+        <% end %> 
+        
+        <br>
+        <%= form_tag(trainee_path, method: :get, class: 'form-inline') do %>
+          <div class="form-group">
+            <%= select_tag :selfcheck, options_for_select([['全部','ALL'], ['1回','First'], ['2回','Second'], ['3回','Third']]), class: 'form-control' %>   
+          </div>  
+          <%= button_tag( class: "btn btn-default") do %>
+            <%= content_tag :span, " チェック回数", class: "glyphicon glyphicon-search" %>
+          <% end %>
+        <% end %> 
+        
       </div>
     </div>
   </div>
@@ -81,7 +110,6 @@
       <% end %>
     </table>
     <%= paginate checklists %>
-
+  </div>
 <% end %>
 
-</div>

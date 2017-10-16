@@ -3,7 +3,7 @@ class ChecklistsController < ApplicationController
 #  before_action :require_admin_logged_in, only: [:show]
 
   def index
-      @checklists = Checklist.order(created_at: :desc).page(params[:page]).per(25)
+      checklists = Checklist.order(created_at: :desc).page(params[:page]).per(25)
   end
   
   def show

@@ -1,7 +1,7 @@
 class Trainee < ApplicationRecord
   before_save { self.email.downcase! }
   validates :name, presence: true, length: { maximum: 50 }
-  validates :nickname, presence: true, length: { maximum: 50 }
+  validates :nickname, presence: true, length: { maximum: 10 }
   validates :branch, presence: true, length: { maximum: 50 }
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
@@ -23,6 +23,8 @@ class Trainee < ApplicationRecord
   has_many :thirds
   has_many :third_checklists, through: :thirds, class_name: 'Checklist', source: :checklist
   
+  has_many :comments
+
   def first(checklist)
     self.firsts.find_or_create_by(checklist_id: checklist.id)
   end
@@ -72,5 +74,7 @@ class Trainee < ApplicationRecord
     end
     return result
   end
+  
+
   
 end

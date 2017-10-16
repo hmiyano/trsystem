@@ -14,7 +14,7 @@
       </ul>
     </div>
 
-        <%= render 'progress', checklists: @checklists, trainee: @trainee %>
+    <%= render 'progress', checklists: @checklists, trainee: @trainee %>
 
   <% elsif tr_logged_in? %>
     <div class="name text-center">
@@ -32,6 +32,7 @@
     </div>
     <div class="status text-center">
       <ul>
+
         <li><div class="status-label"><%= link_to '編集', edit_trainee_path(@trainee) %></div></li>
         <li><div class="status-label"><%= link_to '削除', @trainee, method: :delete, data: { confirm: '本当にユーザを削除してよろしいですか？' } %></div></li>
       </ul>
