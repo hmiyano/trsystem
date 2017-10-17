@@ -23,6 +23,18 @@ class TraineesController < ApplicationController
       @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
     elsif params[:chapname]
       @checklists = Checklist.where(chapter: params[:chapname]).order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:master]
+      if params[:master] == 'yes'
+        @checklists = Checklist.joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}")
+        @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
+      else
+        checklist_table = Checklist.arel_table
+        trcheck_table = TrCheck.arel_table
+        condition = trcheck_table[:trainee_id].eq(checklist_table[:id])
+        @checklists = Checklist.where(TrCheck.where(condition).exists.not).all.order(created_at: :asc).page(params[:page]).per(25)
+      end
+    elsif params[:chapname] == "ALL"
+      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
     else
       @checklists = Checklist.order(created_at: :desc).page(params[:page]).per(25)
     end
@@ -51,6 +63,7 @@ class TraineesController < ApplicationController
   
   def update
     @trainee = Trainee.find(params[:id])
+
     if @trainee.update(trainee_params)
       flash[:success] = 'トレーニー情報は正常に更新されました'
       redirect_to @trainee
@@ -69,6 +82,6 @@ class TraineesController < ApplicationController
   private
 
   def trainee_params
-    params.require(:trainee).permit(:name, :nickname, :email, :branch, :password, :password_confirmation)
+    params.require(:trainee).permit(:name, :nickname, :email, :branch, :password, :password_confirmation, :enable, :trainer_id)
   end
 end

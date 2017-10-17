@@ -8,16 +8,8 @@
     
        
     <%= form_for(@admin) do |f| %>
+      <%= render 'layouts/error_messages', model: f.object %>
 
-      <% if @admin.errors.any? %>
-        <div class="alert alert-warning">
-          <ul>
-            <% @admin.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
 
       <div class="form-group">
         <%= f.label :name, '名前' %>

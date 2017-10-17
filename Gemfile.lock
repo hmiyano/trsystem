@@ -43,6 +43,7 @@ GEM
     bindex (0.5.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-select-rails (1.12.1)
     builder (3.2.3)
     byebug (9.1.0)
     choice (0.2.0)
@@ -206,6 +207,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt (~> 3.1.7)
+  bootstrap-select-rails
   byebug
   coffee-rails (~> 4.2)
   hirb

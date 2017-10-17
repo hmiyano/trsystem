@@ -2,16 +2,8 @@
   <div class="col-xs-8">
     
     <%= form_for(@checklist) do |f| %>
+      <%= render 'layouts/error_messages', model: f.object %>
 
-      <% if @checklist.errors.any? %>
-        <div class="alert alert-warning">
-          <ul>
-            <% @checklist.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
 
 
       <div class="form-group">

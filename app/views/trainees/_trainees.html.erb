@@ -30,26 +30,32 @@
     <table class="table table-bordered">
       <tr>
         <th>ID</th>
-        <th>所属店舗</th>
-        <th>名前(ニックネーム)</th>
+        <th width="">所属店舗</th>
+        <th width="">名前(ニックネーム)</th>
+        <th width="120">専任トレーナー</th>
         <th>TR経過日数</th>
         <th>進捗<br> (セルフ)</th>
         <th>進捗%<br> (MASTER)</th>
         <th>MASTER</th>
       </tr>
       <% @trainees.each do |trainee| %>
+      
         <% listcount = Checklist.count %>
         <% te_checkcount = TeCheck.where(trainee_id: trainee.id).count %>
         <% tr_checkcount = TrCheck.where(trainee_id: trainee.id).count %>
         <% s_percent = te_checkcount.to_f / (listcount.to_f * 3) * 100 %>
         <% m_percent = tr_checkcount.to_f / listcount.to_f * 100 %>
-
+        <% start_date = TeCheck.where(trainee_id: trainee.id) %>
+        <% start_date = Time.now - start_date.first.created_at.in_time_zone('Tokyo') if start_date.first  %>
+        <% start_date = start_date.round(0) / 60 / 60 / 24 unless start_date.blank? %>
+        <% start_date = '-' if start_date.blank?  %>
         
         <tr>
           <td><%= trainee.id %></td>
           <td><%= trainee.branch %></td>
           <td><%= trainee.name %> ( <%= trainee.nickname %> )</td>
-          <td class="check">日</td>
+          <td><%= Trainer.find(trainee.trainer_id).nickname %></td>
+          <td class="check"><%= start_date %>日</td>
           <td class="check"><%= s_percent.round(0) %>%</td>
           <td class="check"><%= m_percent.round(0) %>%</td>
           <td class="check"><%= link_to '', trainee, class: 'glyphicon glyphicon-fire' %></td>

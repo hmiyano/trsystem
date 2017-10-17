@@ -22,7 +22,7 @@
       </ul>
 
       <ul>
-        <% te_count = TrCheck.where(trainee_id: @trainee.id, trainer_id: @trainer.id).count %>
+        <% te_count = Trainee.where(trainer_id: @trainer.id).count %>
         <% m_count = TrCheck.where(trainer_id: @trainer.id).count %>
 
         <li><div class="status-value"><%= te_count %></div></li>

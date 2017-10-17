@@ -14,11 +14,14 @@
  *= require_self
  */
 
+
 @charset "utf-8";
 
 /* body */
 body {
   background: #f2f2f2;
+  font-family:-apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI","Noto Sans Japanese","ヒラギノ角ゴ ProN W3", Meiryo, sans-serif;
+
 }
 footer {
   margin-top: 40px;
@@ -41,6 +44,7 @@ footer {
   height: 300px;
   background: url("/images/cover-bg.png") center center no-repeat;
   background-size: cover;
+  
 }
 .cover .cover-inner {
   height: 100%;
@@ -52,6 +56,8 @@ footer {
   vertical-align: middle;
   text-align: center;
   position: relative;
+  font-family: 'Graduate', cursive;
+
 }
 .cover .cover-inner .cover-contents h1, h4 {
   margin: 0 0 20px 0;
@@ -200,4 +206,40 @@ footer {
     background: #bdb76b;
     vertical-align: bottom;
     text-align: left;
+}
+.trainee .table .head {
+    border-style: none;
+    background: #d7d7d7;
+    vertical-align: central;
+    font-size: 20px;
+    letter-spacing: 4px;
+    font-family: 'Graduate', cursive;
+    text-align: left;
+}
+.trainee .table .re {
+    border-style: none;
+    background: #d7d7d7;
+    vertical-align: central;
+    text-align: center;
+}
+
+.btn.active {
+    color: #ffffff;
+    background-color: #a4a4a4;
+}
+
+.panel .panel-heading {
+    background-color: #d7d7d7;
+    font-weight: bold;
+}
+.form-control {
+    color: #5e5e5e;
+    font-size: 12px;
+}
+.glyphicon-search {
+    color: #5e5e5e;
+}
+.row {
+  width: 80%;
+  margin: auto; 
 }

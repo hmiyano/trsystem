@@ -24,6 +24,9 @@ class Trainee < ApplicationRecord
   has_many :third_checklists, through: :thirds, class_name: 'Checklist', source: :checklist
   
   has_many :comments
+  
+  belongs_to :trainer, optional: true
+
 
   def first(checklist)
     self.firsts.find_or_create_by(checklist_id: checklist.id)

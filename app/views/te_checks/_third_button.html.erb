@@ -10,11 +10,12 @@
           <% end %>
         <% end %>
       <% else %>
-        <%= form_tag(te_checks_path) do %>
-          <%= hidden_field_tag :checklist_id, checklist.id %>
+    <%= form_tag(te_checks_path, remote: true) do %>
+      <%= hidden_field_tag :ajax_handler, 'handle_self' %>
+      <%= hidden_field_tag :checklist_id, checklist.id %>
           <%= hidden_field_tag :type, 'Third' %>
           <%= button_tag( class: "btn btn-default btn-xs") do %>
-            <%= content_tag :span, "チェック", class: "" %>
+            <%= content_tag :span, "チェック", href: "javascript:void(0)" %>
           <% end %>
         <% end %>
       <% end %>
@@ -23,7 +24,7 @@
   
 <% elsif tr_logged_in? %>
   <% if checklist.te_checks.find_by(type: Third, trainee_id: @trainee.id) %>
-    <button class="btn btn-success btn-xs"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> <%= checklist.te_checks.first.updated_at.in_time_zone('Tokyo').strftime('%m/%d')  if checklist.te_checks.first%></button>
+    <button class="btn btn-success btn-xs" disabled="disabled"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> <%= checklist.te_checks.first.updated_at.in_time_zone('Tokyo').strftime('%m/%d')  if checklist.te_checks.first%></button>
   <% end %>
 
 <% end %>

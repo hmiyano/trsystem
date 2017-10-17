@@ -35,8 +35,9 @@
         <th>ID</th>
         <th>所属店舗</th>
         <th>名前(ニックネーム)</th>
-        <th>MASTER数<br></th>
-        <th>マイページ</th>
+        <th width="100">専任数<br>(累積)<br></th>
+        <th width="100">MASTER数<br>(累積)<br></th>
+        <th>管理ページ</th>
       </tr>
       <% trainers.each do |trainer| %>
       
@@ -44,9 +45,11 @@
           <td><%= trainer.id %></td>
           <td><%= trainer.branch %></td>
           <td><%= trainer.name %> ( <%= trainer.nickname %> )</td>
+          <td class="check"><%= Trainee.where(trainer_id: trainer.id).count %>人</td>
           <td class="check"><%= TrCheck.where(trainer_id: trainer.id).count %>個</td>
-          <td class="check"><%= link_to 'マイページ', trainer, class: 'btn btn-default' %></td>
-
+          <td class="check"><%= link_to trainer, class: 'btn btn-default' do %>
+                <i class="glyphicon glyphicon-edit"></i><% end %></td>
+                
        </tr>
       <% end %>
     </table>
