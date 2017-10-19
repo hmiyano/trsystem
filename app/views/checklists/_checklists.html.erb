@@ -51,10 +51,10 @@
 <% else %>
 
   <div class="panel panel-default">
-    <div class="panel-heading">検索</div>
+    <div class="panel-heading" align="left">検索</div>
       <div class="panel-body">
 
-        <table>
+        <table align="left">
           <tr><td width="200"><%= form_tag(trainee_path, method: :get, class: 'form-inline') do %>
           <div class="form-group">
             <%= select_tag :chapname, options_for_select(["ALL", $chap1, $chap2, $chap3, $chap4, $chap5, $chap6, $chap7, $chap8, $chap9]), :prompt => "チャプターで探す", class: 'form-control' %>   
@@ -73,7 +73,7 @@
         <% end %> </td>
           <td width="200"><%= form_tag(trainee_path, method: :get, class: 'form-inline') do %>
             <div class="form-group">
-              <%= select_tag :master, options_for_select([['マスターしている','yes'],['マスターしてない','no'],['マスター待ち','wait']]), :prompt => "MASTERで探す", class: 'form-control' %>   
+              <%= select_tag :master, options_for_select([['マスターしている','yes'],['[未装]マスターしてない','no'],['[未装]マスター待ち','wait']]), :prompt => "MASTERで探す", class: 'form-control' %>   
             </div>  
             <%= button_tag( class: "btn btn-default") do %>
               <%= content_tag :span, "", class: "glyphicon glyphicon-search" %>

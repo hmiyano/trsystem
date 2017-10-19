@@ -1,3 +1,4 @@
+<% breadcrumb :edit_trainee, @trainee %>
 <div class="col-xs-8">
   <div class="panel panel-default">
     <div class="panel-heading">トレーニー編集</div>
@@ -5,11 +6,11 @@
         <%= form_for(@trainee) do |f| %>
           <%= render 'layouts/error_messages', model: f.object %>
 
-          <% if admin_logged_in? %>
-          <div class="form-group">
-            <%= f.label :enable, '表示設定' %>
-            <%= f.text_field :enable, class: 'form-control' %>
-          </div>
+          <% if tr_logged_in? || admin_logged_in? %>
+            <div class="form-group">
+              <%= f.label :enable, '有効設定' %>
+              <%= f.check_box :enable, class: 'form-control' %>
+            </div>
           <% end %>
       
           <div class="form-group">
@@ -27,10 +28,10 @@
         <%= f.email_field :email, class: 'form-control' %>
       </div>
       
-      <div class="form-group">
-        <%= f.label :branch, '所属店舗' %>
-        <%= f.text_field :branch, class: 'form-control' %>
-      </div>
+          <div class="form-group">
+            <%= f.label :branch, '所属店舗' %>
+            <%= f.select :branch, options_for_select([["CR麻布十番店","CR麻布十番店"],["CR恵比寿店","CR恵比寿店"],["CR六本木ヒルズ店","CR六本木ヒルズ店"],["CR代官山店","CR代官山店"],["CR広尾店","CR広尾店"]]),{}, class: "form-control" %>
+          </div>
 
       <div class="form-group">
         <%= f.label :password, 'パスワード' %>

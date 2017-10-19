@@ -1,44 +1,49 @@
 <% if trainees.any? %>
-<% content_for :cover do %>
+  <% content_for :cover do %>
 
-  <div class="cover">
-    <div class="cover-inner">
-      <div class="cover-contents">
-        <h1>トレーニー一覧</h1>
+    <div class="cover">
+      <div class="cover-inner">
+        <div class="cover-contents">
+          <h1>トレーニー一覧</h1>
+        </div>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
 
-<div class="user-profile">
-  <div class="panel panel-default">
-    <div class="panel-heading">所属店舗</div>
-      <div class="panel-body">
-        <%= form_tag(trainees_path, method: :get, class: 'form-inline') do %>
-          <div class="form-group">
-            <%= select_tag :branchname, options_for_select(['全店','CR麻布十番店','CR恵比寿店','CR六本木ヒルズ店','CR代官山店','CR広尾店']), class: 'form-control' %>   
-          </div>  
-          <%= button_tag( class: "btn btn-default") do %>
-            <%= content_tag :span, "", class: "glyphicon glyphicon-search" %>
-          <% end %>
-        <% end %> 
+  <div class="user-profile">
+    <div class="panel panel-default">
+      <div class="panel-heading">検索</div>
+        <div class="panel-body">
+          <%= form_tag(trainees_path, method: :get, class: 'form-inline') do %>
+            <div class="form-group">
+              <%= select_tag :branchname, options_for_select(['全店','CR麻布十番店','CR恵比寿店','CR六本木ヒルズ店','CR代官山店','CR広尾店']), :prompt => "所属店舗で探す", class: 'form-control' %>   
+            </div>  
+            <%= button_tag( class: "btn btn-default") do %>
+              <%= content_tag :span, "", class: "glyphicon glyphicon-search" %>
+            <% end %>
+          <% end %> 
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="trainee">
-    <table class="table table-bordered">
-      <tr>
-        <th>ID</th>
-        <th width="">所属店舗</th>
-        <th width="">名前(ニックネーム)</th>
-        <th width="120">専任トレーナー</th>
-        <th>TR経過日数</th>
-        <th>進捗<br> (セルフ)</th>
-        <th>進捗%<br> (MASTER)</th>
-        <th>MASTER</th>
-      </tr>
-      <% @trainees.each do |trainee| %>
+    <div class="trainee">
+      <table class="table table-bordered">
+        <tr>
+          <th>ID</th>
+          <th width="">所属店舗</th>
+          <th width="">名前(ニックネーム)</th>
+          <th width="120">専任トレーナー</th>
+          <th>未返信</th>
+          <th>最終更新</th>
+          <th>TR開始</th>
+          <th>進捗<br> (セルフ)</th>
+          <th>進捗%<br> (MASTER)</th>
+          <th>MASTER</th>
+          <% if admin_logged_in? %><th>有効</th><% end %>
+
+        </tr>
+
+        <% @trainees.each do |trainee| %>
       
         <% listcount = Checklist.count %>
         <% te_checkcount = TeCheck.where(trainee_id: trainee.id).count %>
@@ -54,11 +59,20 @@
           <td><%= trainee.id %></td>
           <td><%= trainee.branch %></td>
           <td><%= trainee.name %> ( <%= trainee.nickname %> )</td>
-          <td><%= Trainer.find(trainee.trainer_id).nickname %></td>
-          <td class="check"><%= start_date %>日</td>
+          <td class="check"><%= Trainer.find(trainee.trainer_id).nickname unless trainee.trainer_id.nil? %></td>
+          <td class="check imp"><%= Comment.where(trainee_id: trainee.id, reply: nil).count %></td>
+          <td class="check"><%= (Time.now - TeCheck.where(trainee_id: trainee.id).order(:updated_at).last.updated_at).round(0) / 3600 unless TeCheck.where(trainee_id: trainee.id).blank? %> 時間前</td>
+          <td class="check"><%= start_date %>日前</td>
           <td class="check"><%= s_percent.round(0) %>%</td>
           <td class="check"><%= m_percent.round(0) %>%</td>
           <td class="check"><%= link_to '', trainee, class: 'glyphicon glyphicon-fire' %></td>
+          <% if admin_logged_in? %>
+            <td class="check imp">
+                <% if trainee.enable %>
+                  Y
+                <% end %>
+            </td>
+          <% end %>
 
        </tr>
       <% end %>

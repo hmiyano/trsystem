@@ -15,7 +15,8 @@ class Trainer < ApplicationRecord
   has_many :masterings, through: :tr_checks, source: :checklist
   
   has_many :trainees
-
+#  has_many :comments
+  
   def master(checklist, trainee)
     unless tr_checks.find_by(checklist_id: checklist.id, trainee_id: trainee.id)
       self.tr_checks.find_or_create_by(checklist_id: checklist.id, trainee_id: trainee.id)

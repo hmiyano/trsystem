@@ -80,3 +80,8 @@ group :development, :test do
 end
 
 gem 'bootstrap-select-rails'
+
+#gem 'devise'
+
+# パンくず
+gem 'gretel'

@@ -2,17 +2,45 @@ class TraineesController < ApplicationController
 #  before_action :require_te_logged_in, only: [:show]
 
   def index
-    if params[:branchname] == '全店'
-      @trainees = Trainee.order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:branchname]
-       @trainees = Trainee.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+    
+    @checklists = Checklist.order('updated_at DESC')
+
+    if admin_logged_in?
+      @checklists = Checklist.order('updated_at DESC')
+      if params[:branchname] == '全店'
+        @trainees = Trainee.order(created_at: :asc).page(params[:page]).per(25)
+      elsif params[:branchname]
+        @trainees = Trainee.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+      else
+        @trainees = Trainee.order(created_at: :asc).page(params[:page]).per(25)
+      end      
     else
-      @trainees = Trainee.order(created_at: :asc).page(params[:page]).per(25)
+      if params[:branchname] == '全店'
+        @trainees = te_enable.order(created_at: :asc).page(params[:page]).per(25)
+      elsif params[:branchname]
+         @trainees = te_enable.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+      else
+        @trainees = te_enable.order(created_at: :asc).page(params[:page]).per(25)
+      end
     end
   end
   
   def show
+    
     @trainee = Trainee.find(params[:id])
+
+    if te_logged_in?
+      @trainee = current_trainee
+      @comment = @trainee.comments.build
+      @comments = @trainee.comments.order('created_at DESC').page(params[:page]).per(3)
+    elsif tr_logged_in?
+      @trainer = current_trainer
+      @comment = @trainee.comments.build
+      @comments = @trainee.comments.order('created_at DESC').page(params[:page]).per(3)
+    else
+      @comments = @trainee.comments.order('created_at DESC').page(params[:page]).per(3)
+    end
+    
     
     if params[:selfcheck] == 'ALL'
       @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)

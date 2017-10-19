@@ -24,5 +24,12 @@ class ApplicationController < ActionController::Base
       redirect_to admin_login_url
     end
   end
-
+  
+  def te_enable
+    Trainee.where(enable: true) 
+  end
+  
+  def tr_enable
+    Trainer.where(enable: true) 
+  end
 end

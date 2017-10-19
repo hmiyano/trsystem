@@ -1,3 +1,4 @@
+<% breadcrumb :new_trainer %>
 <div class="row">
   <div class="col-xs-offset-3 col-xs-6">
     <div class="panel panel-default">
@@ -24,7 +25,7 @@
           
           <div class="form-group">
             <%= f.label :branch, '所属店舗' %>
-            <%= f.text_field :branch, class: 'form-control' %>
+            <%= f.select :branch, options_for_select([["CR麻布十番店","CR麻布十番店"],["CR恵比寿店","CR恵比寿店"],["CR六本木ヒルズ店","CR六本木ヒルズ店"],["CR代官山店","CR代官山店"],["CR広尾店","CR広尾店"]]),{}, class: "form-control" %>
           </div>
 
           <div class="form-group">

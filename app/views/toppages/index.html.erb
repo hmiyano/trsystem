@@ -1,41 +1,14 @@
+<!--カバー部分出しわけ-->
 <% content_for :cover do %>
   <div class="cover">
     <div class="cover-inner">
       <div class="cover-contents">
         <h1>crisp training system</h1>
 
+
         <% if te_logged_in? %>
           <h1><%= current_trainee.nickname %>さん、今日も頑張りましょう！</h1>
           <%= link_to 'トレーニングシートをチェックする', trainee_path(current_trainee) , class: 'btn btn-info btn-lg' %>
-
-      </div>
-    </div>
-  </div>
-
-<div class="row">
-  <aside class="col-md-4">
-    ■ コメントを投稿する ■
-    <hr />
-    <%= form_for(@comment) do |f| %>
-      <div class="form-group">
-        <%= f.text_area :content, class: 'form-control', rows: 5 %>
-      </div>
-      <%= f.submit 'Post', class: 'btn btn-primary btn-block' %>
-    <% end %>
-  </aside>
-  <div class="col-xs-4">
-    ■ <%= current_trainee.nickname %>さんのコメント ■
-    <hr />
-    <%= render 'comments/comments', comments: @comments %>
-  </div>
-  <div class="col-xs-4">
-    ■ 専任トレーナーからのコメント ■
-    <hr />
-    <%= render 'comments/comments', comments: @comments %>
-  </div>
-</div>
-
-
 
         <% elsif tr_logged_in? %>
           <h1><%= current_trainer.nickname %>さん、ようこそ！</h1>
@@ -45,11 +18,10 @@
           <h1><%= current_admin.name %>さん、ようこそ！</h1>
           <h4>[ 現在管理者としてログインしています]</h4>
 
+        <!--ログインしていない状態-->
         <% else %>
           <%= link_to 'トレーニングを始める', te_login_path, class: 'btn btn-success btn-lg' %>
-          
           <hr class="line" />
-          
           <p><h5>[テストログイン用ID]</h5></p>
           <p><h5>トレーニー1: te@te.com / te　　・
           トレーナー1: tr@tr.com / tr　　・
@@ -62,3 +34,15 @@
     </div>
   </div>
 <% end %>
+
+        <% if te_logged_in? %>
+
+        <% elsif tr_logged_in? %>
+        
+
+        <% elsif admin_logged_in? %>
+
+        <!--ログインしていない状態-->
+        <% else %>
+        
+        <% end %>

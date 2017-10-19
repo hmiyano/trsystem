@@ -7,7 +7,7 @@ class TrSessionsController < ApplicationController
     password = params[:tr_session][:password]
     if login(email, password)
       flash[:success] = 'ログインに成功しました。'
-      redirect_to @trainer
+      redirect_to root_url
     else
       flash.now[:danger] = 'ログインに失敗しました。'
       render 'new'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016150248) do
+ActiveRecord::Schema.define(version: 20171019103028) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -18,6 +18,23 @@ ActiveRecord::Schema.define(version: 20171016150248) do
     t.string   "password_digest"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+  end
+
+  create_table "apprentices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_apprentices_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_apprentices_on_reset_password_token", unique: true, using: :btree
   end
 
   create_table "checklists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -36,7 +53,20 @@ ActiveRecord::Schema.define(version: 20171016150248) do
     t.integer  "trainee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "reply"
+    t.integer  "trainer_id"
     t.index ["trainee_id"], name: "index_comments_on_trainee_id", using: :btree
+    t.index ["trainer_id"], name: "index_comments_on_trainer_id", using: :btree
+  end
+
+  create_table "replies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "content"
+    t.integer  "trainer_id"
+    t.integer  "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_replies_on_comment_id", using: :btree
+    t.index ["trainer_id"], name: "index_replies_on_trainer_id", using: :btree
   end
 
   create_table "te_checks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -68,7 +98,6 @@ ActiveRecord::Schema.define(version: 20171016150248) do
     t.string   "password_digest"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -98,10 +127,14 @@ ActiveRecord::Schema.define(version: 20171016150248) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.string   "nickname"
+    t.boolean  "enable"
   end
 
   add_foreign_key "checklists", "admins"
   add_foreign_key "comments", "trainees"
+  add_foreign_key "comments", "trainers"
+  add_foreign_key "replies", "comments"
+  add_foreign_key "replies", "trainers"
   add_foreign_key "te_checks", "checklists"
   add_foreign_key "te_checks", "trainees"
   add_foreign_key "tr_checks", "checklists"

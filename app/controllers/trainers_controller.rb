@@ -1,5 +1,5 @@
 class TrainersController < ApplicationController
-  before_action :require_tr_logged_in, only: [:show]
+#  before_action :require_tr_logged_in, only: [:show]
 
   def index
     @trainees = Trainee.order(created_at: :desc).page(params[:page]).per(25)
@@ -62,6 +62,6 @@ class TrainersController < ApplicationController
   private
 
   def trainer_params
-    params.require(:trainer).permit(:name, :nickname, :email, :branch, :password, :password_confirmation)
+    params.require(:trainer).permit(:name, :nickname, :email, :branch, :password, :password_confirmation, :enable)
   end
 end

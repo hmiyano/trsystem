@@ -7,7 +7,7 @@ class TeSessionsController < ApplicationController
     password = params[:te_session][:password]
     if login(email, password)
       flash[:success] = 'ログインに成功しました。'
-      redirect_to @trainee
+      redirect_to root_url
     else
       flash.now[:danger] = 'ログインに失敗しました。'
       render 'new'
