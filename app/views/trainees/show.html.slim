@@ -1,0 +1,154 @@
+- breadcrumb :trainee, @trainee
+.user-profile[align="center"]
+  - if te_logged_in?
+    table.table
+      tr
+        th.teheader[colspan="3"]
+          | 【トレーナーに聞いてみよう！】
+          = @trainee.nickname
+          | さんの交換日記
+      tr
+        td.tetop
+          | ひとことコメント
+        td.tetop
+        td.tetop
+          | ■返信もらえるかな？■
+      tr
+        td[height="200" width="250"]
+          br
+          = form_for(@comment) do |f|
+            .form-group
+              = f.text_area :content, class: 'form-control', rows: 5
+            = f.submit 'Post', class: 'media-post btn'
+        td.temid[rowspan="2" width="20"]
+        td[rowspan="2"]
+          = render 'comments/comments', comments: @comments
+      tr
+        td
+          .name.text-center
+            .status.text-center
+              ul
+                li
+                  = @trainee.name
+                  br
+                  | [ 
+                  = @trainee.branch
+                  |  ]
+              ul
+                li
+                  .status-label
+                    = link_to 'プロフィール編集', edit_trainee_path(@trainee)
+              - exctr = Trainer.find(@trainee.trainer_id).nickname unless @trainee.trainer_id.nil?
+              - exctr = "未設定" if exctr.nil?
+              button.btn.btn-primary.btn-xs[disabled="disabled"]
+                | 専任トレーナー： 
+                = exctr
+    /= render 'progress', checklists: @checklists, trainee: @trainee
+    = render 'checklists/checklists', checklists: @checklists, trainee: @trainee
+
+  - elsif tr_logged_in?
+    table.table
+      tr
+        th.teheader[colspan="3"]
+          | 【コミュニケーション】
+          = @trainee.nickname
+          | さんとの交換日記
+      tr
+        td.tetop
+          | パートナー情報
+        td.tetop
+
+        td.tetop
+          | ■パートナー・コミュニケーション■
+      tr
+        td[align="center" valign="middle" width="250"]
+          br
+          img.img-circle[src="/images/te_logo.png" width="100" height="100" alt=""]
+        td.temid[rowspan="2" width="20"]
+
+        td[rowspan="2"]
+          div
+            = render 'comments/comments', comments: @comments
+      tr
+        td[height="200"]
+          .status.text-center
+            ul
+              li
+                = @trainee.name
+                br
+                | [ 
+                = @trainee.branch
+                |  ]
+            ul
+              li
+                .status-label
+                  = link_to 'プロフィール編集', edit_trainee_path(@trainee)
+            = form_for(@trainee) do |f|
+              .form-group
+                = f.hidden_field :trainer_id, value: current_trainer.id, class: 'form-control'
+              - exctr = Trainer.find(@trainee.trainer_id).nickname unless @trainee.trainer_id.nil?
+              - exctr = "未設定" if exctr.nil?
+              = f.submit '専任トレーナー: ' + exctr , data: { confirm: "専任トレーナーを変更します。本当に専任トレーナーを変更しても良いですか？"}, class: 'btn btn-primary btn-xs'
+
+    table.table
+      tr
+        th.teheader
+          | 【データで見る】 
+          = @trainee.nickname
+          | さんのトレーニング
+    = render 'progress', checklists: @checklists, trainee: @trainee
+    = render 'checklists/checklists', checklists: @checklists, trainee: @trainee
+
+  - elsif admin_logged_in?
+    table.table
+      tr
+        th.teheader[colspan="3"]
+          | 【コミュニケーション】
+          = @trainee.nickname
+          | さんとの交換日記
+      tr
+        td.tetop
+          | パートナー情報
+        td.tetop
+
+        td.tetop
+          | ■日記■
+      tr
+        td[align="center" valign="middle" width="250"]
+          br
+          img.img-circle[src="/images/te_logo.png" width="100" height="100" alt=""]
+        td.temid[rowspan="2" width="20"]
+
+        td[rowspan="2"]
+          div
+            = render 'comments/comments', comments: @comments
+      tr
+        td[height="200"]
+          .status.text-center
+            ul
+              li
+                = @trainee.name
+                br
+                | [ 
+                = @trainee.branch
+                |  ]
+            ul
+              li
+                .status-label
+                  = link_to 'プロフィール編集', edit_trainee_path(@trainee)
+              li
+                .status-label
+                  = link_to '削除', @trainee, method: :delete, data: { confirm: '本当にトレーニーを削除してよろしいですか？全てのトレーニーとチェックのデータが失われ復元することはできません！' }
+            - exctr = Trainer.find(@trainee.trainer_id).nickname unless @trainee.trainer_id.nil?
+            - exctr = "未設定" if exctr.nil?
+            button.btn.btn-primary.btn-xs[disabled="disabled"]
+              | 専任トレーナー： 
+              = exctr
+
+    table.table
+      tr
+        th.teheader
+          | 【データで見る】 
+          = @trainee.nickname
+          | さんのトレーニング
+    = render 'progress', checklists: @checklists, trainee: @trainee

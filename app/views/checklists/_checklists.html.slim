@@ -1,0 +1,115 @@
+- if admin_logged_in?
+  p
+    = link_to '新規トレーニング項目の作成', new_checklist_path, class: 'btn btn-danger'
+  .panel.panel-default
+    .panel-heading
+      | チャプター検索
+    .panel-body
+      = form_tag(admin_path, method: :get, class: 'form-inline') do
+        .form-group
+          = select_tag :chapname, options_for_select(["ALL", $chap1, $chap2, $chap3, $chap4, $chap5, $chap6, $chap7, $chap8, $chap9]), class: 'form-control'
+        = button_tag( class: "btn btn-default") do
+          = content_tag :span, "", class: "glyphicon glyphicon-search"
+  .admin
+    table.table.table-bordered
+      tr
+        th.id
+          | ID
+        th.chap
+          | チャプター
+        th.sec
+          | セクション
+        th.content
+          | トレーニング項目
+        th.op
+          | 編集
+        th.op
+          | 削除
+      - checklists.each do |checklist|
+        tr
+          td
+            = checklist.id
+          td
+            = checklist.chapter
+          td
+            = checklist.section
+          td
+            = checklist.content
+          td.op
+            = link_to edit_checklist_path(checklist), class: "btn btn-default" do
+              i.glyphicon.glyphicon-edit
+          td.op
+            = link_to checklist, method: :delete, data: { confirm: '本当に削除してよろしいですか？' }, class: "btn btn-danger" do
+              i.glyphicon.glyphicon-trash
+    = paginate checklists
+
+- else
+  .panel.panel-default
+    .panel-heading[align="left"]
+      | 検索
+    .panel-body
+      table[align="left"]
+        tr
+          td[width="200"]
+            = form_tag(trainee_path, method: :get, class: 'form-inline') do
+              .form-group
+                = select_tag :chapname, options_for_select(["ALL", $chap1, $chap2, $chap3, $chap4, $chap5, $chap6, $chap7, $chap8, $chap9]), :prompt => "チャプターで探す", class: 'form-control'
+              = button_tag( class: "btn btn-default") do
+                = content_tag :span, "", class: "glyphicon glyphicon-search"
+          td[width="210"]
+            = form_tag(trainee_path, method: :get, class: 'form-inline') do
+              .form-group
+                = select_tag :selfcheck, options_for_select([['ALL','ALL'], ['1回以上','First'], ['2回以上','Second'], ['3回以上','Third']]), :prompt => "セルフチェックで探す", class: 'form-control'
+              = button_tag( class: "btn btn-default") do
+                = content_tag :span, "", class: "glyphicon glyphicon-search"
+          td[width="200"]
+            = form_tag(trainee_path, method: :get, class: 'form-inline') do
+              .form-group
+                = select_tag :master, options_for_select([['マスターしている','yes'],['マスター待ち','wait']]), :prompt => "MASTERで探す", class: 'form-control'
+              = button_tag( class: "btn btn-default") do
+                = content_tag :span, "", class: "glyphicon glyphicon-search"
+  .trainee
+    table.table.table-bordered
+      tr
+        th.head[colspan="6"]
+          | PG1/A : CHOPPER
+        th.re
+          button.btn.btn-default[onclick="window.location.reload();"]
+            span.glyphicon.glyphicon-refresh[aria-hidden="true"]
+      tr
+        th[rowspan="2"]
+          | チャプター
+        th[rowspan="2"]
+          | セクション
+        th[rowspan="2"]
+          | チェック項目
+        th.bottom[colspan="3"]
+          | セルフチェック
+        th.tcheck.bottom
+          | トレーナーチェック
+      tr
+        th
+          | 1回目
+        th
+          | 2回目
+        th
+          | 3回目
+        th
+          | MASTER
+      - @checklists.each do |checklist|
+        tr
+          td
+            = checklist.chapter
+          td
+            = checklist.section
+          td
+            = checklist.content
+          td.check
+            = render 'te_checks/first_button', checklist: checklist
+          td.check
+            = render 'te_checks/second_button', checklist: checklist
+          td.check
+            = render 'te_checks/third_button', checklist: checklist
+          td.tcheck
+            = render 'tr_checks/master_button', checklist: checklist, trainee: trainee
+    = paginate checklists

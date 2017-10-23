@@ -1,0 +1,19 @@
+.row
+  .col-xs-8
+    = form_for(@checklist) do |f|
+      = render 'layouts/error_messages', model: f.object
+      .form-group
+        = f.hidden_field :enable, :value=>'true', class: 'form-control'
+      .form-group
+        = f.label :grade, 'WG'
+        = f.text_field :grade, class: 'form-control'
+      .form-group
+        = f.label :chapter, 'チャプター'
+        = f.text_field :chapter, class: 'form-control'
+      .form-group
+        = f.label :section, 'セクション'
+        = f.text_field :section, class: 'form-control'
+      .form-group
+        = f.label :content, 'チェック項目'
+        = f.text_field :content, class: 'form-control'
+      = f.submit '登録完了', class: 'btn btn-primary'

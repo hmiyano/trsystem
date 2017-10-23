@@ -1,0 +1,75 @@
+- if trainers.any?
+  - content_for :cover do
+    .cover
+      .cover-inner
+        .cover-contents
+          h1
+            | トレーナー一覧
+  .user-profile
+    .panel.panel-default
+      .panel-heading
+        | 検索
+      .panel-body
+        = form_tag(trainers_path, method: :get, class: 'form-inline') do
+          .form-group
+            = select_tag :branchname, options_for_select(['全店','CR麻布十番店','CR恵比寿店','CR六本木ヒルズ店','CR代官山店','CR広尾店']), :prompt => "所属店舗で探す", class: 'form-control'
+          = button_tag( class: "btn btn-default") do
+            = content_tag :span, "", class: "glyphicon glyphicon-search"
+  .trainee
+    table.table.table-bordered
+      tr
+        th
+          | ID
+        th
+          | 所属店舗
+        th
+          | 名前(ニックネーム)
+        th
+          | 最終更新
+        th[width="100"]
+          | 専任数
+          br
+          | (累積)
+          br
+        th[width="100"]
+          | MASTER数
+          br
+          | (累積)
+          br
+        th
+          | マイページ
+        - if admin_logged_in?
+          th
+            | 有効
+      - trainers.each do |trainer|
+        tr
+          td
+            = trainer.id
+          td
+            = trainer.branch
+          td
+            = trainer.name
+            |  ( 
+            = trainer.nickname
+            |  )
+          td.check
+            = (Time.now - TrCheck.where(trainer_id: trainer.id).order(:updated_at).last.updated_at).round(0) / 3600 unless TrCheck.where(trainer_id: trainer.id).blank?
+            |  時間前
+          td.check
+            = Trainee.where(trainer_id: trainer.id).count
+            | 人
+          td.check
+            = TrCheck.where(trainer_id: trainer.id).count
+            | 個
+          td.check
+            - if admin_logged_in?
+              = link_to trainer, class: 'btn btn-default' do
+                i.glyphicon.glyphicon-edit
+            - elsif current_trainer == trainer
+              = link_to trainer, class: 'btn btn-default' do
+                i.glyphicon.glyphicon-edit            
+          - if admin_logged_in?
+            td.check.imp
+              - if trainer.enable
+                |  Y 
+  = paginate trainers

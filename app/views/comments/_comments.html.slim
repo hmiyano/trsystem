@@ -1,0 +1,89 @@
+ul.media-list
+  - if te_logged_in? || admin_logged_in?
+    - comments.where(trainee_id: @trainee.id).each do |comment|
+      table.comment
+        tr.comment
+          td.comment
+
+            li.media
+              .media-left
+                img.img-circle[src="/images/te_logo.png" width="50" height="50" alt=""]
+              .media-body
+                div
+                  = link_to @trainee.nickname, trainee_path(@trainee)
+                  span.text-muted
+                    |  : 
+                    = comment.created_at.in_time_zone('Tokyo').strftime('%F')
+                div
+                  p
+                    = comment.content
+                div[align="right"]
+                  - if admin_logged_in?
+                    = link_to "", comment, method: :delete, data: { confirm: "管理者：トレーナーからの返信も削除されてしまいます。本当に削除しますか？" }, class: 'btn btn-danger btn-xs glyphicon glyphicon-trash'
+                  - elsif current_trainee == comment.trainee
+                    = link_to "", comment, method: :delete, data: { confirm: "トレーナーからの返信も削除されてしまいます。本当に削除しますか？" }, class: 'btn btn-danger btn-xs glyphicon glyphicon-trash'
+          td.comment
+
+            li.media
+              .media-left
+                img.img-circle[src="/images/tr_logo.png" width="50" height="50" alt=""]
+              .media-body.tr
+                div
+                  - if comment.reply.nil?
+                    font[color="#858383"]
+                      b
+                        | 未回答
+                      br
+                      | トレーナーさんからの返信はまだのようです >_< 
+                      br
+                      | もうちょっと待ってね
+                  - else
+                    |  回答 by 
+                    = Trainer.find(comment.trainer_id).nickname unless comment.trainer_id.nil?
+                    |  : 
+                    = comment.updated_at.in_time_zone('Tokyo').strftime('%F')
+                div
+                  p
+                    b
+                      = comment.reply
+  - elsif tr_logged_in?
+    - comments.where(trainee_id: @trainee.id).each do |comment|
+      table.comment
+        tr.comment
+          td.comment
+
+            li.media
+              .media-left
+                img.img-circle[src="/images/te_logo.png" width="50" height="50" alt=""]
+              .media-body
+                div
+                  = link_to @trainee.nickname, trainee_path(@trainee)
+                  span.text-muted
+                    |  : 
+                    = comment.created_at.in_time_zone('Tokyo').strftime('%F')
+                div
+                  p
+                    = comment.content
+          td.comment
+
+            li.media
+              .media-left
+                img.img-circle[src="/images/tr_logo.png" width="50" height="50" alt=""]
+              .media-body.tr
+                div
+                  - if comment.reply.nil?
+                    = form_for(comment) do |f|
+                      - comment.reply = ""
+                      = f.hidden_field :trainer_id, value: current_trainer.id
+                      = f.text_area :reply, :placeholder=> "トレーナーなら誰でも回答できます", class: 'form-control media'
+                      = f.submit '返信する', class: 'media-post btn'
+                  - else
+                    |  回答 by 
+                    = Trainer.find(comment.trainer_id).nickname unless comment.trainer_id.nil?
+                    |  : 
+                    = comment.updated_at.in_time_zone('Tokyo').strftime('%F')
+                div
+                  p
+                    b
+                      = comment.reply
+= paginate comments

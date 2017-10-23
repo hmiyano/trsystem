@@ -1,0 +1,14 @@
+.row
+  .col-xs-offset-3.col-xs-6
+    .panel.panel-default
+      .panel-heading
+        | 管理者ログイン
+      .panel-body
+        = form_for(:admin_session, url: admin_login_path) do |f|
+          .form-group
+            = f.label :email, 'メールアドレス'
+            = f.email_field :email, class: 'form-control'
+          .form-group
+            = f.label :password, 'パスワード'
+            = f.password_field :password, class: 'form-control'
+          = f.submit 'ログイン', class: 'btn btn-danger btn-block'

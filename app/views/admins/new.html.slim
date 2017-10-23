@@ -1,0 +1,23 @@
+- breadcrumb :new_admin
+.row
+  .col-xs-offset-3.col-xs-6
+    .panel.panel-default
+      .panel-heading
+        | 管理者登録
+      .panel-body
+        = form_for(@admin) do |f|
+          = render 'layouts/error_messages', model: f.object
+          .form-group
+            = f.label :name, 'お名前'
+            = f.text_field :name, class: 'form-control'
+          .form-group
+            = f.label :email, 'メールアドレス'
+            = f.email_field :email, class: 'form-control'
+          .form-group
+            = f.label :password, 'パスワード'
+            = f.password_field :password, class: 'form-control'
+          .form-group
+            = f.label :password_confirmation, 'パスワード（確認）'
+            = f.password_field :password_confirmation, class: 'form-control'
+          .text-right
+            = f.submit '登録する', class: 'btn btn-success'

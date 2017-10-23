@@ -85,3 +85,7 @@ gem 'bootstrap-select-rails'
 
 # パンくず
 gem 'gretel'
+
+# slim
+gem 'slim-rails'
+gem 'html2slim'

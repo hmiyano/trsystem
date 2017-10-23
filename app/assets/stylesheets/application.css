@@ -175,6 +175,17 @@ footer {
     text-align: center;
     height: 20px;
 }
+.trainee .table .teheader {
+    color: #5e5e5e;
+    border-style: none;
+    background: #d7d7d7;
+    vertical-align: central;
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-align: left;
+    height: 30px;
+    line-height: 30px;
+}
 .trainee .table  td {
     font-size: 12px;
     background: #eee;
@@ -307,6 +318,7 @@ div .media-body.tr {
     text-align: center;
 
 }
+
 .table .temid {
     border-right: 1px dashed #ccc;
 }

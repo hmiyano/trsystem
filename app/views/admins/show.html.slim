@@ -1,0 +1,39 @@
+- breadcrumb :admin, @admin
+.user-profile
+  .icon.text-center
+    img.img-circle[src="/images/admin_logo.png" width="120" height="120" alt=""]
+  .name.text-center
+    h1
+      = @admin.name
+    h5
+      | [管理者]
+  .status.text-center
+    ul
+      li
+        .status-label
+          = @admin.email
+    ul
+      li
+        .status-label
+          = link_to '編集', edit_admin_path(@admin)
+      li
+        .status-label
+          = link_to '削除', @admin, method: :delete, data: { confirm: '本当に削除してよろしいですか？' }
+    hr.line
+    ul
+      li
+        .status-label
+          | ユーザの新規作成
+    ul
+      li
+        .status-label
+          = link_to 'トレーニー', new_trainee_path, class: 'btn btn-success btn-xs'
+      li
+        .status-label
+          = link_to 'トレーナー', new_trainer_path, class: 'btn btn-warning btn-xs'
+      li
+        .status-label
+          = link_to '管理者', new_admin_path, class: 'btn btn-danger btn-xs'
+  hr.line
+  - unless !te_logged_in? && !tr_logged_in? && !admin_logged_in?
+    = render 'checklists/checklists', checklists: @checklists

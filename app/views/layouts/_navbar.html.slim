@@ -1,0 +1,95 @@
+header
+  nav.navbar.navbar-default.navbar-static-top
+    .container
+      .navbar-header
+        button.navbar-toggle.collapsed[type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"]
+          span.sr-only
+            | Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-left[href="/"]
+          img[src="/images/logo.png" alt="CRISP Training System"]
+      #bs-example-navbar-collapse-1.collapse.navbar-collapse
+        ul.nav.navbar-nav.navbar-right
+          - if te_logged_in?
+            li
+              = link_to 'トレーニングページ', trainee_path(current_trainee)
+            li.dropdown
+              a.dropdown-toggle[href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"]
+                span.gravatar
+                  img.img-circle[src="/images/te_logo.png" width="20" height="20" alt=""]
+                = current_trainee.nickname
+                span.caret
+              ul.dropdown-menu
+                li
+                  = link_to 'マイページ', trainee_path(current_trainee)
+                li.divider[role="separator"]
+                li
+
+                li
+                  = link_to 'ログアウト', te_logout_path, method: :delete
+          - elsif tr_logged_in?
+            li.dropdown
+              a.dropdown-toggle[href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"]
+                span.glyphicon.glyphicon-user[aria-hidden="true"]
+                |  ユーザ一覧 
+                span.caret
+              ul.dropdown-menu
+                li
+                  = link_to 'トレーニー', trainees_path
+                li
+                  = link_to 'トレーナー', trainers_path
+            li.dropdown
+              a.dropdown-toggle[href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"]
+                span.gravatar
+                  img.img-circle[src="/images/tr_logo.png" width="20" height="20" alt=""]
+                = current_trainer.nickname  + '(トレーナー)'
+                span.caret
+              ul.dropdown-menu
+                li
+                  = link_to '管理ページ', trainer_path(current_trainer)
+                li.divider[role="separator"]
+                li
+  
+                li
+                  = link_to 'ログアウト', tr_logout_path, method: :delete
+          - elsif admin_logged_in?
+            li.dropdown
+              a.dropdown-toggle[href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"]
+                span.glyphicon.glyphicon-user[aria-hidden="true"]
+                |  ユーザ一覧 
+                span.caret
+              ul.dropdown-menu
+                li
+                  = link_to 'トレーニー', trainees_path
+                li
+                  = link_to 'トレーナー', trainers_path
+            li.dropdown
+              a.dropdown-toggle[href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"]
+                span.gravatar
+                  img.img-circle[src="/images/admin_logo.png" width="20" height="20" alt=""]
+                  = current_admin.name + '(管理者)'
+                span.caret
+              ul.dropdown-menu
+                li
+                  = link_to '管理ページ', admin_path(current_admin)
+                li.divider[role="separator"]
+                li
+
+                li
+                  = link_to 'ログアウト', admin_logout_path, method: :delete
+          - else
+            li.dropdown
+              a.dropdown-toggle[href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"]
+                |  ログイン 
+                span.caret
+              ul.dropdown-menu
+                li
+                  = link_to 'トレーニーログイン', te_login_path
+                li.divider[role="separator"]
+                li
+                  = link_to 'トレーナーログイン', tr_login_path
+                li.divider[role="separator"]
+                li
+                  = link_to '管理者ログイン', admin_login_path

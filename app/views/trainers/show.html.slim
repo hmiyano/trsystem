@@ -1,0 +1,88 @@
+- breadcrumb :trainer, @trainer
+.user-profile
+  .icon.text-center
+    img.img-circle[src="/images/tr_logo.png" width="120" height="120" alt=""]
+  - if tr_logged_in?
+    .name.text-center
+      h2
+        = @trainer.nickname
+        | さん、いつもお疲れ様です！
+      h5
+        | WG：トレーナー
+      h5
+        | [ 
+        = @trainer.name
+        |  : 
+        = @trainer.branch
+        |  ]
+    .status.text-center
+      ul
+        li
+          .status-label
+            = link_to '編集', edit_trainer_path(@trainer)
+      hr.line_s
+      ul
+        li
+          .status-label
+            | 累積トレーニー数
+        li
+          .status-label
+            | 累積MASTER数
+      ul
+        - te_count = Trainee.where(trainer_id: @trainer.id).count
+        - m_count = TrCheck.where(trainer_id: @trainer.id).count
+        li
+          .status-value
+            = te_count
+        li
+          .status-value
+            = m_count
+      hr.line_s
+      ul
+        li
+          .status-label
+            | ユーザの新規作成
+      ul
+        li
+          .status-label
+            = link_to 'トレーニー', new_trainee_path, class: 'btn btn-success'
+      hr.line
+  - elsif admin_logged_in?
+    .name.text-center
+      h1
+        = @trainer.nickname
+        | さん、ようこそ！
+      h5
+        | WG：トレーナー
+      h5
+        | [ 
+        = @trainer.name
+        |  : 
+        = @trainer.branch
+        |  ]
+    .status.text-center
+      ul
+        li
+          .status-label
+            = link_to '編集', edit_trainer_path(@trainer)
+        li
+          .status-label
+            = link_to '削除', @trainer, method: :delete, data: { confirm: '本当にトレーナーを削除してよろしいですか？全てのトレーナーとトレーニーへのMASTERのデータが失われ復元することはできません！１度でもMASTERしたトレーナーは削除をすることは推奨しません。' }
+      hr.line_s
+      ul
+        li
+          .status-label
+            | 専任トレーニー数
+        li
+          .status-label
+            | 累積MASTER数
+      ul
+        - te_count = Trainee.where(trainer_id: @trainer.id).count
+        - m_count = TrCheck.where(trainer_id: @trainer.id).count
+        li
+          .status-value
+            = te_count
+        li
+          .status-value
+            = m_count
+      hr.line

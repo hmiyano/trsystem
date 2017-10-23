@@ -1,0 +1,13 @@
+- if admins.any?
+  ul.media-list
+    - admins.each do |admin|
+      li.media
+        .media-left
+          img.img-circle[src="/images/admin_logo.png" width="20" height="20" alt=""]
+        .media-body
+          div
+            = admin.name
+          div
+            p
+              = link_to 'プロフィールをみる', admin_path(admin)
+  = paginate admins

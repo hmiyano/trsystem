@@ -1,0 +1,16 @@
+ul.media-list
+  - replies.each do |reply|
+    - trainer = reply.trainer
+    li.media
+      .media-left
+        img.img-circle[src="/images/tr_logo.png" width="50" height="50" alt=""]
+      .media-body
+        div
+          = link_to trainer.nickname, trainer_path(trainer)
+          span.text-muted
+            | 投稿日 
+            = reply.created_at.in_time_zone('Tokyo').strftime('%F')
+        div
+          p
+            = reply.content
+  = paginate replies

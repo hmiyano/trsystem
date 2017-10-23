@@ -1,0 +1,53 @@
+- content_for :cover do
+  .cover
+    .cover-inner
+      .cover-contents
+        h1
+          | crisp training system
+        - if te_logged_in?
+          h1
+            = current_trainee.nickname
+            | さん、今日も頑張りましょう！
+          /= link_to 'トレーニングシートをチェックする', trainee_path(current_trainee) , class: 'btn btn-info btn-lg'
+        - elsif tr_logged_in?
+          h1
+            = current_trainer.nickname
+            | さん、ようこそ！
+          h4
+            | [ 現在トレーナーとしてログインしています ]
+        - elsif admin_logged_in?
+          h1
+            = current_admin.name
+            | さん、ようこそ！
+          h4
+            | [ 現在管理者としてログインしています]
+        - else
+          = link_to 'トレーニングを始める', te_login_path, class: 'btn btn-success btn-lg'
+          hr.line
+          p
+          h5
+            | [テストログイン用ID]
+          p
+          h5
+            | トレーニー1: te@te.com / te　　・ トレーナー1: tr@tr.com / tr　　・ 管理者1: admin@admin.com / admin
+          p
+          h5
+            | トレーニー2: te2@te.com / te　　・ トレーナー2: tr2@tr.com / tr
+
+- if te_logged_in?
+  .user-profile[align="center"]
+    table.table
+      tr
+        th.teheader
+          | 【データで見る】 
+          = @trainee.nickname
+          | さんのトレーニング
+
+    = render 'trainees/progress', checklists: @checklists, trainee: @trainee
+
+
+- elsif tr_logged_in?
+
+- elsif admin_logged_in?
+
+- else
