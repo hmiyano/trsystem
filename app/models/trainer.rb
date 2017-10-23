@@ -8,15 +8,15 @@ class Trainer < ApplicationRecord
                     uniqueness: { case_sensitive: false }  
   has_secure_password
   
-  has_many :tr_checks
+  has_many :tr_checks, :dependent => :nullify
   has_many :checklists, through: :tr_checks
   
   has_many :tr_checks
   has_many :masterings, through: :tr_checks, source: :checklist
   
-  has_many :trainees
-#  has_many :comments
-  
+  has_many :trainees, :dependent => :nullify
+
+  has_many :comments, :dependent => :nullify
   def master(checklist, trainee)
     unless tr_checks.find_by(checklist_id: checklist.id, trainee_id: trainee.id)
       self.tr_checks.find_or_create_by(checklist_id: checklist.id, trainee_id: trainee.id)

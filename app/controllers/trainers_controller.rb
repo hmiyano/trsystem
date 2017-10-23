@@ -17,7 +17,7 @@ class TrainersController < ApplicationController
   def show
     @trainer = Trainer.find(params[:id])
     @trainees = Trainee.all
-    @trainee = Trainee.find(params[:id])
+#    @trainee = Trainee.find(params[:id])
   end
 
   def new
@@ -52,9 +52,10 @@ class TrainersController < ApplicationController
   end
 
   def destroy
+    @trainer = Trainer.find(params[:id])
     @trainer.destroy
-    flash[:success] = 'トレーなーは正常に削除されました'
-    redirect_back(fallback_location: root_path)
+    flash[:success] = 'トレーナーは正常に削除されました'
+    redirect_to trainers_path
   end
   
 

@@ -54,19 +54,19 @@
     <div class="status text-center">
       <ul>
         <li><div class="status-label"><%= link_to '編集', edit_trainer_path(@trainer) %></div></li>
-        <li><div class="status-label"><%= link_to '削除', @trainer, method: :delete, data: { confirm: '本当にトレーナーを削除してよろしいですか？全てのトレーナーのデータが失われます' } %></div></li>
+        <li><div class="status-label"><%= link_to '削除', @trainer, method: :delete, data: { confirm: '本当にトレーナーを削除してよろしいですか？全てのトレーナーとトレーニーへのMASTERのデータが失われ復元することはできません！１度でもMASTERしたトレーナーは削除をすることは推奨しません。' } %></div></li>
         
       </ul>
     
     <hr class="line_s" />
     
       <ul>
-        <li><div class="status-label">累積トレーニー数</div></li>
+        <li><div class="status-label">専任トレーニー数</div></li>
         <li><div class="status-label">累積MASTER数</div></li>
       </ul>
 
       <ul>
-        <% te_count = TrCheck.where(trainee_id: @trainee.id, trainer_id: @trainer.id).count %>
+        <% te_count = Trainee.where(trainer_id: @trainer.id).count %>
         <% m_count = TrCheck.where(trainer_id: @trainer.id).count %>
         <li><div class="status-value"><%= te_count %></div></li>
         <li><div class="status-value"><%= m_count %></div></li>

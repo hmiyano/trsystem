@@ -30,7 +30,7 @@ class CommentsController < ApplicationController
   end
   
   def destroy
-    
+
     if admin_logged_in?
       @comment = Comment.find_by(id: params[:id])
       @comment.destroy
@@ -38,12 +38,12 @@ class CommentsController < ApplicationController
       redirect_back(fallback_location: root_path)
     else
       @comment = current_trainee.comments.find_by(id: params[:id])
-      unless @comment
-        redirect_to root_url
+#      unless @comment
+#        redirect_to root_url
       @comment.destroy
       flash[:danger] = 'コメントを削除しました'
       redirect_back(fallback_location: root_path)
-      end
+#      end
     end
   end
   

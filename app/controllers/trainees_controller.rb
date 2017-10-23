@@ -102,9 +102,10 @@ class TraineesController < ApplicationController
   end
 
   def destroy
+    @trainee = Trainee.find(params[:id])
     @trainee.destroy
     flash[:success] = 'トレーニーは正常に削除されました'
-    redirect_back(fallback_location: root_path)
+    redirect_to trainees_path
   end
  
   private

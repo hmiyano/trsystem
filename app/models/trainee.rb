@@ -11,10 +11,10 @@ class Trainee < ApplicationRecord
                     uniqueness: { case_sensitive: false }  
   has_secure_password
   
-  has_many :te_checks
+  has_many :te_checks, :dependent => :nullify
   has_many :checklists, through: :te_checks
   
-  has_many :tr_checks
+  has_many :tr_checks, :dependent => :nullify
   has_many :checklists, through: :tr_checks
   
   has_many :firsts
@@ -26,7 +26,7 @@ class Trainee < ApplicationRecord
   has_many :thirds
   has_many :third_checklists, through: :thirds, class_name: 'Checklist', source: :checklist
   
-  has_many :comments
+  has_many :comments, :dependent => :nullify
 
   def first(checklist)
     self.firsts.find_or_create_by(checklist_id: checklist.id)

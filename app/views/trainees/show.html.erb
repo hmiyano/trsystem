@@ -141,6 +141,7 @@
             </ul>
             <ul>
               <li><div class="status-label"><%= link_to 'プロフィール編集', edit_trainee_path(@trainee) %></div></li>
+              <li><div class="status-label"><%= link_to '削除', @trainee, method: :delete, data: { confirm: '本当にトレーニーを削除してよろしいですか？全てのトレーニーとチェックのデータが失われ復元することはできません！' } %></div></li>
             </ul>
             <% exctr = Trainer.find(@trainee.trainer_id).nickname unless @trainee.trainer_id.nil? %>
             <% exctr = "未設定" if exctr.nil? %>

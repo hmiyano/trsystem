@@ -18,8 +18,9 @@
                 <p><%= comment.content %></p>
               </div>
               <div align="right">
+
                 <% if admin_logged_in? %>
-                  <%= link_to "", comment, method: :delete, data: { confirm: "トレーナーからの返信も削除されてしまいます。本当に削除しますか？" }, class: 'btn btn-danger btn-xs glyphicon glyphicon-trash' %>
+                  <%= link_to "", comment, method: :delete, data: { confirm: "管理者：トレーナーからの返信も削除されてしまいます。本当に削除しますか？" }, class: 'btn btn-danger btn-xs glyphicon glyphicon-trash' %>
                 <% elsif current_trainee == comment.trainee %>
                   <%= link_to "", comment, method: :delete, data: { confirm: "トレーナーからの返信も削除されてしまいます。本当に削除しますか？" }, class: 'btn btn-danger btn-xs glyphicon glyphicon-trash' %>
                 <% end %> 
@@ -34,10 +35,10 @@
             </div>
             <div class="media-body tr">
               <div>
-                <% if comment.trainer_id.nil? %>
+                <% if comment.reply.nil? %>
                   <font color="#858383"><b>未回答</b><br>トレーナーさんからの返信はまだのようです >_< <br>もうちょっと待ってね</font>
                 <% else %>
-                  回答 by <%= Trainer.find(comment.trainer_id).nickname %> : <%= comment.created_at.in_time_zone('Tokyo').strftime('%F') %>
+                  回答 by <%= Trainer.find(comment.trainer_id).nickname unless comment.trainer_id.nil? %> : <%= comment.updated_at.in_time_zone('Tokyo').strftime('%F') %>
                   </div>
                   <div>
                     <p><b><%= comment.reply %></b></p>
@@ -77,7 +78,7 @@
             </div>
             <div class="media-body tr">
               <div>
-                <% if comment.trainer_id.nil? %>
+                <% if comment.reply.nil? %>
                   <%= form_for(comment) do |f| %>
                     <% comment.reply = "" %>
                       <%= f.hidden_field :trainer_id, value: current_trainer.id %>
@@ -85,7 +86,7 @@
                     <%= f.submit '返信する', class: 'media-post btn' %>
                   <% end %>
                 <% else %>
-                  回答 by <%= Trainer.find(comment.trainer_id).nickname %>  : <%= comment.created_at.in_time_zone('Tokyo').strftime('%F') %>
+                  回答 by <%= Trainer.find(comment.trainer_id).nickname unless comment.trainer_id.nil? %>  : <%= comment.updated_at.in_time_zone('Tokyo').strftime('%F') %>
                   </div>
                   <div>
                     <p><b><%= comment.reply %></b></p>
