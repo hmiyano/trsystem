@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171019103028) do
+ActiveRecord::Schema.define(version: 20171023043020) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20171019103028) do
     t.string   "section"
     t.string   "chapter"
     t.integer  "admin_id"
+    t.boolean  "enable"
     t.index ["admin_id"], name: "index_checklists_on_admin_id", using: :btree
   end
 

@@ -4,13 +4,16 @@
     <%= form_for(@checklist) do |f| %>
       <%= render 'layouts/error_messages', model: f.object %>
 
-
-
+      <div class="form-group">
+        <%= f.label :enable, '有効設定' %>
+        <%= f.check_box :enable, class: 'form-control' %>
+      </div>
+      
       <div class="form-group">
         <%= f.label :id, 'ID' %>
         <%= f.text_field :id, class: 'form-control' %>
       </div>
-
+            
       <div class="form-group">
         <%= f.label :grade, 'WG' %>
         <%= f.text_field :grade, class: 'form-control' %>
