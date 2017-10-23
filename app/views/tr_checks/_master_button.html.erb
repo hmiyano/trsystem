@@ -48,7 +48,7 @@
     <button class="btn btn-danger btn-xs" disabled="disabled"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span> MASTER:
     <%= checklist.tr_checks.first.updated_at.in_time_zone('Tokyo').strftime('%m/%d') if checklist.tr_checks.first %>
         <% if checklist.tr_checks.first.trainer_id.nil? %>
-          (退会者
+          (退会者)
         <% else %>
           <% tn = Trainer.find(checklist.tr_checks.first.trainer_id) %>
           (<%= tn.nickname %>)

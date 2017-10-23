@@ -55,11 +55,18 @@ class TraineesController < ApplicationController
       if params[:master] == 'yes'
         @checklists = Checklist.joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}")
         @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
-      else
-        checklist_table = Checklist.arel_table
-        trcheck_table = TrCheck.arel_table
-        condition = trcheck_table[:trainee_id].eq(checklist_table[:id])
-        @checklists = Checklist.where(TrCheck.where(condition).exists.not).all.order(created_at: :asc).page(params[:page]).per(25)
+      elsif params[:master] == 'wait'
+        @checklists = Checklist
+                        .joins("left join te_checks on te_checks.checklist_id = checklists.id")
+                        .joins("left join tr_checks on tr_checks.checklist_id = checklists.id and tr_checks.trainee_id = #{@trainee.id}")
+                        .where("te_checks.type = 'Third'").where("te_checks.trainee_id = #{@trainee.id}")
+                        .where("tr_checks.checklist_id is null")
+        @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
+#      else
+#        checklist_table = Checklist.arel_table
+#        trcheck_table = TrCheck.arel_table
+#        condition = trcheck_table[:trainee_id].eq(checklist_table[:id])
+#        @checklists = Checklist.where(TrCheck.where(condition).exists.not).all.order(created_at: :asc).page(params[:page]).per(25)
       end
     elsif params[:chapname] == "ALL"
       @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)

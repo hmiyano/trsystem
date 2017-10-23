@@ -73,7 +73,7 @@
         <% end %> </td>
           <td width="200"><%= form_tag(trainee_path, method: :get, class: 'form-inline') do %>
             <div class="form-group">
-              <%= select_tag :master, options_for_select([['マスターしている','yes'],['[未装]マスターしてない','no'],['[未装]マスター待ち','wait']]), :prompt => "MASTERで探す", class: 'form-control' %>   
+              <%= select_tag :master, options_for_select([['マスターしている','yes'],['マスター待ち','wait']]), :prompt => "MASTERで探す", class: 'form-control' %>   
             </div>  
             <%= button_tag( class: "btn btn-default") do %>
               <%= content_tag :span, "", class: "glyphicon glyphicon-search" %>
