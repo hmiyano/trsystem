@@ -62,14 +62,15 @@ class TraineesController < ApplicationController
                         .where("te_checks.type = 'Third'").where("te_checks.trainee_id = #{@trainee.id}")
                         .where("tr_checks.checklist_id is null")
         @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
-#      else
-#        checklist_table = Checklist.arel_table
-#        trcheck_table = TrCheck.arel_table
-#        condition = trcheck_table[:trainee_id].eq(checklist_table[:id])
-#        @checklists = Checklist.where(TrCheck.where(condition).exists.not).all.order(created_at: :asc).page(params[:page]).per(25)
       end
     elsif params[:chapname] == "ALL"
       @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:wgname] == "ALL"
+      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:wgname] == "pg1ac"
+      @checklists = Checklist.where(pg1ac: true).order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:wgname] == "pg1ak"
+      @checklists = Checklist.where(pg1ak: true).order(created_at: :asc).page(params[:page]).per(25)
     else
       @checklists = Checklist.order(created_at: :desc).page(params[:page]).per(25)
     end

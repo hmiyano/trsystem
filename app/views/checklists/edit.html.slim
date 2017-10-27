@@ -1,26 +1,37 @@
-.row
-  .col-xs-8
-    = form_for(@checklist) do |f|
-      = render 'layouts/error_messages', model: f.object
-      .form-group
-        = f.label :enable, '有効設定'
-        = f.check_box :enable, class: 'form-control'
-      .form-group
-        = f.label :id, 'ID'
-        = f.text_field :id, class: 'form-control'
-      .form-group
-        = f.label :grade, 'WG'
-        = f.text_field :grade, class: 'form-control'
-      .form-group
-        = f.label :chapter, 'チャプター'
-        = f.text_field :chapter, class: 'form-control'
-      .form-group
-        = f.label :section, 'セクション'
-        = f.text_field :section, class: 'form-control'
-      .form-group
-        = f.label :content, 'トレーニング項目'
-        = f.text_field :content, class: 'form-control'
-      .form-group
-        = f.label :admin_id, 'ADMIN_ID'
-        = f.text_field :admin_id, class: 'form-control'
-      = f.submit '編集完了', class: 'btn btn-primary'
+- breadcrumb :edit_checklist, @checklist
+.col-xs-11.col-sm-9.col-md-7
+  .panel.panel-default
+    .panel-heading
+      | チェックリスト編集
+    .panel-body
+      = form_for(@checklist) do |f|
+        = render 'layouts/error_messages', model: f.object
+        .form-group
+          = f.label :enable, '有効設定'
+          = f.check_box :enable, class: 'form-control'
+        .form-group
+          = f.label :id, 'ID'
+          = f.text_field :id, class: 'form-control'
+        .form-group
+          = f.label :pg1ac, 'PG1/A:C'
+          = f.check_box :pg1ac, class: 'form-control'
+        .form-group
+          = f.label :pg1ak, 'PG1/A:K'
+          = f.check_box :pg1ak, class: 'form-control'
+        .form-group
+          = f.label :chapter, 'チャプター'
+          = f.text_field :chapter, class: 'form-control'
+        .form-group
+          = f.label :section, 'セクション'
+          = f.text_field :section, class: 'form-control'
+        .form-group
+          = f.label :content, 'トレーニング項目'
+          = f.text_field :content, class: 'form-control'
+        .form-group
+          = f.label :admin_id, 'ADMIN_ID'
+          = f.text_field :admin_id, class: 'form-control'
+        .text-right
+          = f.submit '編集完了', class: 'btn btn-info'
+          '
+          '
+          = link_to 'キャンセル', root_path, class: 'btn btn-warning'

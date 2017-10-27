@@ -1,0 +1,9 @@
+- content_for :cover do
+  .cover
+    .cover-inner
+      .cover-contents
+        h1
+          | PG1/A
+- breadcrumb :checklists
+
+= render 'checklists/checklists', checklists: @checklists

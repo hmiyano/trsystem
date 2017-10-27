@@ -51,10 +51,10 @@
         | ) 
   - elsif checklist.chapter == $chap1 or checklist.chapter == $chap9
     - if checklist.te_checks.find_by(type: First, trainee_id: @trainee.id)
-      |  <button class="btn btn-warning btn-xs disabled="disabled"">
-      span.glyphicon.glyphicon-time[aria-hidden="true"]
-      |  MASTER 待ち
+        button.btn.btn-warning.btn-xs[disabled="disabled"]
+          span.glyphicon.glyphicon-time[aria-hidden="true"]
+            | MASTER待ち
   - elsif current_trainee.third?(checklist)
-    button.btn.btn-warning.btn-xs[disabled="disabled"]
-      span.glyphicon.glyphicon-time[aria-hidden="true"]
-      |  MASTER 待ち
+      button.btn.btn-warning.btn-xs[disabled="disabled"]
+        span.glyphicon.glyphicon-time[aria-hidden="true"]
+          | MASTER待ち

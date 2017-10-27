@@ -3,11 +3,43 @@ class ChecklistsController < ApplicationController
 #  before_action :require_admin_logged_in, only: [:show]
 
   def index
-      checklists = Checklist.order(created_at: :desc).page(params[:page]).per(25)
+
+    if params[:selfcheck] == 'ALL'
+      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:selfcheck]
+      @checklists = Checklist.joins(:te_checks).where("te_checks.type = '#{params[:selfcheck]}' and te_checks.trainee_id = #{@trainee.id}")
+      @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:wgname] == "ALL"
+      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:wgname] == "pg1ac"
+      @checklists = Checklist.where(pg1ac: true).order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:wgname] == "pg1ak"
+      @checklists = Checklist.where(pg1ak: true).order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:chapname] == "ALL"
+      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:chapname]
+      @checklists = Checklist.where(chapter: params[:chapname]).order(created_at: :asc).page(params[:page]).per(25)
+    elsif params[:master]
+      if params[:master] == 'yes'
+        @checklists = Checklist.joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}")
+        @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
+      elsif params[:master] == 'wait'
+        @checklists = Checklist
+                        .joins("left join te_checks on te_checks.checklist_id = checklists.id")
+                        .joins("left join tr_checks on tr_checks.checklist_id = checklists.id and tr_checks.trainee_id = #{@trainee.id}")
+                        .where("te_checks.type = 'Third'").where("te_checks.trainee_id = #{@trainee.id}")
+                        .where("tr_checks.checklist_id is null")
+        @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
+      end
+    elsif params[:chapname] == "ALL"
+      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
+    else
+      @checklists = Checklist.order(created_at: :desc).page(params[:page]).per(25)
+    end
+
   end
   
   def show
-
   end
 
   def new
@@ -34,7 +66,7 @@ class ChecklistsController < ApplicationController
 
     if @checklist.update(checklist_params)
       flash[:success] = 'トレーニング項目は正常に更新されました'
-      redirect_to root_url
+      redirect_to checklists_url
     else
       flash.now[:danger] = 'トレーニング項目は更新されませんでした'
       render :edit
@@ -56,6 +88,6 @@ class ChecklistsController < ApplicationController
   
   # Strong Parameter
   def checklist_params
-    params.require(:checklist).permit(:id, :grade, :chapter, :section, :content, :admin_id)
+    params.require(:checklist).permit(:id, :chapter, :section, :content, :admin_id, :pg1ac, :pg1ak)
   end
 end

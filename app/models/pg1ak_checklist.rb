@@ -1,5 +1,4 @@
-class Checklist < ApplicationRecord
-  
+class Pg1akChecklist < ApplicationRecord
   belongs_to :admin
   
   #バリデーション
@@ -7,7 +6,7 @@ class Checklist < ApplicationRecord
   validates :content, presence: true, length: { maximum: 255 }
   validates :section, presence: true, length: { maximum: 255 }
   validates :chapter, presence: true, length: { maximum: 255 }
-  
+
   # te_check テーブルを通じて trainees と多対多の関係性
   has_many :te_checks
   has_many :trainees, through: :te_checks
@@ -24,8 +23,8 @@ class Checklist < ApplicationRecord
   
   has_many :thirds
   has_many :third_trainees, through: :thirds, class_name: 'Trainee', source: :trainee
-  
+
   scope :selfcheck, -> (trainee_id, type) {
     joins(:te_checks).where(trainee_id: trainee_id).where(type: type)
   }
-end
+  end

@@ -99,3 +99,27 @@ crumb :new_admin do
   parent :admins
 end
 
+# checklist#index
+crumb :checklists do
+  link "チェックリスト", checklists_path
+  parent :root
+end
+ 
+# checklist#show
+crumb :checklist do |checklist|
+  link checklist.id, checklist
+  parent :checklists
+end
+ 
+# checklist#edit
+crumb :edit_checklist do |checklist|
+  link "編集", edit_checklist_path(checklist)
+  parent :checklist, checklist
+end
+ 
+# checklist#new
+crumb :new_checklist do
+  link "新規登録", new_checklist_path
+  parent :checklists
+end
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023043020) do
+ActiveRecord::Schema.define(version: 20171024081014) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -39,13 +39,14 @@ ActiveRecord::Schema.define(version: 20171023043020) do
 
   create_table "checklists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "grade"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.string   "section"
     t.string   "chapter"
     t.integer  "admin_id"
     t.boolean  "enable"
+    t.boolean  "pg1ac",      default: false, null: false
+    t.boolean  "pg1ak",      default: false, null: false
     t.index ["admin_id"], name: "index_checklists_on_admin_id", using: :btree
   end
 
@@ -58,6 +59,17 @@ ActiveRecord::Schema.define(version: 20171023043020) do
     t.integer  "trainer_id"
     t.index ["trainee_id"], name: "index_comments_on_trainee_id", using: :btree
     t.index ["trainer_id"], name: "index_comments_on_trainer_id", using: :btree
+  end
+
+  create_table "pg1ak_checklists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "admin_id"
+    t.string   "chapter"
+    t.string   "section"
+    t.string   "content"
+    t.boolean  "enable"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_pg1ak_checklists_on_admin_id", using: :btree
   end
 
   create_table "replies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -74,9 +86,11 @@ ActiveRecord::Schema.define(version: 20171023043020) do
     t.string   "type"
     t.integer  "trainee_id"
     t.integer  "checklist_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "pg1ak_checklist_id"
     t.index ["checklist_id"], name: "index_te_checks_on_checklist_id", using: :btree
+    t.index ["pg1ak_checklist_id"], name: "index_te_checks_on_pg1ak_checklist_id", using: :btree
     t.index ["trainee_id", "checklist_id", "type"], name: "index_te_checks_on_trainee_id_and_checklist_id_and_type", unique: true, using: :btree
     t.index ["trainee_id"], name: "index_te_checks_on_trainee_id", using: :btree
   end
@@ -84,10 +98,12 @@ ActiveRecord::Schema.define(version: 20171023043020) do
   create_table "tr_checks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "trainer_id"
     t.integer  "checklist_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.integer  "trainee_id"
+    t.integer  "pg1ak_checklist_id"
     t.index ["checklist_id"], name: "index_tr_checks_on_checklist_id", using: :btree
+    t.index ["pg1ak_checklist_id"], name: "index_tr_checks_on_pg1ak_checklist_id", using: :btree
     t.index ["trainee_id"], name: "index_tr_checks_on_trainee_id", using: :btree
     t.index ["trainer_id"], name: "index_tr_checks_on_trainer_id", using: :btree
   end
@@ -134,11 +150,14 @@ ActiveRecord::Schema.define(version: 20171023043020) do
   add_foreign_key "checklists", "admins"
   add_foreign_key "comments", "trainees"
   add_foreign_key "comments", "trainers"
+  add_foreign_key "pg1ak_checklists", "admins"
   add_foreign_key "replies", "comments"
   add_foreign_key "replies", "trainers"
   add_foreign_key "te_checks", "checklists"
+  add_foreign_key "te_checks", "pg1ak_checklists"
   add_foreign_key "te_checks", "trainees"
   add_foreign_key "tr_checks", "checklists"
+  add_foreign_key "tr_checks", "pg1ak_checklists"
   add_foreign_key "tr_checks", "trainees"
   add_foreign_key "tr_checks", "trainers"
   add_foreign_key "trainees", "trainers"

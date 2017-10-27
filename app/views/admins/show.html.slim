@@ -27,13 +27,17 @@
     ul
       li
         .status-label
-          = link_to 'トレーニー', new_trainee_path, class: 'btn btn-success btn-xs'
+          = link_to 'トレーニー', new_trainee_path, class: 'btn btn-primary btn-xs'
       li
         .status-label
-          = link_to 'トレーナー', new_trainer_path, class: 'btn btn-warning btn-xs'
+          = link_to 'トレーナー', new_trainer_path, class: 'btn btn-success btn-xs'
       li
         .status-label
           = link_to '管理者', new_admin_path, class: 'btn btn-danger btn-xs'
-  hr.line
-  - unless !te_logged_in? && !tr_logged_in? && !admin_logged_in?
-    = render 'checklists/checklists', checklists: @checklists
+    hr.line_s
+
+    ul
+      li
+        br
+          - unless !te_logged_in? && !tr_logged_in? && !admin_logged_in?
+            = link_to 'チェック項目の新規作成・編集', checklists_path, class: 'btn btn-info btn'

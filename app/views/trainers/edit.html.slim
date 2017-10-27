@@ -1,32 +1,35 @@
 - breadcrumb :edit_trainer, @trainer
-.row
-  .col-xs-8
-    .panel.panel-default
-      .panel-heading
-        | トレーナー編集
-      .panel-body
-        = form_for(@trainer) do |f|
-          = render 'layouts/error_messages', model: f.object
-          - if admin_logged_in?
-            .form-group
-              = f.label :enable, '有効設定'
-              = f.check_box :enable, class: 'form-control'
+.col-xs-11.col-sm-9.col-md-7
+  .panel.panel-default
+    .panel-heading
+      | トレーナー編集
+    .panel-body
+      = form_for(@trainer) do |f|
+        = render 'layouts/error_messages', model: f.object
+        - if admin_logged_in?
           .form-group
-            = f.label :name, '名前'
-            = f.text_field :name, class: 'form-control'
-          .form-group
-            = f.label :nickname, 'ニックネーム'
-            = f.text_field :nickname, class: 'form-control'
-          .form-group
-            = f.label :email, 'Email'
-            = f.email_field :email, class: 'form-control'
-          .form-group
-            = f.label :branch, '所属店舗'
-            = f.select :branch, options_for_select([["CR麻布十番店","CR麻布十番店"],["CR恵比寿店","CR恵比寿店"],["CR六本木ヒルズ店","CR六本木ヒルズ店"],["CR代官山店","CR代官山店"],["CR広尾店","CR広尾店"]]),{}, class: "form-control"
-          .form-group
-            = f.label :password, 'パスワード'
-            = f.password_field :password, class: 'form-control'
-          .form-group
-            = f.label :password_confirmation, 'パスワード（確認）'
-            = f.password_field :password_confirmation, class: 'form-control'
-          = f.submit '編集完了', class: 'btn btn-primary'
+            = f.label :enable, '有効設定'
+            = f.check_box :enable, class: 'form-control'
+        .form-group
+          = f.label :name, '名前'
+          = f.text_field :name, class: 'form-control'
+        .form-group
+          = f.label :nickname, 'ニックネーム'
+          = f.text_field :nickname, class: 'form-control'
+        .form-group
+          = f.label :email, 'Email'
+          = f.email_field :email, class: 'form-control'
+        .form-group
+          = f.label :branch, '所属店舗'
+          = f.select :branch, options_for_select([["CR麻布十番店","CR麻布十番店"],["CR恵比寿店","CR恵比寿店"],["CR六本木ヒルズ店","CR六本木ヒルズ店"],["CR代官山店","CR代官山店"],["CR広尾店","CR広尾店"]]),{}, class: "form-control"
+        .form-group
+          = f.label :password, 'パスワード'
+          = f.password_field :password, class: 'form-control'
+        .form-group
+          = f.label :password_confirmation, 'パスワード（確認）'
+          = f.password_field :password_confirmation, class: 'form-control'
+        .text-right
+          = f.submit '編集完了', class: 'btn btn-success'
+          '
+          '
+          = link_to 'キャンセル', trainer_path, class: 'btn btn-warning'

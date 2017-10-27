@@ -1,19 +1,30 @@
-.row
-  .col-xs-8
-    = form_for(@checklist) do |f|
-      = render 'layouts/error_messages', model: f.object
-      .form-group
-        = f.hidden_field :enable, :value=>'true', class: 'form-control'
-      .form-group
-        = f.label :grade, 'WG'
-        = f.text_field :grade, class: 'form-control'
-      .form-group
-        = f.label :chapter, 'チャプター'
-        = f.text_field :chapter, class: 'form-control'
-      .form-group
-        = f.label :section, 'セクション'
-        = f.text_field :section, class: 'form-control'
-      .form-group
-        = f.label :content, 'チェック項目'
-        = f.text_field :content, class: 'form-control'
-      = f.submit '登録完了', class: 'btn btn-primary'
+- breadcrumb :new_checklist
+.col-xs-11.col-sm-9.col-md-7
+  .panel.panel-default
+    .panel-heading
+      | チェックリスト新規作成
+    .panel-body
+      = form_for(@checklist) do |f|
+        = render 'layouts/error_messages', model: f.object
+        .form-group
+          = f.hidden_field :enable, :value=>'true', class: 'form-control'
+        .form-group
+          = f.label :pg1ac, 'PG1/A:C'
+          = f.check_box :pg1ac, class: 'form-control'
+        .form-group
+          = f.label :pg1ak, 'PG1/A:K'
+          = f.check_box :pg1ak, class: 'form-control'
+        .form-group
+          = f.label :chapter, 'チャプター'
+          = f.text_field :chapter, class: 'form-control'
+        .form-group
+          = f.label :section, 'セクション'
+          = f.text_field :section, class: 'form-control'
+        .form-group
+          = f.label :content, 'チェック項目'
+          = f.text_field :content, class: 'form-control'
+        .text-right
+          = f.submit '登録完了', class: 'btn btn-info'
+          '
+          '
+          = link_to 'キャンセル', checklists_path, class: 'btn btn-warning'

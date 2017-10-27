@@ -1,31 +1,33 @@
 - breadcrumb :new_trainee
-.row
-  .col-xs-offset-3.col-xs-6
-    .panel.panel-default
-      .panel-heading
-        | トレーニー登録
-      .panel-body
-        = form_for(@trainee) do |f|
-          = render 'layouts/error_messages', model: f.object
-          .form-group
-            = f.hidden_field :enable, :value=>'true', class: 'form-control'
-          .form-group
-            = f.label :name, 'お名前'
-            = f.text_field :name, class: 'form-control'
-          .form-group
-            = f.label :nickname, 'ニックネーム'
-            = f.text_field :nickname, class: 'form-control'
-          .form-group
-            = f.label :email, 'メールアドレス'
-            = f.email_field :email, class: 'form-control'
-          .form-group
-            = f.label :branch, '所属店舗'
-            = f.select :branch, options_for_select([["CR麻布十番店","CR麻布十番店"],["CR恵比寿店","CR恵比寿店"],["CR六本木ヒルズ店","CR六本木ヒルズ店"],["CR代官山店","CR代官山店"],["CR広尾店","CR広尾店"]]),{}, class: "form-control"
-          .form-group
-            = f.label :password, 'パスワード'
-            = f.password_field :password, class: 'form-control'
-          .form-group
-            = f.label :password_confirmation, 'パスワード（確認）'
-            = f.password_field :password_confirmation, class: 'form-control'
-          .text-right
-            = f.submit '登録する', class: 'btn btn-success'
+.col-xs-11.col-sm-9.col-md-7
+  .panel.panel-default
+    .panel-heading
+      | トレーニー登録
+    .panel-body
+      = form_for(@trainee) do |f|
+        = render 'layouts/error_messages', model: f.object
+        .form-group
+          = f.hidden_field :enable, :value=>'true', class: 'form-control'
+        .form-group
+          = f.label :name, 'お名前'
+          = f.text_field :name, class: 'form-control'
+        .form-group
+          = f.label :nickname, 'ニックネーム'
+          = f.text_field :nickname, class: 'form-control'
+        .form-group
+          = f.label :email, 'メールアドレス'
+          = f.email_field :email, class: 'form-control'
+        .form-group
+          = f.label :branch, '所属店舗'
+          = f.select :branch, options_for_select([["CR麻布十番店","CR麻布十番店"],["CR恵比寿店","CR恵比寿店"],["CR六本木ヒルズ店","CR六本木ヒルズ店"],["CR代官山店","CR代官山店"],["CR広尾店","CR広尾店"]]),{}, class: "form-control"
+        .form-group
+          = f.label :password, 'パスワード'
+          = f.password_field :password, class: 'form-control'
+        .form-group
+          = f.label :password_confirmation, 'パスワード（確認）'
+          = f.password_field :password_confirmation, class: 'form-control'
+        .text-right
+          = f.submit '登録する', class: 'btn btn-primary'
+          '
+          '
+          = link_to 'キャンセル', root_path, class: 'btn btn-warning'

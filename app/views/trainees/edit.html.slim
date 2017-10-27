@@ -1,5 +1,5 @@
 - breadcrumb :edit_trainee, @trainee
-.col-xs-8
+.col-xs-11.col-sm-9.col-md-7
   .panel.panel-default
     .panel-heading
       | トレーニー編集
@@ -28,4 +28,8 @@
         .form-group
           = f.label :password_confirmation, 'パスワード（確認）'
           = f.password_field :password_confirmation, class: 'form-control'
-        = f.submit '編集完了', class: 'btn btn-primary'
+        .text-right
+          = f.submit '編集完了', class: 'btn btn-primary'
+          '
+          '
+          = link_to 'キャンセル', trainee_path, class: 'btn btn-warning'

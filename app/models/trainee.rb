@@ -67,8 +67,8 @@ class Trainee < ApplicationRecord
     self.third_checklists.include?(checklist)
   end
 
-  def chapcount(chapter, trainee)
-    lists = Checklist.where(chapter: chapter)
+  def chapcount(wg, chapter, trainee)
+    lists = Checklist.where("#{wg}": true).where(chapter: chapter)
     tchecks = TeCheck.where(trainee_id: trainee.id)
 
     result = 0
