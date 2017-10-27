@@ -72,16 +72,6 @@ ActiveRecord::Schema.define(version: 20171024081014) do
     t.index ["admin_id"], name: "index_pg1ak_checklists_on_admin_id", using: :btree
   end
 
-  create_table "replies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "content"
-    t.integer  "trainer_id"
-    t.integer  "comment_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["comment_id"], name: "index_replies_on_comment_id", using: :btree
-    t.index ["trainer_id"], name: "index_replies_on_trainer_id", using: :btree
-  end
-
   create_table "te_checks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "type"
     t.integer  "trainee_id"
@@ -113,26 +103,11 @@ ActiveRecord::Schema.define(version: 20171024081014) do
     t.string   "email"
     t.string   "branch"
     t.string   "password_digest"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",        default: 0,     null: false
-    t.string   "unlock_token"
-    t.datetime "locked_at"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.string   "nickname"
     t.integer  "trainer_id"
-    t.boolean  "enable",                 default: false, null: false
+    t.boolean  "enable",          default: false, null: false
     t.index ["trainer_id"], name: "index_trainees_on_trainer_id", using: :btree
   end
 
@@ -151,8 +126,6 @@ ActiveRecord::Schema.define(version: 20171024081014) do
   add_foreign_key "comments", "trainees"
   add_foreign_key "comments", "trainers"
   add_foreign_key "pg1ak_checklists", "admins"
-  add_foreign_key "replies", "comments"
-  add_foreign_key "replies", "trainers"
   add_foreign_key "te_checks", "checklists"
   add_foreign_key "te_checks", "pg1ak_checklists"
   add_foreign_key "te_checks", "trainees"
