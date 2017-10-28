@@ -1,10 +1,10 @@
+- content_for :cover do
+  .cover
+    .cover-inner
+      .cover-contents
+        h1
+          | トレーニー一覧
 - if trainees.any?
-  - content_for :cover do
-    .cover
-      .cover-inner
-        .cover-contents
-          h1
-            | トレーニー一覧
   .user-profile
     .panel.panel-default
       .panel-heading
@@ -45,7 +45,8 @@
         - if admin_logged_in?
           th
             | 有効
-            
+          th
+            | 削除            
       - checkminus = (Checklist.where(chapter: $chap1).count * 2) + (Checklist.where(chapter: $chap9).count *2)
       - listcount = Checklist.count
       - @trainees.each do |trainee|
@@ -78,10 +79,10 @@
             = start_date
             | 日前
           td.check
-            = s_percent.round(0)
+            = s_percent.round(0) unless s_percent.nan?
             | %
           td.check
-            = m_percent.round(0)
+            = m_percent.round(0) unless s_percent.nan?
             | %
           td.check
             = link_to '', trainee, class: 'glyphicon glyphicon-fire'
@@ -89,4 +90,6 @@
             td.check.imp
               - if trainee.enable
                 |  Y 
+            td.check.imp
+              = link_to '削除', @trainee, method: :delete, data: { confirm: '本当にトレーニーを削除してよろしいですか？全てのトレーニーとチェックのデータが失われ復元することはできません！' }
   = paginate trainees

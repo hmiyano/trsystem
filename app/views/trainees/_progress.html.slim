@@ -50,10 +50,10 @@
           = listcount
           | 個
       td.check
-        = s_percent.round(0)
+        = s_percent.round(0) unless s_percent.nan?
         | %
       td.check
-        = m_percent.round(0)
+        = m_percent.round(0) unless s_percent.nan?
         | %
 
     tr
@@ -180,10 +180,10 @@
           = listcount
           | 個
       td.check
-        = s_percent.round(0)
+        = s_percent.round(0) unless s_percent.nan?
         | %
       td.check
-        = m_percent.round(0)
+        = m_percent.round(0) unless s_percent.nan?
         | %
 
     tr
