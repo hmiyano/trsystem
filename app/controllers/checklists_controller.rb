@@ -3,40 +3,38 @@ class ChecklistsController < ApplicationController
 #  before_action :require_admin_logged_in, only: [:show]
 
   def index
+    sortedlist = Checklist.order(created_at: :asc).page(params[:page]).per(25)
 
-    if params[:selfcheck] == 'ALL'
-      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:selfcheck]
-      @checklists = Checklist.joins(:te_checks).where("te_checks.type = '#{params[:selfcheck]}' and te_checks.trainee_id = #{@trainee.id}")
-      @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:wgname] == "ALL"
-      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:wgname] == "pg1ac"
-      @checklists = Checklist.where(pg1ac: true).order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:wgname] == "pg1ak"
-      @checklists = Checklist.where(pg1ak: true).order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:chapname] == "ALL"
-      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:chapname]
-      @checklists = Checklist.where(chapter: params[:chapname]).order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:master]
-      if params[:master] == 'yes'
-        @checklists = Checklist.joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}")
-        @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
-      elsif params[:master] == 'wait'
-        @checklists = Checklist
-                        .joins("left join te_checks on te_checks.checklist_id = checklists.id")
-                        .joins("left join tr_checks on tr_checks.checklist_id = checklists.id and tr_checks.trainee_id = #{@trainee.id}")
-                        .where("te_checks.type = 'Third'").where("te_checks.trainee_id = #{@trainee.id}")
-                        .where("tr_checks.checklist_id is null")
-        @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
-      end
-    elsif params[:chapname] == "ALL"
-      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
-    else
-      @checklists = Checklist.order(created_at: :desc).page(params[:page]).per(25)
+    if params[:wgname] == ""
+      params[:wgname] = session[:wg]
     end
+    
+    if params[:wgname] == "ALL"
+      session[:wg] = params[:wgname]
+    elsif params[:wgname]
+      session[:wg] = params[:wgname]
+      sortedlist = sortedlist.where("#{session[:wg]}": true).order(created_at: :asc).page(params[:page]).per(25)
+    elsif session[:wg].nil? || session[:wg] == "ALL" || session[:wg] == ""
+    else
+      sortedlist = sortedlist.where("#{session[:wg]}": true).order(created_at: :asc).page(params[:page]).per(25)
+    end
+    
+    if  params[:chapname] == ""
+      params[:chapname] = session[:chap]
+    end
+    
+    if params[:chapname] == "ALL"
+      session[:chap] = params[:chapname]
+    elsif params[:chapname]      
+      session[:chap] = params[:chapname]
+      sortedlist = sortedlist.where(chapter: session[:chap]).order(created_at: :asc).page(params[:page]).per(25)
+    elsif session[:chap].nil? || session[:chap] == "ALL" || session[:chap] == ""
 
+    else
+      sortedlist = sortedlist.where(chapter: session[:chap]).order(created_at: :asc).page(params[:page]).per(25)
+    end
+    
+    @checklists = sortedlist
   end
   
   def show
@@ -88,6 +86,6 @@ class ChecklistsController < ApplicationController
   
   # Strong Parameter
   def checklist_params
-    params.require(:checklist).permit(:id, :chapter, :section, :content, :admin_id, :pg1ac, :pg1ak)
+    params.require(:checklist).permit(:id, :chapter, :section, :content, :admin_id, :pg1ac, :pg1ak, :pg1bc, :pg1bk, :pg2ac, :pg2ak, :pg2bc, :pg2bk, :pg2cc, :pg2ck, :pg3a, :pg3b, :pg3c, :g1a, :g1b, :g1c, :g1d, :g2a, :g2b, :g2c, :g2d)
   end
 end

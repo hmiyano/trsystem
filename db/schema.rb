@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171024081014) do
+ActiveRecord::Schema.define(version: 20171028170923) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -47,6 +47,26 @@ ActiveRecord::Schema.define(version: 20171024081014) do
     t.boolean  "enable"
     t.boolean  "pg1ac",      default: false, null: false
     t.boolean  "pg1ak",      default: false, null: false
+    t.string   "category"
+    t.boolean  "pg1bc",      default: false, null: false
+    t.boolean  "pg1bk",      default: false, null: false
+    t.boolean  "pg2ac",      default: false, null: false
+    t.boolean  "pg2ak",      default: false, null: false
+    t.boolean  "pg2bc",      default: false, null: false
+    t.boolean  "pg2bk",      default: false, null: false
+    t.boolean  "pg2cc",      default: false, null: false
+    t.boolean  "pg2ck",      default: false, null: false
+    t.boolean  "pg3a",       default: false, null: false
+    t.boolean  "pg3b",       default: false, null: false
+    t.boolean  "pg3c",       default: false, null: false
+    t.boolean  "g1a",        default: false, null: false
+    t.boolean  "g1b",        default: false, null: false
+    t.boolean  "g1c",        default: false, null: false
+    t.boolean  "g1d",        default: false, null: false
+    t.boolean  "g2a",        default: false, null: false
+    t.boolean  "g2b",        default: false, null: false
+    t.boolean  "g2c",        default: false, null: false
+    t.boolean  "g2d",        default: false, null: false
     t.index ["admin_id"], name: "index_checklists_on_admin_id", using: :btree
   end
 
@@ -108,6 +128,27 @@ ActiveRecord::Schema.define(version: 20171024081014) do
     t.string   "nickname"
     t.integer  "trainer_id"
     t.boolean  "enable",          default: false, null: false
+    t.boolean  "pg1ac",           default: false, null: false
+    t.boolean  "pg1ak",           default: false, null: false
+    t.boolean  "pg1bc",           default: false, null: false
+    t.boolean  "pg1bk",           default: false, null: false
+    t.boolean  "pg2ac",           default: false, null: false
+    t.boolean  "pg2ak",           default: false, null: false
+    t.boolean  "pg2bc",           default: false, null: false
+    t.boolean  "pg2bk",           default: false, null: false
+    t.boolean  "pg2cc",           default: false, null: false
+    t.boolean  "pg2ck",           default: false, null: false
+    t.boolean  "pg3a",            default: false, null: false
+    t.boolean  "pg3b",            default: false, null: false
+    t.boolean  "pg3c",            default: false, null: false
+    t.boolean  "g1a",             default: false, null: false
+    t.boolean  "g1b",             default: false, null: false
+    t.boolean  "g1c",             default: false, null: false
+    t.boolean  "g1d",             default: false, null: false
+    t.boolean  "g2a",             default: false, null: false
+    t.boolean  "g2b",             default: false, null: false
+    t.boolean  "g2c",             default: false, null: false
+    t.boolean  "g2d",             default: false, null: false
     t.index ["trainer_id"], name: "index_trainees_on_trainer_id", using: :btree
   end
 

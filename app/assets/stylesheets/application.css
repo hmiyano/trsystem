@@ -158,11 +158,17 @@ footer {
 }
 .admin .table .op {
     text-align: center;
-    width: 50px;
+    width: 10px;
     vertical-align: central;
 
 }
+.admin .table .opp {
+    font-size: 2px;
+    text-align: center;
+    width: 5px;
+    vertical-align: central;
 
+}
 .trainee .table {
 }
 

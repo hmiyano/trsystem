@@ -2,11 +2,12 @@ class TraineesController < ApplicationController
 #  before_action :require_te_logged_in, only: [:show]
 
   def index
-    
-    @checklists = Checklist.order('updated_at DESC')
+
+  
+#    @checklists = Checklist.order('updated_at DESC')
 
     if admin_logged_in?
-      @checklists = Checklist.order('updated_at DESC')
+#      @checklists = Checklist.order('updated_at DESC')
       if params[:branchname] == '全店'
         @trainees = Trainee.order(created_at: :asc).page(params[:page]).per(25)
       elsif params[:branchname]
@@ -23,6 +24,7 @@ class TraineesController < ApplicationController
         @trainees = te_enable.order(created_at: :asc).page(params[:page]).per(25)
       end
     end
+  
   end
   
   def show
@@ -41,39 +43,78 @@ class TraineesController < ApplicationController
       @comments = @trainee.comments.order('created_at DESC').page(params[:page]).per(3)
     end
     
-    
-    if params[:selfcheck] == 'ALL'
-      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:selfcheck]
-      @checklists = Checklist.joins(:te_checks).where("te_checks.type = '#{params[:selfcheck]}' and te_checks.trainee_id = #{@trainee.id}")
-      @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:chapname] == "ALL"
-      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:chapname]
-      @checklists = Checklist.where(chapter: params[:chapname]).order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:master]
-      if params[:master] == 'yes'
-        @checklists = Checklist.joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}")
-        @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
-      elsif params[:master] == 'wait'
-        @checklists = Checklist
-                        .joins("left join te_checks on te_checks.checklist_id = checklists.id")
-                        .joins("left join tr_checks on tr_checks.checklist_id = checklists.id and tr_checks.trainee_id = #{@trainee.id}")
-                        .where("te_checks.type = 'Third'").where("te_checks.trainee_id = #{@trainee.id}")
-                        .where("tr_checks.checklist_id is null")
-        @checklists = @checklists.order(created_at: :asc).page(params[:page]).per(25)
-      end
-    elsif params[:chapname] == "ALL"
-      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:wgname] == "ALL"
-      @checklists = Checklist.order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:wgname] == "pg1ac"
-      @checklists = Checklist.where(pg1ac: true).order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:wgname] == "pg1ak"
-      @checklists = Checklist.where(pg1ak: true).order(created_at: :asc).page(params[:page]).per(25)
-    else
-      @checklists = Checklist.order(created_at: :desc).page(params[:page]).per(25)
+    sortedlist = Checklist.all
+
+    if params[:wgname] == ""
+      params[:wgname] = session[:wg]
     end
+    
+    if  params[:chapname] == ""
+      params[:chapname] = session[:chap]
+    end    
+    
+    if  params[:selfcheck] == ""
+      params[:selfcheck] = session[:self]
+    end
+    
+    if  params[:master] == ""
+      params[:master] = session[:master]
+    end
+  
+
+    if params[:wgname] == "ALL"
+      session[:wg] = params[:wgname]
+    elsif params[:wgname]
+      session[:wg] = params[:wgname]
+      sortedlist = sortedlist.where("#{session[:wg]}": true)
+    elsif session[:wg].nil? || session[:wg] == "ALL" || session[:wg] == ""
+    else
+      sortedlist = sortedlist.where("#{session[:wg]}": true)
+    end
+    
+    if params[:chapname] == "ALL"
+      session[:chap] = params[:chapname]
+    elsif params[:chapname]      
+      session[:chap] = params[:chapname]
+      sortedlist = sortedlist.where(chapter: session[:chap])
+    elsif session[:chap].nil? || session[:chap] == "ALL" || session[:chap] == ""
+
+    else
+      sortedlist = sortedlist.where(chapter: session[:chap])
+    end
+    
+
+    if params[:selfcheck] == "ALL"
+      session[:self] = params[:selfcheck]
+    elsif params[:selfcheck]      
+      session[:self] = params[:selfcheck]
+      sortedlist = sortedlist.joins(:te_checks).where("te_checks.type = '#{params[:selfcheck]}' and te_checks.trainee_id = #{@trainee.id}")
+    elsif session[:self].nil? || session[:self] == "ALL" || session[:self] == ""
+
+    else
+      sortedlist = sortedlist.joins(:te_checks).where("te_checks.type = '#{params[:selfcheck]}' and te_checks.trainee_id = #{@trainee.id}")
+    end
+    
+
+    if params[:master] == "ALL"
+      session[:master] = params[:master]
+    elsif params[:master] == 'yes'
+      session[:master] = params[:master]
+      sortedlist = sortedlist.joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}")
+    elsif  params[:master] == 'wait'
+      sortedlist = Checklist
+                    .joins("left join te_checks on te_checks.checklist_id = checklists.id")
+                    .joins("left join tr_checks on tr_checks.checklist_id = checklists.id and tr_checks.trainee_id = #{@trainee.id}")
+                    .where("te_checks.type = 'Third'").where("te_checks.trainee_id = #{@trainee.id}")
+                    .where("tr_checks.checklist_id is null")
+    elsif session[:master].nil? || session[:master] == "ALL" || session[:master] == ""
+
+    else
+
+    end    
+
+    
+    @checklists = sortedlist.order(created_at: :asc).page(params[:page]).per(25)
 
   end
 
@@ -119,6 +160,6 @@ class TraineesController < ApplicationController
   private
 
   def trainee_params
-    params.require(:trainee).permit(:name, :nickname, :email, :branch, :password, :password_confirmation, :enable, :trainer_id)
+    params.require(:trainee).permit(:name, :nickname, :email, :branch, :password, :password_confirmation, :enable, :trainer_id, :pg1ac, :pg1ak, :pg1bc, :pg1bk, :pg2ac, :pg2ak, :pg2bc, :pg2bk, :pg2cc, :pg2ck, :pg3a, :pg3b, :pg3c, :g1a, :g1b, :g1c, :g1d, :g2a, :g2b, :g2c, :g2d)
   end
 end
