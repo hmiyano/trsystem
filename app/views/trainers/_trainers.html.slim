@@ -75,5 +75,5 @@
               - if trainer.enable
                 |  Y 
             td.check.imp
-              = link_to '削除', @trainer, method: :delete, data: { confirm: '本当にトレーナーを削除してよろしいですか？全てのトレーナーとチェックのデータが失われ復元することはできません！' }
+              = link_to '削除', trainer, method: :delete, data: { confirm: '本当にトレーナーを削除してよろしいですか？全てのトレーナーとチェックのデータが失われ復元することはできません！' }
   = paginate trainers

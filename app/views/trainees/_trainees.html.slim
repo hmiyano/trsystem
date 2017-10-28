@@ -91,5 +91,5 @@
               - if trainee.enable
                 |  Y 
             td.check.imp
-              = link_to '削除', @trainee, method: :delete, data: { confirm: '本当にトレーニーを削除してよろしいですか？全てのトレーニーとチェックのデータが失われ復元することはできません！' }
+              = link_to '削除', trainee, method: :delete, data: { confirm: '本当にトレーニーを削除してよろしいですか？全てのトレーニーとチェックのデータが失われ復元することはできません！' }
   = paginate trainees
