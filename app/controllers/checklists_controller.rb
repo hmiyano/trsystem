@@ -3,6 +3,8 @@ class ChecklistsController < ApplicationController
 #  before_action :require_admin_logged_in, only: [:show]
 
   def index
+    
+    
     sortedlist = Checklist.order(created_at: :asc).page(params[:page]).per(25)
 
     if params[:wgname] == ""

@@ -78,6 +78,4 @@ class Trainee < ApplicationRecord
     return result
   end
   
-
-  
 end

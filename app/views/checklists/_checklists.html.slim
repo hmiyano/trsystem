@@ -63,7 +63,7 @@
                 = select_tag :wgname, options_for_select([['ALL','ALL'], ['PG1Aチョッパー','pg1ac'], ['PG1Aキッチン','pg1ak'], ['PG1Bチョッパー','pg1bc'], ['PG1Bキッチン','pg1bk'], ['PG2Aチョッパー','pg2ac'], ['PG2Aキッチン','pg2ak'], ['PG2Bチョッパー','pg2bc'], ['PG2Bキッチン','pg2bk'], ['PG2Cチョッパー','pg2cc'], ['PG2Cキッチン','pg2ck'], ['PG3/A','pg3a'], ['PG3/B','pg3b'], ['PG3/C','pg3c'], ['G1/A','g1a'], ['G1/B','g1b'], ['G1/C','g1c'], ['G1/D','g1d'], ['G2/A','g2a'], ['G2/B','g2b'], ['G2/C','g2c'], ['G2/D','g2d']]), :prompt => session[:wg], class: 'form-control'
                 = select_tag :chapname, options_for_select(["ALL", $chap1, $chap2, $chap3, $chap4, $chap5, $chap6, $chap7, $chap8, $chap9]), :prompt => session[:chap], class: 'form-control'
                 = select_tag :selfcheck, options_for_select([['ALL','ALL'], ['1回以上','First'], ['2回以上','Second'], ['3回以上','Third']]), :prompt => session[:self], class: 'form-control'
-                = select_tag :master, options_for_select([['ALL','ALL'],['マスターしている','yes'],['マスター待ち','wait']]), :prompt => session[:master], class: 'form-control'
+                = select_tag :master, options_for_select([['ALL','ALL'],['マスターしている','マスターしている'],['マスター待ち','マスター待ち']]), :prompt => session[:master], class: 'form-control'
               = button_tag( class: "btn btn-default") do
                 = content_tag :span, "", class: "glyphicon glyphicon-search"
           td

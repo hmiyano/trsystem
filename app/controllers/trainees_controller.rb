@@ -43,8 +43,9 @@ class TraineesController < ApplicationController
       @comments = @trainee.comments.order('created_at DESC').page(params[:page]).per(3)
     end
     
-    sortedlist = Checklist.all
-
+#    sortedlist = Checklist.all
+     sortedlist = Checklist.where(pg1ac: @trainee.pg1ac)   
+     
     if params[:wgname] == ""
       params[:wgname] = session[:wg]
     end
@@ -95,13 +96,13 @@ class TraineesController < ApplicationController
       sortedlist = sortedlist.joins(:te_checks).where("te_checks.type = '#{params[:selfcheck]}' and te_checks.trainee_id = #{@trainee.id}")
     end
     
-
+=begin
     if params[:master] == "ALL"
       session[:master] = params[:master]
-    elsif params[:master] == 'yes'
+    elsif params[:master] == 'マスターしている'
       session[:master] = params[:master]
       sortedlist = sortedlist.joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}")
-    elsif  params[:master] == 'wait'
+    elsif  params[:master] == 'マスター待ち'
       sortedlist = Checklist
                     .joins("left join te_checks on te_checks.checklist_id = checklists.id")
                     .joins("left join tr_checks on tr_checks.checklist_id = checklists.id and tr_checks.trainee_id = #{@trainee.id}")
@@ -112,7 +113,7 @@ class TraineesController < ApplicationController
     else
 
     end    
-
+=end
     
     @checklists = sortedlist.order(created_at: :asc).page(params[:page]).per(25)
 
