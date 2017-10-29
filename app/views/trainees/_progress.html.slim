@@ -1,6 +1,3 @@
-- pg1ac = "pg1ac"
-- pg1ak = "pg1ak"
-
 .trainee
   table.table
     tr
@@ -11,7 +8,7 @@
       th.check MASTER数
       th.check チェック率（％）
       th.check MASTER率（％）
-  
+
     - checkminus = (Checklist.where(pg1ac: true).where(chapter: $chap1).count * 2) + (Checklist.where(pg1ac: true).where(chapter: $chap9).count *2)
     - start_date = TeCheck.where(trainee_id: @trainee.id)
     - start_date = Time.now - start_date.first.created_at.in_time_zone('Tokyo') if start_date.first
@@ -28,9 +25,9 @@
         font[color="black"]
           b  
           - if te_logged_in?
-            = link_to "PG1/A : CHOPPER", trainee
+            = link_to $all_grades.select { |permit| @trainee.try(permit) }, trainee
           - else
-            | PG1/A : CHOPPER
+            = $all_grades.select { |permit| @trainee.try(permit) }
       td.check
         = start_date
         font[size="2"]
@@ -56,208 +53,135 @@
         = m_percent.round(0) unless s_percent.nan?
         | %
 
+  table.table
+    tr
+      th[colspan=7]
+        | オペレーション
     tr
       th
-        = $chap1
+        | イニシャルチェック
       th
-        = $chap2
+        | ハウスルール
       th
-        = $chap3
+        | チョッパー
       th
-        = $chap4
+        | キッチン
       th
-        = $chap5
+        | 共通
       th
-        = $chap6
+        | 衛生管理
       th
-        = $chap7
-      th
-        = $chap8
-      th
-        = $chap9
+        | セーフティ管理
+
     tr
+      td
+      td
+      td
+      td
+      td
+      td
+      td
+  table.table
+    tr
+      th[colspan=6]
+        | マネジメント
+    tr
+      th
+        | 教育
+      th
+        | 採用
+      th
+        | シフト
+      th
+        | 発注
+      th
+        | 棚卸
+      th
+        | 経営
+    tr
+      td
+      td
+      td
+      td
+      td
+      td
+  table.table
+    tr
+      th[colspan=5]
+        | コンピテンシー
+    tr
+      th
+        | クリスプウェイ
+      th
+        | 成長する
+      th
+        | 行動する
+      th
+        | チームで働く
+      th
+        | 責任を持つ
+    tr  
+      td
+      td
+      td
+      td
+      td      
+        
+hr.line
+     
+    /tr
       td.check
-        = trainee.chapcount(pg1ac, $chap1, @trainee)
+        /= trainee.chapcount(pg1ac, $chap1, @trainee)
         font[size="2"]
           | /
           = Checklist.where(pg1ac: true).where(chapter: $chap1).count
           | 回
       td.check
-        = trainee.chapcount(pg1ac, $chap2, @trainee)
+        /= trainee.chapcount(pg1ac, $chap2, @trainee)
         font[size="2"]
           | /
           = Checklist.where(pg1ac: true).where(chapter: $chap2).count * 3
           | 回
       td.check
-        = trainee.chapcount(pg1ac, $chap3, @trainee)
+        /= trainee.chapcount(pg1ac, $chap3, @trainee)
         font[size="2"]
           | /
           = Checklist.where(pg1ac: true).where(chapter: $chap3).count * 3
           | 回
       td.check
-        = trainee.chapcount(pg1ac, $chap4, @trainee)
+        /= trainee.chapcount(pg1ac, $chap4, @trainee)
         font[size="2"]
           | /
           = Checklist.where(pg1ac: true).where(chapter: $chap4).count * 3
           | 回
       td.check
-        = trainee.chapcount(pg1ac, $chap5, @trainee)
+        /= trainee.chapcount(pg1ac, $chap5, @trainee)
         font[size="2"]
           | /
           = Checklist.where(pg1ac: true).where(chapter: $chap5).count * 3
           | 回
       td.check
-        = trainee.chapcount(pg1ac, $chap6, @trainee)
+        /= trainee.chapcount(pg1ac, $chap6, @trainee)
         font[size="2"]
           | /
           = Checklist.where(pg1ac: true).where(chapter: $chap6).count * 3
           | 回
       td.check
-        = trainee.chapcount(pg1ac, $chap7, @trainee)
+        /= trainee.chapcount(pg1ac, $chap7, @trainee)
         font[size="2"]
           | /
           = Checklist.where(pg1ac: true).where(chapter: $chap7).count * 3
           | 回
       td.check
-        = trainee.chapcount(pg1ac, $chap8, @trainee)
+        /= trainee.chapcount(pg1ac, $chap8, @trainee)
         font[size="2"]
           | /
           = Checklist.where(pg1ac: true).where(chapter: $chap8).count * 3
           | 回
       td.check
-        = trainee.chapcount(pg1ac, $chap9, @trainee)
+        /= trainee.chapcount(pg1ac, $chap9, @trainee)
         font[size="2"]
           | /
           = Checklist.where(pg1ac: true).where(chapter: $chap9).count
           | 回
-  hr.line_s
 
-  table.table
-    tr
-      th[colspan=3] チェックシート名
-      th.check TR経過日数
-      th.check 項目数
-      th.check チェック回数
-      th.check MASTER数
-      th.check チェック率（％）
-      th.check MASTER率（％）
-  
-    - checkminus = (Checklist.where(pg1ak: true).where(chapter: $chap1).count * 2) + (Checklist.where(pg1ak: true).where(chapter: $chap9).count *2)
-    - start_date = TeCheck.where(trainee_id: @trainee.id)
-    - start_date = Time.now - start_date.first.created_at.in_time_zone('Tokyo') if start_date.first
-    - start_date = start_date.round(0) / 60 / 60 / 24  unless start_date.blank?
-    - start_date = '-' if start_date.blank?
-    - listcount = Checklist.where(pg1ak: true).count
-    - te_checkcount = TeCheck.where(trainee_id: @trainee.id).count
-    - tr_checkcount = TrCheck.where(trainee_id: @trainee.id).count
-    - s_percent = te_checkcount.to_f / (listcount.to_f * 3 - checkminus) * 100
-    - m_percent = tr_checkcount.to_f / listcount.to_f * 100
-
-    tr
-      td.tcheck[colspan=3] 
-        font[color="black"]
-          b  
-          - if te_logged_in?
-            = link_to "PG1/A : KITCHEN", trainee
-          - else
-            | PG1/A : KITCHEN
-      td.check
-        = start_date
-        font[size="2"]
-          | 日
-      td.check
-        = listcount
-      td.check
-        = te_checkcount
-        |  / 
-        font[size="2"]
-          = listcount * 3 - checkminus
-          | 回
-      td.check
-        = tr_checkcount
-        |  / 
-        font[size="2"]
-          = listcount
-          | 個
-      td.check
-        = s_percent.round(0) unless s_percent.nan?
-        | %
-      td.check
-        = m_percent.round(0) unless s_percent.nan?
-        | %
-
-    tr
-      th
-        = $chap1
-      th
-        = $chap2
-      th
-        = $chap3
-      th
-        = $chap4
-      th
-        = $chap5
-      th
-        = $chap6
-      th
-        = $chap7
-      th
-        = $chap8
-      th
-        = $chap9
-    tr
-      td.check
-        = trainee.chapcount(pg1ak, $chap1, @trainee)
-        font[size="2"]
-          | /
-          = Checklist.where(pg1ak: true).where(chapter: $chap1).count
-          | 回
-      td.check
-        = trainee.chapcount(pg1ak, $chap2, @trainee)
-        font[size="2"]
-          | /
-          = Checklist.where(pg1ak: true).where(chapter: $chap2).count * 3
-          | 回
-      td.check
-        = trainee.chapcount(pg1ak, $chap3, @trainee)
-        font[size="2"]
-          | /
-          = Checklist.where(pg1ak: true).where(chapter: $chap3).count * 3
-          | 回
-      td.check
-        = trainee.chapcount(pg1ak, $chap4, @trainee)
-        font[size="2"]
-          | /
-          = Checklist.where(pg1ak: true).where(chapter: $chap4).count * 3
-          | 回
-      td.check
-        = trainee.chapcount(pg1ak, $chap5, @trainee)
-        font[size="2"]
-          | /
-          = Checklist.where(pg1ak: true).where(chapter: $chap5).count * 3
-          | 回
-      td.check
-        = trainee.chapcount(pg1ak, $chap6, @trainee)
-        font[size="2"]
-          | /
-          = Checklist.where(pg1ak: true).where(chapter: $chap6).count * 3
-          | 回
-      td.check
-        = trainee.chapcount(pg1ak, $chap7, @trainee)
-        font[size="2"]
-          | /
-          = Checklist.where(pg1ak: true).where(chapter: $chap7).count * 3
-          | 回
-      td.check
-        = trainee.chapcount(pg1ak, $chap8, @trainee)
-        font[size="2"]
-          | /
-          = Checklist.where(pg1ak: true).where(chapter: $chap8).count * 3
-          | 回
-      td.check
-        = trainee.chapcount(pg1ak, $chap9, @trainee)
-        font[size="2"]
-          | /
-          = Checklist.where(pg1ak: true).where(chapter: $chap9).count
-          | 回
-  hr.line

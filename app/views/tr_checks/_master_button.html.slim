@@ -1,6 +1,6 @@
 - if tr_logged_in?
   - if checklist.tr_checks.find_by(trainee_id: trainee.id)
-    - if checklist.te_checks.find_by(type: Third, trainee_id: @trainee.id) || checklist.chapter == $chap1 || $chap9
+    - if checklist.te_checks.find_by(type: Third, trainee_id: @trainee.id) || checklist.chapter == "イニシャルチェック" || checklist.category == "コンピテンシー"
       - if checklist.tr_checks.first.trainer_id.nil?
         = form_for(checklist.tr_checks.find_by(trainee_id: trainee.id), html: { method: :delete, data: { confirm: 'この項目のMASTERが解除されます。本当に解除してよろしいですか？' } }) do |f|
           = hidden_field_tag :checklist_id, checklist.id
@@ -20,7 +20,7 @@
         = hidden_field_tag :trainee_id, trainee.id
         = button_tag( class: "btn btn-warning btn-xs") do
           = content_tag :span, '解除されてます', class: "glyphicon glyphicon-warning-sign"
-  - elsif checklist.chapter == $chap1 or checklist.chapter == $chap9
+  - elsif checklist.chapter == "イニシャルチェック" or checklist.category == "コンピテンシー"
     - if checklist.te_checks.find_by(type: First, trainee_id: @trainee.id)
       = form_for(current_trainer.tr_checks.build, remote: true) do |f|
         = hidden_field_tag :ajax_handler, 'handle_self'
@@ -49,7 +49,7 @@
         |  (
         = tn.nickname
         | ) 
-  - elsif checklist.chapter == $chap1 or checklist.chapter == $chap9
+  - elsif checklist.chapter == "イニシャルチェック" or checklist.category == "コンピテンシー"
     - if checklist.te_checks.find_by(type: First, trainee_id: @trainee.id)
         button.btn.btn-warning.btn-xs[disabled="disabled"]
           span.glyphicon.glyphicon-time[aria-hidden="true"]

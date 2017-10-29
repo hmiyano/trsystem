@@ -2,17 +2,21 @@ class TrainersController < ApplicationController
 #  before_action :require_tr_logged_in, only: [:show]
 
   def index
-    @trainees = Trainee.order(created_at: :desc).page(params[:page]).per(25)
-
-    if params[:branchname] == '全店'
-      @trainers = Trainer.order(created_at: :asc).page(params[:page]).per(25)
-    elsif params[:branchname]
-      @trainers = Trainer.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
-    else
-      @trainers = Trainer.order(created_at: :asc).page(params[:page]).per(25)
+    
+    if admin_logged_in?
+      if params[:branchname]
+        @trainers = Trainer.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+      else
+        @trainers = Trainer.order(created_at: :asc).page(params[:page]).per(25)
+      end      
+    elsif tr_logged_in?
+      if params[:branchname]
+         @trainers = tr_enable.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+      else
+        @trainers = tr_enable.order(created_at: :asc).page(params[:page]).per(25)
+      end
     end
   end
-  
   
   def show
     @trainer = Trainer.find(params[:id])
@@ -63,6 +67,6 @@ class TrainersController < ApplicationController
   private
 
   def trainer_params
-    params.require(:trainer).permit(:name, :nickname, :email, :branch, :password, :password_confirmation, :enable)
+    params.require(:trainer).permit(:grade, :name, :nickname, :email, :branch, :password, :password_confirmation, :enable)
   end
 end

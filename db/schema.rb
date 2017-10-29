@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171028170923) do
+ActiveRecord::Schema.define(version: 20171029175418) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(version: 20171028170923) do
     t.boolean  "g2b",             default: false, null: false
     t.boolean  "g2c",             default: false, null: false
     t.boolean  "g2d",             default: false, null: false
+    t.string   "grade"
     t.index ["trainer_id"], name: "index_trainees_on_trainer_id", using: :btree
   end
 
@@ -161,6 +162,7 @@ ActiveRecord::Schema.define(version: 20171028170923) do
     t.datetime "updated_at",      null: false
     t.string   "nickname"
     t.boolean  "enable"
+    t.string   "grade"
   end
 
   add_foreign_key "checklists", "admins"

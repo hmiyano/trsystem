@@ -20,8 +20,11 @@
           = f.label :email, 'Email'
           = f.email_field :email, class: 'form-control'
         .form-group
+          = f.label :grade, 'ワークグレード'
+          = f.select :grade, options_for_select($wg),{}, class: "form-control"
+        .form-group
           = f.label :branch, '所属店舗'
-          = f.select :branch, options_for_select([["CR麻布十番店","CR麻布十番店"],["CR恵比寿店","CR恵比寿店"],["CR六本木ヒルズ店","CR六本木ヒルズ店"],["CR代官山店","CR代官山店"],["CR広尾店","CR広尾店"]]),{}, class: "form-control"
+          = f.select :branch, options_for_select($all_restaurants),{}, class: "form-control"
         .form-group
           = f.label :password, 'パスワード'
           = f.password_field :password, class: 'form-control'

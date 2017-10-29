@@ -30,14 +30,18 @@
               ul
                 li
                   = @trainee.name
+                  |  (WG: 
+                  = @trainee.grade
+                  | )
                   br
-                  | [ 
                   = @trainee.branch
-                  |  ]
               ul
                 li
                   .status-label
                     = link_to 'プロフィール編集', edit_trainee_path(@trainee)
+                li
+                  .status-label
+                    = $all_grades.select { |permit| @trainee.try(permit) }
               - exctr = Trainer.find(@trainee.trainer_id).nickname unless @trainee.trainer_id.nil?
               - exctr = "未設定" if exctr.nil?
               button.btn.btn-primary.btn-xs[disabled="disabled"]
@@ -75,10 +79,11 @@
             ul
               li
                 = @trainee.name
+                |  (WG: 
+                = @trainee.grade
+                | )
                 br
-                | [ 
                 = @trainee.branch
-                |  ]
             ul
               li
                 .status-label
@@ -128,10 +133,11 @@
             ul
               li
                 = @trainee.name
+                |  (WG: 
+                = @trainee.grade
+                | )
                 br
-                | [ 
                 = @trainee.branch
-                |  ]
             ul
               li
                 .status-label

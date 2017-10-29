@@ -18,8 +18,11 @@
           = f.label :email, 'メールアドレス'
           = f.email_field :email, class: 'form-control'
         .form-group
+          = f.label :grade, 'ワークグレード'
+          = f.select :grade, options_for_select($wg),{}, class: "form-control"
+        .form-group
           = f.label :branch, '所属店舗'
-          = f.select :branch, options_for_select([["CR麻布十番店","CR麻布十番店"],["CR恵比寿店","CR恵比寿店"],["CR六本木ヒルズ店","CR六本木ヒルズ店"],["CR代官山店","CR代官山店"],["CR広尾店","CR広尾店"]]),{}, class: "form-control"
+          = f.select :branch, options_for_select($all_restaurants),{}, class: "form-control"
         .form-group
           = f.label :password, 'パスワード'
           = f.password_field :password, class: 'form-control'
@@ -27,45 +30,49 @@
           = f.label :password_confirmation, 'パスワード（確認）'
           = f.password_field :password_confirmation, class: 'form-control'
         .form-group
-          = f.label :pg1ac, 'PG1A:C'
+          b 
+            | [対象チェックリスト]
+          br
+          br
+          = f.label :pg1ac, '　|　PG1A:C　'
           = f.check_box :pg1ac
-          = f.label :pg1ak, '　|　PG1A:K'
+          = f.label :pg1ak, '　|　PG1A:K　'
           = f.check_box :pg1ak
-          = f.label :pg1bc, '　|　PG1B:C'
+          = f.label :pg1bc, '　|　PG1B:C　'
           = f.check_box :pg1bc
-          = f.label :pg1bk, '　|　PG1B:K'
+          = f.label :pg1bk, '　|　PG1B:K　'
           = f.check_box :pg1bk
-          = f.label :pg2ac, '　|　PG2A:C'
+          = f.label :pg2ac, '　|　PG2A:C　'
           = f.check_box :pg2ac
-          = f.label :pg2ak, '　|　PG2A:K'
+          = f.label :pg2ak, '　|　PG2A:K　'
           = f.check_box :pg2ak
-          = f.label :pg2bc, '　|　PG2B:C'
+          = f.label :pg2bc, '　|　PG2B:C　'
           = f.check_box :pg2bc
-          = f.label :pg2bk, '　|　PG2B:K'
+          = f.label :pg2bk, '　|　PG2B:K　'
           = f.check_box :pg2bk
-          = f.label :pg2cc, '　|　PG2C:C'
+          = f.label :pg2cc, '　|　PG2C:C　'
           = f.check_box :pg2cc
-          = f.label :pg3a, '　|　PG3A'
+          = f.label :pg3a, '　|　PG3A　'
           = f.check_box :pg3a
-          = f.label :pg3b, '　|　PG3B'
+          = f.label :pg3b, '　|　PG3B　'
           = f.check_box :pg3b
-          = f.label :pg3c, '　|　PG3C'
+          = f.label :pg3c, '　|　PG3C　'
           = f.check_box :pg3c
-          = f.label :g1a, '　|　G1A'
+          = f.label :g1a, '　|　G1A　'
           = f.check_box :g1a
-          = f.label :g1b, '　|　G1B'
+          = f.label :g1b, '　|　G1B　'
           = f.check_box :g1b
-          = f.label :g1c, '　|　G1C'
+          = f.label :g1c, '　|　G1C　'
           = f.check_box :g1c
-          = f.label :g1d, '　|　G1D'
+          = f.label :g1d, '　|　G1D　'
           = f.check_box :g1d
-          = f.label :g2a, '　|　G2A'
+          = f.label :g2a, '　|　G2A　'
           = f.check_box :g2a
-          = f.label :g2b, '　|　G2B'
+          = f.label :g2b, '　|　G2B　'
           = f.check_box :g2b
-          = f.label :g2c, '　|　G2C'
+          = f.label :g2c, '　|　G2C　'
           = f.check_box :g2c
-          = f.label :g2d, '　|　G2D'
+          = f.label :g2d, '　|　G2D　'
           = f.check_box :g2d
         .text-right
           = f.submit '登録する', class: 'btn btn-primary'

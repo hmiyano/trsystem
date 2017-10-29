@@ -32,4 +32,6 @@ class ApplicationController < ActionController::Base
   def tr_enable
     Trainer.where(enable: true) 
   end
+  
+  
 end

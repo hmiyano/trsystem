@@ -12,18 +12,18 @@
       .panel-body
         = form_tag(trainees_path, method: :get, class: 'form-inline') do
           .form-group
-            = select_tag :branchname, options_for_select(['全店','CR麻布十番店','CR恵比寿店','CR六本木ヒルズ店','CR代官山店','CR広尾店']), :prompt => "所属店舗で探す", class: 'form-control'
+            = select_tag :branchname, options_for_select($all_restaurants), :prompt => "所属店舗で探す", class: 'form-control'
           = button_tag( class: "btn btn-default") do
             = content_tag :span, "", class: "glyphicon glyphicon-search"
   .trainee
     table.table.table-bordered
       tr
-        th
-          | ID
         th[width=""]
           | 所属店舗
         th[width=""]
           | 名前(ニックネーム)
+        th
+          | WG
         th[width="120"]
           | 専任トレーナー
         th
@@ -60,14 +60,14 @@
         - start_date = '-' if start_date.blank?
         tr
           td
-            = trainee.id
-          td
             = trainee.branch
           td
             = trainee.name
             |  ( 
             = trainee.nickname
             |  )
+          td.check
+            = trainee.grade
           td.check
             = Trainer.find(trainee.trainer_id).nickname unless trainee.trainer_id.nil?
           td.check.imp

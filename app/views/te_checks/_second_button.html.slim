@@ -12,7 +12,7 @@
             = hidden_field_tag :type, 'Second'
             = button_tag( class: "btn btn-success btn-xs") do
               = content_tag :span, checklist.te_checks.first.updated_at.in_time_zone('Tokyo').strftime('%m/%d'), class: "glyphicon glyphicon-check"
-      - elsif checklist.chapter == $chap1 or checklist.chapter == $chap9
+      - elsif checklist.chapter == "イニシャルチェック" or checklist.category == "コンピテンシー"
 
       - else
         = form_tag(te_checks_path, remote: true) do

@@ -3,20 +3,19 @@ class ChecklistsController < ApplicationController
 #  before_action :require_admin_logged_in, only: [:show]
 
   def index
-    
-    
+
     sortedlist = Checklist.order(created_at: :asc).page(params[:page]).per(25)
 
     if params[:wgname] == ""
       params[:wgname] = session[:wg]
     end
     
-    if params[:wgname] == "ALL"
+    if params[:wgname] == "全て"
       session[:wg] = params[:wgname]
     elsif params[:wgname]
       session[:wg] = params[:wgname]
       sortedlist = sortedlist.where("#{session[:wg]}": true).order(created_at: :asc).page(params[:page]).per(25)
-    elsif session[:wg].nil? || session[:wg] == "ALL" || session[:wg] == ""
+    elsif session[:wg].nil? || session[:wg] == "全て" || session[:wg] == "ALL"
     else
       sortedlist = sortedlist.where("#{session[:wg]}": true).order(created_at: :asc).page(params[:page]).per(25)
     end
@@ -25,12 +24,12 @@ class ChecklistsController < ApplicationController
       params[:chapname] = session[:chap]
     end
     
-    if params[:chapname] == "ALL"
+    if params[:chapname] == "全て"
       session[:chap] = params[:chapname]
     elsif params[:chapname]      
       session[:chap] = params[:chapname]
       sortedlist = sortedlist.where(chapter: session[:chap]).order(created_at: :asc).page(params[:page]).per(25)
-    elsif session[:chap].nil? || session[:chap] == "ALL" || session[:chap] == ""
+    elsif session[:chap].nil? || session[:chap] == "全て" || session[:chap] == "ALL"
 
     else
       sortedlist = sortedlist.where(chapter: session[:chap]).order(created_at: :asc).page(params[:page]).per(25)

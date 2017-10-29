@@ -7,6 +7,6 @@ class ToppagesController < ApplicationController
   end
   
   def show
-#    @trainee = Trainee.find(params[:id])
+    @trainee = Trainee.find(params[:id])
   end
 end

@@ -3,28 +3,39 @@ class TraineesController < ApplicationController
 
   def index
 
-  
-#    @checklists = Checklist.order('updated_at DESC')
-
     if admin_logged_in?
-#      @checklists = Checklist.order('updated_at DESC')
-      if params[:branchname] == '全店'
-        @trainees = Trainee.order(created_at: :asc).page(params[:page]).per(25)
-      elsif params[:branchname]
+      if params[:branchname]
         @trainees = Trainee.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
       else
         @trainees = Trainee.order(created_at: :asc).page(params[:page]).per(25)
       end      
-    else
-      if params[:branchname] == '全店'
-        @trainees = te_enable.order(created_at: :asc).page(params[:page]).per(25)
-      elsif params[:branchname]
-         @trainees = te_enable.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+    elsif tr_logged_in?
+      if current_trainer.grade == "PG1" || current_trainer.grade == "PG2"
+        if params[:branchname]
+           @trainees = Trainee.where(enable: true).where(grade: "PG1").where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+        else
+          @trainees = Trainee.where(enable: true).where(grade: "PG1").order(created_at: :asc).page(params[:page]).per(25)
+        end
+      elsif current_trainer.grade == "PG3" || current_trainer.grade == "G1"
+        if params[:branchname]
+           @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3").where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+        else
+          @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3").order(created_at: :asc).page(params[:page]).per(25)
+        end              
+      elsif current_trainer.grade == "G2"
+        if params[:branchname]
+           @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3", "G1").where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+        else
+          @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3", "G1").order(created_at: :asc).page(params[:page]).per(25)
+        end  
       else
-        @trainees = te_enable.order(created_at: :asc).page(params[:page]).per(25)
+        if params[:branchname]
+           @trainees = te_enable.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+        else
+          @trainees = te_enable.order(created_at: :asc).page(params[:page]).per(25)
+        end        
       end
     end
-  
   end
   
   def show
@@ -43,12 +54,11 @@ class TraineesController < ApplicationController
       @comments = @trainee.comments.order('created_at DESC').page(params[:page]).per(3)
     end
     
-#    sortedlist = Checklist.all
-     sortedlist = Checklist.where(pg1ac: @trainee.pg1ac)   
-     
-    if params[:wgname] == ""
-      params[:wgname] = session[:wg]
-    end
+
+    allow_grades = $all_grades.select { |permit| @trainee.try(permit) }
+    allow_grades_query = allow_grades.map { |a| "#{a.to_s} = true"}.join(" OR ")
+    sortedlist = Checklist.where(allow_grades_query)  
+
     
     if  params[:chapname] == ""
       params[:chapname] = session[:chap]
@@ -62,7 +72,10 @@ class TraineesController < ApplicationController
       params[:master] = session[:master]
     end
   
-
+=begin
+    if params[:wgname] == ""
+      params[:wgname] = session[:wg]
+    end
     if params[:wgname] == "ALL"
       session[:wg] = params[:wgname]
     elsif params[:wgname]
@@ -72,32 +85,32 @@ class TraineesController < ApplicationController
     else
       sortedlist = sortedlist.where("#{session[:wg]}": true)
     end
-    
-    if params[:chapname] == "ALL"
+=end  
+
+    if params[:chapname] == "全て"
       session[:chap] = params[:chapname]
     elsif params[:chapname]      
       session[:chap] = params[:chapname]
       sortedlist = sortedlist.where(chapter: session[:chap])
-    elsif session[:chap].nil? || session[:chap] == "ALL" || session[:chap] == ""
+    elsif session[:chap].nil? || session[:chap] == "全て" || session[:chap] == ""
 
     else
       sortedlist = sortedlist.where(chapter: session[:chap])
     end
     
 
-    if params[:selfcheck] == "ALL"
+    if params[:selfcheck] == "全て"
       session[:self] = params[:selfcheck]
     elsif params[:selfcheck]      
       session[:self] = params[:selfcheck]
       sortedlist = sortedlist.joins(:te_checks).where("te_checks.type = '#{params[:selfcheck]}' and te_checks.trainee_id = #{@trainee.id}")
-    elsif session[:self].nil? || session[:self] == "ALL" || session[:self] == ""
+    elsif session[:self].nil? || session[:self] == "全て" || session[:self] == ""
 
     else
       sortedlist = sortedlist.joins(:te_checks).where("te_checks.type = '#{params[:selfcheck]}' and te_checks.trainee_id = #{@trainee.id}")
     end
     
-=begin
-    if params[:master] == "ALL"
+    if params[:master] == "全て"
       session[:master] = params[:master]
     elsif params[:master] == 'マスターしている'
       session[:master] = params[:master]
@@ -108,13 +121,12 @@ class TraineesController < ApplicationController
                     .joins("left join tr_checks on tr_checks.checklist_id = checklists.id and tr_checks.trainee_id = #{@trainee.id}")
                     .where("te_checks.type = 'Third'").where("te_checks.trainee_id = #{@trainee.id}")
                     .where("tr_checks.checklist_id is null")
-    elsif session[:master].nil? || session[:master] == "ALL" || session[:master] == ""
+    elsif session[:master].nil? || session[:master] == "全て" || session[:master] == "ALL"
 
     else
 
     end    
-=end
-    
+
     @checklists = sortedlist.order(created_at: :asc).page(params[:page]).per(25)
 
   end
@@ -161,6 +173,6 @@ class TraineesController < ApplicationController
   private
 
   def trainee_params
-    params.require(:trainee).permit(:name, :nickname, :email, :branch, :password, :password_confirmation, :enable, :trainer_id, :pg1ac, :pg1ak, :pg1bc, :pg1bk, :pg2ac, :pg2ak, :pg2bc, :pg2bk, :pg2cc, :pg2ck, :pg3a, :pg3b, :pg3c, :g1a, :g1b, :g1c, :g1d, :g2a, :g2b, :g2c, :g2d)
+    params.require(:trainee).permit(:name, :nickname, :email, :branch, :password, :password_confirmation, :enable, :trainer_id, :pg1ac, :pg1ak, :pg1bc, :pg1bk, :pg2ac, :pg2ak, :pg2bc, :pg2bk, :pg2cc, :pg2ck, :pg3a, :pg3b, :pg3c, :g1a, :g1b, :g1c, :g1d, :g2a, :g2b, :g2c, :g2d, :grade)
   end
 end
