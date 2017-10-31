@@ -3,12 +3,14 @@ class TraineesController < ApplicationController
 
   def index
 
+    # ADMIN
     if admin_logged_in?
       if params[:branchname]
         @trainees = Trainee.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
       else
         @trainees = Trainee.order(created_at: :asc).page(params[:page]).per(25)
-      end      
+      end  
+    # TRAINER
     elsif tr_logged_in?
       if current_trainer.grade == "PG1" || current_trainer.grade == "PG2"
         if params[:branchname]
@@ -18,9 +20,9 @@ class TraineesController < ApplicationController
         end
       elsif current_trainer.grade == "PG3" || current_trainer.grade == "G1"
         if params[:branchname]
-           @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3").where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+           @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3", "G1A").where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
         else
-          @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3").order(created_at: :asc).page(params[:page]).per(25)
+          @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ? OR (grade = ?))", "PG1", "PG2", "PG3", "G1A").order(created_at: :asc).page(params[:page]).per(25)
         end              
       elsif current_trainer.grade == "G2"
         if params[:branchname]
@@ -45,19 +47,22 @@ class TraineesController < ApplicationController
     if te_logged_in?
       @trainee = current_trainee
       @comment = @trainee.comments.build
-      @comments = @trainee.comments.order('created_at DESC').page(params[:page]).per(3)
+      @comments = @trainee.comments.order('created_at DESC').page(params[:comments_page]).per(3)
     elsif tr_logged_in?
       @trainer = current_trainer
       @comment = @trainee.comments.build
-      @comments = @trainee.comments.order('created_at DESC').page(params[:page]).per(3)
+      @comments = @trainee.comments.order('created_at DESC').page(params[:comments_page]).per(3)
     else
-      @comments = @trainee.comments.order('created_at DESC').page(params[:page]).per(3)
+      @comments = @trainee.comments.order('created_at DESC').page(params[:comments_page]).per(3)
     end
     
-
+    # @trainee の対象チェックリストのみを表示する
     allow_grades = $all_grades.select { |permit| @trainee.try(permit) }
     allow_grades_query = allow_grades.map { |a| "#{a.to_s} = true"}.join(" OR ")
     sortedlist = Checklist.where(allow_grades_query)  
+
+    # progress 確認用
+    @progresslists = Checklist.where(allow_grades_query)  unless Checklist.where(allow_grades_query) == "[]"
 
     
     if  params[:chapname] == ""
@@ -71,21 +76,6 @@ class TraineesController < ApplicationController
     if  params[:master] == ""
       params[:master] = session[:master]
     end
-  
-=begin
-    if params[:wgname] == ""
-      params[:wgname] = session[:wg]
-    end
-    if params[:wgname] == "ALL"
-      session[:wg] = params[:wgname]
-    elsif params[:wgname]
-      session[:wg] = params[:wgname]
-      sortedlist = sortedlist.where("#{session[:wg]}": true)
-    elsif session[:wg].nil? || session[:wg] == "ALL" || session[:wg] == ""
-    else
-      sortedlist = sortedlist.where("#{session[:wg]}": true)
-    end
-=end  
 
     if params[:chapname] == "全て"
       session[:chap] = params[:chapname]
@@ -101,10 +91,13 @@ class TraineesController < ApplicationController
 
     if params[:selfcheck] == "全て"
       session[:self] = params[:selfcheck]
+    elsif params[:selfcheck] == "チェックなし"
+  #    session[:self] = params[:selfcheck]
+  #    sortedlist = sortedlist.joins(:te_checks).where("te_checks.type = 'First' = null")
     elsif params[:selfcheck]      
       session[:self] = params[:selfcheck]
       sortedlist = sortedlist.joins(:te_checks).where("te_checks.type = '#{params[:selfcheck]}' and te_checks.trainee_id = #{@trainee.id}")
-    elsif session[:self].nil? || session[:self] == "全て" || session[:self] == ""
+    elsif session[:self].nil? || session[:self] == "全て" || session[:self] == "チェックなし"
 
     else
       sortedlist = sortedlist.joins(:te_checks).where("te_checks.type = '#{params[:selfcheck]}' and te_checks.trainee_id = #{@trainee.id}")
@@ -116,7 +109,8 @@ class TraineesController < ApplicationController
       session[:master] = params[:master]
       sortedlist = sortedlist.joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}")
     elsif  params[:master] == 'マスター待ち'
-      sortedlist = Checklist
+      session[:master] = params[:master]
+      sortedlist = sortedlist
                     .joins("left join te_checks on te_checks.checklist_id = checklists.id")
                     .joins("left join tr_checks on tr_checks.checklist_id = checklists.id and tr_checks.trainee_id = #{@trainee.id}")
                     .where("te_checks.type = 'Third'").where("te_checks.trainee_id = #{@trainee.id}")
@@ -127,7 +121,7 @@ class TraineesController < ApplicationController
 
     end    
 
-    @checklists = sortedlist.order(created_at: :asc).page(params[:page]).per(25)
+    @checklists = sortedlist.order(created_at: :asc).page(params[:check_page]).per(25)
 
   end
 

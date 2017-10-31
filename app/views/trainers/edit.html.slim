@@ -21,10 +21,10 @@
           = f.email_field :email, class: 'form-control'
         .form-group
           = f.label :grade, 'ワークグレード'
-          = f.select :grade, options_for_select($wg),{}, class: "form-control"
+          = f.select :grade, options_for_select($wg, @trainer.grade),{}, class: "form-control"
         .form-group
           = f.label :branch, '所属店舗'
-          = f.select :branch, options_for_select($all_restaurants),{}, class: "form-control"
+          = f.select :branch, options_for_select($all_restaurants, @trainer.branch),{}, class: "form-control"
         .form-group
           = f.label :password, 'パスワード'
           = f.password_field :password, class: 'form-control'

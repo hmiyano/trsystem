@@ -22,10 +22,10 @@
         - if tr_logged_in? || admin_logged_in?
           .form-group
             = f.label :grade, 'ワークグレード'
-            = f.select :grade, options_for_select($wg),{}, class: "form-control"
+            = f.select :grade, options_for_select($wg, @trainee.grade),{}, class: "form-control"
         .form-group
           = f.label :branch, '所属店舗'
-          = f.select :branch, options_for_select($all_restaurants), {}, class: "form-control"
+          = f.select :branch, options_for_select($all_restaurants, @trainee.branch), {}, class: "form-control"
         .form-group
           = f.label :password, 'パスワード'
           = f.password_field :password, class: 'form-control'

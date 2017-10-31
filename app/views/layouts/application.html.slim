@@ -18,5 +18,6 @@ html
     .container
       p
         = breadcrumbs.to_s
+      = render 'layouts/flash_messages'
       = yield
     = render 'layouts/footer'

@@ -1,131 +1,61 @@
 .trainee
   table.table
     tr
-      th[colspan=3] チェックシート名
+      th チェックシート名
       th.check TR経過日数
-      th.check 項目数
       th.check チェック回数
       th.check MASTER数
       th.check チェック率（％）
       th.check MASTER率（％）
 
-    - checkminus = (Checklist.where(pg1ac: true).where(chapter: $chap1).count * 2) + (Checklist.where(pg1ac: true).where(chapter: $chap9).count *2)
-    - start_date = TeCheck.where(trainee_id: @trainee.id)
+    - inicheck = @progresslists.where(chapter: "イニシャルチェック").count * 2 if @progresslists.where(chapter: "イニシャルチェック")
+    - compcheck = @progresslists.where(category: "コンピテンシー").count *2 if @progresslists.where(category: "コンピテンシー")
+    - checkminus = inicheck + compcheck
+    - start_date = @progresslists.joins(:te_checks).where("te_checks.trainee_id = #{@trainee.id}")
     - start_date = Time.now - start_date.first.created_at.in_time_zone('Tokyo') if start_date.first
     - start_date = start_date.round(0) / 60 / 60 / 24  unless start_date.blank?
     - start_date = '-' if start_date.blank?
-    - listcount = Checklist.where(pg1ac: true).count
-    - te_checkcount = TeCheck.where(trainee_id: @trainee.id).count
-    - tr_checkcount = TrCheck.where(trainee_id: @trainee.id).count
+    - listcount =  @progresslists.count
+    
+    - te_checkcount = @progresslists.joins(:te_checks).where("te_checks.trainee_id = #{@trainee.id}").count
+    - tr_checkcount = @progresslists.joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}").count
     - s_percent = te_checkcount.to_f / (listcount.to_f * 3 - checkminus) * 100
     - m_percent = tr_checkcount.to_f / listcount.to_f * 100
-
+    
     tr
-      td.tcheck[colspan=3] 
+      td.tcheck
         font[color="black"]
           b  
-          - if te_logged_in?
-            = link_to $all_grades.select { |permit| @trainee.try(permit) }, trainee
+          - if $all_grades.select { |permit| @trainee.try(permit) } == [:g1c]
+            | G1C
           - else
             = $all_grades.select { |permit| @trainee.try(permit) }
       td.check
         = start_date
-        font[size="2"]
+        font[size="1"]
           | 日
-      td.check
-        = listcount
       td.check
         = te_checkcount
         |  / 
-        font[size="2"]
+        font[size="1"]
           = listcount * 3 - checkminus
           | 回
       td.check
         = tr_checkcount
         |  / 
-        font[size="2"]
+        font[size="1"]
           = listcount
           | 個
       td.check
-        = s_percent.round(0) unless s_percent.nan?
-        | %
+        font[color="red" size="5"]
+          b  
+            = s_percent.round(0) unless s_percent.nan?
+            | %
       td.check
-        = m_percent.round(0) unless s_percent.nan?
-        | %
-
-  table.table
-    tr
-      th[colspan=7]
-        | オペレーション
-    tr
-      th
-        | イニシャルチェック
-      th
-        | ハウスルール
-      th
-        | チョッパー
-      th
-        | キッチン
-      th
-        | 共通
-      th
-        | 衛生管理
-      th
-        | セーフティ管理
-
-    tr
-      td
-      td
-      td
-      td
-      td
-      td
-      td
-  table.table
-    tr
-      th[colspan=6]
-        | マネジメント
-    tr
-      th
-        | 教育
-      th
-        | 採用
-      th
-        | シフト
-      th
-        | 発注
-      th
-        | 棚卸
-      th
-        | 経営
-    tr
-      td
-      td
-      td
-      td
-      td
-      td
-  table.table
-    tr
-      th[colspan=5]
-        | コンピテンシー
-    tr
-      th
-        | クリスプウェイ
-      th
-        | 成長する
-      th
-        | 行動する
-      th
-        | チームで働く
-      th
-        | 責任を持つ
-    tr  
-      td
-      td
-      td
-      td
-      td      
+        font[color="red" size="5"]
+          b  
+            = m_percent.round(0) unless s_percent.nan?
+            | %
         
 hr.line
      

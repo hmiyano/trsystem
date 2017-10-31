@@ -1,6 +1,6 @@
 ul.media-list
   - if te_logged_in? || admin_logged_in?
-    - comments.where(trainee_id: @trainee.id).each do |comment|
+    - @comments.where(trainee_id: @trainee.id).each do |comment|
       table.comment
         tr.comment
           td.comment
@@ -47,7 +47,7 @@ ul.media-list
                     b
                       = comment.reply
   - elsif tr_logged_in?
-    - comments.where(trainee_id: @trainee.id).each do |comment|
+    - @comments.where(trainee_id: @trainee.id).each do |comment|
       table.comment
         tr.comment
           td.comment
@@ -86,4 +86,4 @@ ul.media-list
                   p
                     b
                       = comment.reply
-= paginate comments
+= paginate @comments, param_name: 'comments_page'

@@ -47,7 +47,7 @@
               button.btn.btn-primary.btn-xs[disabled="disabled"]
                 | 専任トレーナー： 
                 = exctr
-    /= render 'progress', checklists: @checklists, trainee: @trainee
+    = render 'progress', checklists: @checklists, trainee: @trainee
     = render 'checklists/checklists', checklists: @checklists, trainee: @trainee
 
   - elsif tr_logged_in?
