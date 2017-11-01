@@ -3,7 +3,7 @@ class Checklist < ApplicationRecord
   belongs_to :admin
   
   #バリデーション
-#  validates :admin_id, presence: true
+  validates :admin_id, presence: true
   validates :content, presence: true, length: { maximum: 255 }
   validates :section, presence: true, length: { maximum: 255 }
   validates :chapter, presence: true, length: { maximum: 255 }

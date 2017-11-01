@@ -1,120 +1,122 @@
-- if admin_logged_in?
-  p
-    = link_to '新規トレーニング項目の作成', new_checklist_path, class: 'btn btn-danger'
+- if checklists.any?
 
-  .panel.panel-default
-    .panel-heading[align="left"]
-      | 検索
-    .panel-body
-      table[align="left"]
+  - if admin_logged_in?
+    p
+      = link_to '新規トレーニング項目の作成', new_checklist_path, class: 'btn btn-danger'
+  
+    .panel.panel-default
+      .panel-heading[align="left"]
+        | 検索
+      .panel-body
+        table[align="left"]
+          tr
+            td
+              = form_tag(checklists_path, method: :get, class: 'form-inline') do
+                .form-group
+                  = select_tag :wgname, options_for_select($all_wg), :prompt => session[:wg], class: 'form-control'
+                  = select_tag :chapname, options_for_select($all_chapters), :prompt => session[:chap], class: 'form-control'
+                = button_tag( class: "btn btn-default") do
+                  = content_tag :span, "", class: "glyphicon glyphicon-search"
+
+    .admin
+      table.table.table-bordered
         tr
-          td
-            = form_tag(checklists_path, method: :get, class: 'form-inline') do
-              .form-group
-                = select_tag :wgname, options_for_select($all_wg), :prompt => session[:wg], class: 'form-control'
-                = select_tag :chapname, options_for_select($all_chapters), :prompt => session[:chap], class: 'form-control'
-              = button_tag( class: "btn btn-default") do
-                = content_tag :span, "", class: "glyphicon glyphicon-search"
+          th.chap
+            | カテゴリ
+          th.chap
+            | チャプター
+          th.sec
+            | セクション
+          th.content
+            | トレーニング項目
 
-  .admin
-    table.table.table-bordered
-      tr
-        th.chap
-          | カテゴリ
-        th.chap
-          | チャプター
-        th.sec
-          | セクション
-        th.content
-          | トレーニング項目
+          th.op
+            | 編集
+          th.op
+            | 削除
+        - @checklists.each do |checklist|
+          tr
+            td
+              = checklist.category
+            td
+              = checklist.chapter
+            td
+              = checklist.section
+            td
+              = checklist.content
+            td.op
+              = link_to edit_checklist_path(checklist), class: "btn btn-default" do
+                i.glyphicon.glyphicon-edit
+            td.op
+              = link_to checklist, method: :delete, data: { confirm: '本当に削除してよろしいですか？' }, class: "btn btn-danger" do
+                i.glyphicon.glyphicon-trash
+    .[align="left"]
+      = paginate @checklists, :param_name => 'check_page'
 
-        th.op
-          | 編集
-        th.op
-          | 削除
-      - @checklists.each do |checklist|
+  - else
+
+    .panel.panel-default
+      .panel-heading[align="left"]
+        | 検索
+      .panel-body
+        table[align="left"]
+          tr
+            td
+              = form_tag(trainee_path, method: :get, class: 'form-inline') do
+                .form-group
+                  = select_tag :chapname, options_for_select($all_chapters), :prompt => session[:chap], class: 'form-control'
+                  = select_tag :selfcheck, options_for_select([['全て','全て'],['チェックなし','チェックなし'], ['1回以上','First'], ['2回以上','Second'], ['3回以上','Third']]), :prompt => session[:self], class: 'form-control'
+                  = select_tag :master, options_for_select([['全て','全て'],['マスターしている','マスターしている'],['マスター待ち','マスター待ち']]), :prompt => session[:master], class: 'form-control'
+                = button_tag( class: "btn btn-default") do
+                  = content_tag :span, "", class: "glyphicon glyphicon-search"
+            td
+              font[size="1" color="lightgrey"]
+                | イニシャルチェックとコンピテンシーは
+                | [MASTER待ち]では検索されません
+    .trainee
+      table.table.table-bordered
         tr
-          td
-            = checklist.category
-          td
-            = checklist.chapter
-          td
-            = checklist.section
-          td
-            = checklist.content
-          td.op
-            = link_to edit_checklist_path(checklist), class: "btn btn-default" do
-              i.glyphicon.glyphicon-edit
-          td.op
-            = link_to checklist, method: :delete, data: { confirm: '本当に削除してよろしいですか？' }, class: "btn btn-danger" do
-              i.glyphicon.glyphicon-trash
-  .[align="left"]
-    = paginate @checklists, :param_name => 'check_page'
-
-- else
-
-  .panel.panel-default
-    .panel-heading[align="left"]
-      | 検索
-    .panel-body
-      table[align="left"]
+          th.head[colspan="6"]
+            | PG1/A : CHOPPER
+          th.re
+            button.btn.btn-default[onclick="window.location.reload();"]
+              span.glyphicon.glyphicon-refresh[aria-hidden="true"]
         tr
-          td
-            = form_tag(trainee_path, method: :get, class: 'form-inline') do
-              .form-group
-                = select_tag :chapname, options_for_select($all_chapters), :prompt => session[:chap], class: 'form-control'
-                = select_tag :selfcheck, options_for_select([['全て','全て'],['チェックなし','チェックなし'], ['1回以上','First'], ['2回以上','Second'], ['3回以上','Third']]), :prompt => session[:self], class: 'form-control'
-                = select_tag :master, options_for_select([['全て','全て'],['マスターしている','マスターしている'],['マスター待ち','マスター待ち']]), :prompt => session[:master], class: 'form-control'
-              = button_tag( class: "btn btn-default") do
-                = content_tag :span, "", class: "glyphicon glyphicon-search"
-          td
-            font[size="1" color="lightgrey"]
-              | イニシャルチェックとコンピテンシーは
-              | [MASTER待ち]では検索されません
-  .trainee
-    table.table.table-bordered
-      tr
-        th.head[colspan="6"]
-          | PG1/A : CHOPPER
-        th.re
-          button.btn.btn-default[onclick="window.location.reload();"]
-            span.glyphicon.glyphicon-refresh[aria-hidden="true"]
-      tr
-        th[rowspan="2"]
-          | チャプター
-        th[rowspan="2"]
-          | セクション
-        th[rowspan="2"]
-          | チェック項目
-        th.bottom[colspan="3"]
-          | セルフチェック
-        th.tcheck.bottom
-          | トレーナーチェック
-      tr
-        th
-          | 1回目
-        th
-          | 2回目
-        th
-          | 3回目
-        th
-          | MASTER
-      - @checklists.each do |checklist|
+          th[rowspan="2"]
+            | チャプター
+          th[rowspan="2"]
+            | セクション
+          th[rowspan="2"]
+            | チェック項目
+          th.bottom[colspan="3"]
+            | セルフチェック
+          th.tcheck.bottom
+            | トレーナーチェック
         tr
-          td
-            = checklist.chapter
-          td
-            = checklist.section
-          td
-            = checklist.content
-          td.check
-            = render 'te_checks/first_button', checklist: checklist
-          td.check
-            = render 'te_checks/second_button', checklist: checklist
-          td.check
-            = render 'te_checks/third_button', checklist: checklist
-          td.tcheck
-            = render 'tr_checks/master_button', checklist: checklist, trainee: trainee
-
-  .[align="left"]
-    = paginate @checklists, :param_name => 'check_page'
+          th
+            | 1回目
+          th
+            | 2回目
+          th
+            | 3回目
+          th
+            | MASTER
+        - @checklists.each do |checklist|
+          tr
+            td
+              = checklist.chapter
+            td
+              = checklist.section
+            td
+              = checklist.content
+            td.check
+              = render 'te_checks/first_button', checklist: checklist
+            td.check
+              = render 'te_checks/second_button', checklist: checklist
+            td.check
+              = render 'te_checks/third_button', checklist: checklist
+            td.tcheck
+              = render 'tr_checks/master_button', checklist: checklist, trainee: trainee
+  
+    .[align="left"]
+      = paginate @checklists, :param_name => 'check_page'
