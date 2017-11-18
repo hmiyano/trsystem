@@ -10,9 +10,10 @@
           .form-group
             = f.label :enable, '有効設定'
             = f.check_box :enable, class: 'form-control'
-        .form-group
-          = f.label :name, '名前'
-          = f.text_field :name, class: 'form-control'
+        - if tr_logged_in? || admin_logged_in?
+          .form-group
+            = f.label :name, '名前'
+            = f.text_field :name, class: 'form-control'
         .form-group
           = f.label :nickname, 'ニックネーム'
           = f.text_field :nickname, class: 'form-control'
@@ -23,9 +24,9 @@
           .form-group
             = f.label :grade, 'ワークグレード'
             = f.select :grade, options_for_select($wg, @trainee.grade),{}, class: "form-control"
-        .form-group
-          = f.label :branch, '所属店舗'
-          = f.select :branch, options_for_select($all_restaurants, @trainee.branch), {}, class: "form-control"
+          .form-group
+            = f.label :branch, '所属店舗'
+            = f.select :branch, options_for_select($all_restaurants, @trainee.branch), {}, class: "form-control"
         .form-group
           = f.label :password, 'パスワード'
           = f.password_field :password, class: 'form-control'
