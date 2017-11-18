@@ -23,13 +23,6 @@
             | [ 現在管理者としてログインしています]
         - else
           = link_to 'トレーニングを始める', te_login_path, class: 'btn btn-success btn-lg'
-          hr.line
-          p
-          h5
-            | [テストログイン用ID]
-          p
-            h5 
-              |管理者 : admin@admin.com / admin
 
 
 - if te_logged_in?

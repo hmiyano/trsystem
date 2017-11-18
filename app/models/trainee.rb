@@ -14,8 +14,8 @@ class Trainee < ApplicationRecord
   has_many :te_checks, :dependent => :nullify
   has_many :checklists, through: :te_checks
   
-  has_many :tr_checks, :dependent => :nullify
-  has_many :checklists, through: :tr_checks
+#  has_many :tr_checks, :dependent => :nullify
+#  has_many :checklists, through: :tr_checks
   
   has_many :firsts
   has_many :first_checklists, through: :firsts, class_name: 'Checklist', source: :checklist
