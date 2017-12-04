@@ -7,20 +7,19 @@
       th.check MASTER数
       th.check チェック率（％）
       th.check MASTER率（％）
+      
     - inicheck = @progresslists.where(chapter: "イニシャルチェック").count * 2 if @progresslists.where(chapter: "イニシャルチェック")
-    - compcheck = @progresslists.where(category: "コンピテンシー").count *2 if @progresslists.where(category: "コンピテンシー")
+    - compcheck = @progresslists.where(category: "コンピテンシー").count * 2 if @progresslists.where(category: "コンピテンシー")
     - checkminus = inicheck + compcheck
     - start_date = TeCheck.where(trainee_id: trainee.id)
     - start_date = Time.now - start_date.first.created_at.in_time_zone('Tokyo') if start_date.first
     - start_date = start_date.round(0) / 60 / 60 / 24 unless start_date.blank?
     - start_date = '-' if start_date.blank?
     - listcount =  @progresslists.count
-    
     - te_checkcount = @progresslists.joins(:te_checks).where("te_checks.trainee_id = #{@trainee.id}").count
     - tr_checkcount = @progresslists.joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}").count
     - s_percent = te_checkcount.to_f / (listcount.to_f * 3 - checkminus) * 100
     - m_percent = tr_checkcount.to_f / listcount.to_f * 100
-    
 
 
 
