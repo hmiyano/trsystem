@@ -56,7 +56,7 @@
         - @progresslists = Checklist.where(allow_grades_query) 
 
         - inicheck = @progresslists.where(chapter: "イニシャルチェック").count * 2 if @progresslists.where(chapter: "イニシャルチェック")
-        - compcheck = @progresslists.where(category: "コンピテンシー").count *2 if @progresslists.where(category: "コンピテンシー")
+        - compcheck = @progresslists.where(category: "コンピテンシー").count * 2 if @progresslists.where(category: "コンピテンシー")
         - checkminus = inicheck + compcheck
         - listcount = @progresslists.count
         
