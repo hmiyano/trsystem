@@ -1,4 +1,3 @@
-- if checklists.any?
 
   - if admin_logged_in?
     p
@@ -79,16 +78,13 @@
     .trainee
       table.table.table-bordered
         tr
-          th.head[colspan="6"]
-            | PG1/A : CHOPPER
+          th.head[colspan="4"]
+            | 
           th.re
             button.btn.btn-default[onclick="window.location.reload();"]
               span.glyphicon.glyphicon-refresh[aria-hidden="true"]
         tr
-          th[rowspan="2"]
-            | チャプター
-          th[rowspan="2"]
-            | セクション
+
           th[rowspan="2"]
             | チェック項目
           th.bottom[colspan="3"]
@@ -107,11 +103,7 @@
         - @checklists.each do |checklist|
           tr
             td
-              = checklist.chapter
-            td
-              = checklist.section
-            td
-              = checklist.content
+              = checklist.chapter + " : " + checklist.section + " : " + checklist.content
             td.check
               = render 'te_checks/first_button', checklist: checklist
             td.check

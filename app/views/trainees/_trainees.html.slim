@@ -33,7 +33,7 @@
         th
           | TR開始
         th
-          | 進捗
+          | 進捗%
           br
           |  (セルフ)
         th
@@ -47,9 +47,19 @@
             | 有効
           th
             | 削除            
-      - checkminus = (Checklist.where(chapter: $chap1).count * 2) + (Checklist.where(chapter: $chap9).count *2)
-      - listcount = Checklist.count
+
       - @trainees.each do |trainee|
+        / @trainee の対象チェックリストのみを表示する
+        - allow_grades = $all_grades.select { |permit| trainee.try(permit) }
+        - allow_grades_query = allow_grades.map { |a| "#{a.to_s} = true"}.join(" OR ")
+        / progress 確認用
+        - @progresslists = Checklist.where(allow_grades_query) 
+
+        - inicheck = @progresslists.where(chapter: "イニシャルチェック").count * 2 if @progresslists.where(chapter: "イニシャルチェック")
+        - compcheck = @progresslists.where(category: "コンピテンシー").count *2 if @progresslists.where(category: "コンピテンシー")
+        - checkminus = inicheck + compcheck
+        - listcount = @progresslists.count
+        
         - te_checkcount = TeCheck.where(trainee_id: trainee.id).count
         - tr_checkcount = TrCheck.where(trainee_id: trainee.id).count
         - s_percent = te_checkcount.to_f / (listcount.to_f * 3 - checkminus) * 100

@@ -38,6 +38,9 @@ class TraineesController < ApplicationController
         end        
       end
     end
+    
+
+    
   end
   
   def show
