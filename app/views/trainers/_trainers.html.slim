@@ -55,8 +55,8 @@
           td.check
             = trainer.grade
           td.check
-            = (Time.now - TrCheck.where(trainer_id: trainer.id).order(:updated_at).last.updated_at).round(0) / 3600 unless TrCheck.where(trainer_id: trainer.id).blank?
-            |  時間前
+            = (Time.now - TrCheck.where(trainer_id: trainer.id).order(:updated_at).last.updated_at).round(0) / 86400 unless TrCheck.where(trainer_id: trainer.id).blank?
+            |  日前
           td.check
             = Trainee.where(trainer_id: trainer.id).count
             | 人

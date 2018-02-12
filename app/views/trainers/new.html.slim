@@ -9,7 +9,7 @@
         .form-group
           = f.hidden_field :enable, :value=>'true', class: 'form-control'
         .form-group
-          = f.label :name, 'お名前'
+          = f.label :name, '名前'
           = f.text_field :name, class: 'form-control'
         .form-group
           = f.label :nickname, 'ニックネーム'
@@ -17,6 +17,9 @@
         .form-group
           = f.label :email, 'メールアドレス'
           = f.email_field :email, class: 'form-control'
+        .form-group
+          = f.label :slack, 'slack連携'
+          = f.text_field :slack, class: 'form-control'    
         .form-group
           = f.label :grade, 'ワークグレード'
           = f.select :grade, options_for_select($wg),{}, class: "form-control"

@@ -170,6 +170,6 @@ class TraineesController < ApplicationController
   private
 
   def trainee_params
-    params.require(:trainee).permit(:name, :nickname, :email, :branch, :password, :password_confirmation, :enable, :trainer_id, :pg1ac, :pg1ak, :pg1bc, :pg1bk, :pg2ac, :pg2ak, :pg2bc, :pg2bk, :pg2cc, :pg2ck, :pg3a, :pg3b, :pg3c, :g1a, :g1b, :g1c, :g1d, :g2a, :g2b, :g2c, :g2d, :grade)
+    params.require(:trainee).permit(:name, :nickname, :email, :slack, :branch, :password, :password_confirmation, :enable, :trainer_id, :pg1ac, :pg1ak, :pg1bc, :pg1bk, :pg2ac, :pg2ak, :pg2bc, :pg2bk, :pg2cc, :pg2ck, :pg3a, :pg3b, :pg3c, :g1a, :g1b, :g1c, :g1d, :g2a, :g2b, :g2c, :g2d, :grade)
   end
 end

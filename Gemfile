@@ -89,3 +89,7 @@ gem 'gretel'
 # slim
 gem 'slim-rails'
 gem 'html2slim'
+
+# slack-api
+gem 'slack-api'
+gem 'slack-notifier'
