@@ -6,12 +6,12 @@ class CommentsController < ApplicationController
     if @comment.save
       flash[:success] = 'コメントを投稿しました'
       
- 
+
       notifier = Slack::Notifier.new('https://hooks.slack.com/services/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', channel: "#trsystem") #事前準備で取得したWebhook URL
-      notifier.ping current_trainee.branch + "所属の" + current_trainee.nickname + "さんがトレーニングシートを更新しました。専任トレーナーの方は確認をお願いします <#{request.referer}>"
+      notifier.ping ">" + current_trainee.branch + "所属の" + current_trainee.nickname + "さんがトレーニングシートを更新しました。専任トレーナーの" + "#{Trainer.find(current_trainee.trainer_id).name}" + "さんは確認をお願いします <#{request.referer}>"
       
       notifier = Slack::Notifier.new('https://hooks.slack.com/services/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', channel: "#{Trainer.find(current_trainee.trainer_id).slack}") #事前準備で取得したWebhook URL
-      notifier.ping current_trainee.branch + "所属の" + current_trainee.nickname + "さんがトレーニングシートを更新しました。専任トレーナーの方は確認をお願いします <#{request.referer}>"
+      notifier.ping ">" + "あなたが専任トレーナーの、" + current_trainee.branch + "所属の" + current_trainee.nickname + "さんがトレーニングシートを更新しました。確認をお願いします <#{request.referer}>"
       
       redirect_back(fallback_location: root_path)
     else
@@ -32,7 +32,7 @@ class CommentsController < ApplicationController
       flash[:success] = 'コメントは正常に更新されました'
       
       notifier = Slack::Notifier.new('https://hooks.slack.com/services/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', channel: "#{Trainee.find(@comment.trainee_id).slack}") #事前準備で取得したWebhook URL
-      notifier.ping current_trainer.nickname + "さんが、あなたのトレーニングシートを更新しました！ <#{request.referer}>"
+      notifier.ping ">" + current_trainer.nickname + "さんが、あなたのトレーニングシートを更新しました！ <#{request.referer}>"
 
       redirect_back(fallback_location: root_path)
     else
