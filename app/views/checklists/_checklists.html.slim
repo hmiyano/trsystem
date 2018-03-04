@@ -28,7 +28,8 @@
             | セクション
           th.content
             | トレーニング項目
-
+          th.content
+            | 有効
           th.op
             | 編集
           th.op
@@ -43,6 +44,8 @@
               = checklist.section
             td
               = checklist.content
+            td
+              = checklist.enable
             td.op
               = link_to edit_checklist_path(checklist), class: "btn btn-default" do
                 i.glyphicon.glyphicon-edit
@@ -50,7 +53,7 @@
               = link_to checklist, method: :delete, data: { confirm: '本当に削除してよろしいですか？' }, class: "btn btn-danger" do
                 i.glyphicon.glyphicon-trash
     .[align="left"]
-      = paginate @checklists, :param_name => 'check_page'
+      = paginate @checklists
 
   - else
 
@@ -101,17 +104,18 @@
           th
             | MASTER
         - @checklists.each do |checklist|
-          tr
-            td
-              = checklist.chapter + " : " + checklist.section + " : " + checklist.content
-            td.check
-              = render 'te_checks/first_button', checklist: checklist
-            td.check
-              = render 'te_checks/second_button', checklist: checklist
-            td.check
-              = render 'te_checks/third_button', checklist: checklist
-            td.tcheck
-              = render 'tr_checks/master_button', checklist: checklist, trainee: trainee
+          - if checklist.enable
+            tr
+              td
+                = checklist.chapter + " : " + checklist.section + " : " + checklist.content
+              td.check
+                = render 'te_checks/first_button', checklist: checklist
+              td.check
+                = render 'te_checks/second_button', checklist: checklist
+              td.check
+                = render 'te_checks/third_button', checklist: checklist
+              td.tcheck
+                = render 'tr_checks/master_button', checklist: checklist, trainee: trainee
   
     .[align="left"]
       = paginate @checklists, :param_name => 'check_page'

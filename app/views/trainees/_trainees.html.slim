@@ -55,13 +55,13 @@
         / progress 確認用
         - @progresslists = Checklist.where(allow_grades_query) 
 
-        - inicheck = @progresslists.where(chapter: "イニシャルチェック").count * 2 if @progresslists.where(chapter: "イニシャルチェック")
-        - compcheck = @progresslists.where(category: "コンピテンシー").count * 2 if @progresslists.where(category: "コンピテンシー")
+        - inicheck = @progresslists.where(chapter: "イニシャルチェック", enable: true).count * 2 if @progresslists.where(chapter: "イニシャルチェック")
+        - compcheck = @progresslists.where(category: "コンピテンシー", enable: true).count * 2 if @progresslists.where(category: "コンピテンシー")
         - checkminus = inicheck + compcheck
-        - listcount = @progresslists.count
+        - listcount = @progresslists.where(enable: true).count
         
-        - te_checkcount = TeCheck.where(trainee_id: trainee.id).count
-        - tr_checkcount = TrCheck.where(trainee_id: trainee.id).count
+        - te_checkcount = @progresslists.where(enable: true).joins(:te_checks).where("te_checks.trainee_id = #{trainee.id}").count
+        - tr_checkcount = @progresslists.where(enable: true).joins(:tr_checks).where("tr_checks.trainee_id = #{trainee.id}").count
         - s_percent = te_checkcount.to_f / (listcount.to_f * 3 - checkminus) * 100
         - m_percent = tr_checkcount.to_f / listcount.to_f * 100
         - start_date = TeCheck.where(trainee_id: trainee.id)
