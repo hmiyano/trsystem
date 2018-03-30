@@ -61,69 +61,6 @@
 
 
 
-    tr
-      th.check[colspan="2"] オペレーション
-      th.check[colspan="2"] マネジメント
-      th.check[colspan="2"] コンピテンシー
-      
-    tr
-      td.check[colspan="2"]
-        | ◆SELF：
-        = @progresslists.where(category: "オペレーション", enable: true).joins(:te_checks).where("te_checks.trainee_id = #{@trainee.id}").count - inicheck
-        |  / 
-        font[size="1"]
-          = @progresslists.where(category: "オペレーション", enable: true).count * 3
-          | 回（
-          = (((@progresslists.where(category: "オペレーション", enable: true).joins(:te_checks).where("te_checks.trainee_id = #{@trainee.id}").count.to_f  - inicheck) / (@progresslists.where(category: "オペレーション", enable: true).count.to_f * 3)) * 100).round(0)
-          | %）
-          
-        |  ◆ MASTER：
-        = @progresslists.where(category: "オペレーション", enable: true).joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}").count
-        |  / 
-        font[size="1"]
-          = @progresslists.where(category: "オペレーション", enable: true).count
-          | 回（
-          = (((@progresslists.where(category: "オペレーション", enable: true).joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}").count.to_f) / (@progresslists.where(category: "オペレーション", enable: true).count.to_f)) * 100).round(0)
-          | %）
-          
-      td.check[colspan="2"]
-        | ◆SELF：
-        = @progresslists.where(category: "マネジメント", enable: true).joins(:te_checks).where("te_checks.trainee_id = #{@trainee.id}").count
-        |  / 
-        font[size="1"]
-          = @progresslists.where(category: "マネジメント", enable: true).count * 3
-          | 回（
-          = (((@progresslists.where(category: "マネジメント", enable: true).joins(:te_checks).where("te_checks.trainee_id = #{@trainee.id}").count.to_f) / (@progresslists.where(category: "マネジメント", enable: true).count.to_f * 3)) * 100).round(0)
-          | %）
-          
-        |  ◆ MASTER：
-        = @progresslists.where(category: "マネジメント", enable: true).joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}").count
-        |  / 
-        font[size="1"]
-          = @progresslists.where(category: "マネジメント", enable: true).count
-          | 回（
-          = (((@progresslists.where(category: "マネジメント", enable: true).joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}").count.to_f) / (@progresslists.where(category: "マネジメント", enable: true).count.to_f)) * 100).round(0)
-          | %）
-          
-      td.check[colspan="2"]
-        | ◆SELF：
-        = @progresslists.where(category: "コンピテンシー", enable: true).joins(:te_checks).where("te_checks.trainee_id = #{@trainee.id}").count
-        |  / 
-        font[size="1"]
-          = @progresslists.where(category: "コンピテンシー", enable: true).count
-          | 回（
-          = (((@progresslists.where(category: "コンピテンシー", enable: true).joins(:te_checks).where("te_checks.trainee_id = #{@trainee.id}").count.to_f) / (@progresslists.where(category: "コンピテンシー", enable: true).count.to_f)) * 100).round(0)
-          | %）
-          
-        |  ◆ MASTER：
-        = @progresslists.where(category: "コンピテンシー", enable: true).joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}").count
-        |  / 
-        font[size="1"]
-          = @progresslists.where(category: "コンピテンシー", enable: true).count
-          | 回（
-          = (((@progresslists.where(category: "コンピテンシー", enable: true).joins(:tr_checks).where("tr_checks.trainee_id = #{@trainee.id}").count.to_f) / (@progresslists.where(category: "コンピテンシー", enable: true).count.to_f)) * 100).round(0)
-          | %）
-            
             
 hr.line
      
