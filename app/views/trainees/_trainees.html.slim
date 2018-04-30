@@ -27,9 +27,9 @@
         th[width="120"]
           | 専任トレーナー
         th
-          | 未返信
+          | 未返信ｺﾒﾝﾄ
         th
-          | 最終更新
+          | 最終ﾁｪｯｸ
         /th
         /  | TR開始
         th
@@ -83,9 +83,14 @@
             td.check.none
               = Trainer.find(trainee.trainer_id).nickname unless trainee.trainer_id.nil?
             td.check.none
-              = Comment.where(trainee_id: trainee.id, reply: nil).count
+              - if Comment.where(trainee_id: trainee.id, reply: nil).count != 0
+                font color = 'red'
+                  b
+                    = Comment.where(trainee_id: trainee.id, reply: nil).count
+              - else
+                = Comment.where(trainee_id: trainee.id, reply: nil).count
             td.check.none
-              font color='red'
+              font color='darkgrey'
                 | 未開始
             /td.check.none
             /  = start_date
@@ -119,10 +124,22 @@
             td.check
               = Trainer.find(trainee.trainer_id).nickname unless trainee.trainer_id.nil?
             td.check
-              = Comment.where(trainee_id: trainee.id, reply: nil).count
+              - if Comment.where(trainee_id: trainee.id, reply: nil).count != 0
+                font color = 'red'
+                  b
+                    = Comment.where(trainee_id: trainee.id, reply: nil).count
+              - else
+                = Comment.where(trainee_id: trainee.id, reply: nil).count
             td.check
-              - if (Time.now - TeCheck.where(trainee_id: trainee.id).order(:updated_at).last.updated_at).round(0) < 86400
-                | 本日              
+              - if (Time.now - TeCheck.where(trainee_id: trainee.id).order(:updated_at).last.updated_at).round(0) < (86400)
+                font color = 'red'
+                  b
+                    | 本日              
+              - elsif (Time.now - TeCheck.where(trainee_id: trainee.id).order(:updated_at).last.updated_at).round(0) < (86400 * 7)
+                font color = 'red'
+                  b
+                    = (Time.now - TeCheck.where(trainee_id: trainee.id).order(:updated_at).last.updated_at).round(0) / 86400
+                    | 日前 
               - else
                 = (Time.now - TeCheck.where(trainee_id: trainee.id).order(:updated_at).last.updated_at).round(0) / 86400
                 | 日前

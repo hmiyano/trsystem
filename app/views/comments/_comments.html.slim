@@ -16,7 +16,7 @@ ul.media-list
                     = comment.created_at.in_time_zone('Tokyo').strftime('%F')
                 div
                   p
-                    = comment.content
+                    = simple_format(comment.content)
                 div[align="right"]
                   - if admin_logged_in?
                     = link_to "", comment, method: :delete, data: { confirm: "管理者：トレーナーからの返信も削除されてしまいます。本当に削除しますか？" }, class: 'btn btn-danger btn-xs glyphicon glyphicon-trash'
@@ -45,7 +45,7 @@ ul.media-list
                 div
                   p
                     b
-                      = comment.reply
+                      = simple_format(comment.reply)
   - elsif tr_logged_in?
     - @comments.where(trainee_id: @trainee.id).each do |comment|
       table.comment
@@ -63,7 +63,7 @@ ul.media-list
                     = comment.created_at.in_time_zone('Tokyo').strftime('%F')
                 div
                   p
-                    = comment.content
+                    = simple_format(comment.content)
           td.comment
 
             li.media
@@ -85,5 +85,5 @@ ul.media-list
                 div
                   p
                     b
-                      = comment.reply
+                      = simple_format(comment.reply)
 = paginate @comments, param_name: 'comments_page'
