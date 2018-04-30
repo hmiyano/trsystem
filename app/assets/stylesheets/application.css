@@ -201,6 +201,7 @@ footer {
     line-height: 30px;
     color: #696969;
 }
+
 .trainee .table .check {
     text-align: center;
     width: 80px;
@@ -212,6 +213,17 @@ footer {
     font-weight: bold;
     color: red;
 }
+
+.trainee .table .check.none {
+    background-color: #D8D8D8;
+    color: darkgrey;
+}
+
+.trainee .table .none {
+    background-color: #D8D8D8;
+    color: darkgrey;
+}
+
 .trainee .table .tcheck {
     text-align: center;
     width: 130px;

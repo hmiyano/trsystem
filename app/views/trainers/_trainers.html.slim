@@ -25,7 +25,7 @@
         th
           | WG
         th
-          | 最終更新
+          | 最終ﾁｪｯｸ
         th[width="100"]
           | 専任数
           br
@@ -55,8 +55,14 @@
           td.check
             = trainer.grade
           td.check
-            = (Time.now - TrCheck.where(trainer_id: trainer.id).order(:updated_at).last.updated_at).round(0) / 86400 unless TrCheck.where(trainer_id: trainer.id).blank?
-            |  日前
+            - if TrCheck.where(trainer_id: trainer.id).blank?
+              font color='red'
+                | 未開始
+            - elsif (Time.now - TrCheck.where(trainer_id: trainer.id).order(:updated_at).last.updated_at).round(0) < 86400
+              | 本日
+            - else
+              = (Time.now - TrCheck.where(trainer_id: trainer.id).order(:updated_at).last.updated_at).round(0) / 86400
+              | 日前          
           td.check
             = Trainee.where(trainer_id: trainer.id).count
             | 人

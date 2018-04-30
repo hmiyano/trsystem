@@ -6,14 +6,14 @@
           = hidden_field_tag :checklist_id, checklist.id
           = hidden_field_tag :trainee_id, trainee.id
           = button_tag( class: "btn btn-danger btn-xs") do
-            = content_tag :span, checklist.tr_checks.first.updated_at.in_time_zone('Tokyo').strftime('%m/%d') + '【退会者】', class: "glyphicon glyphicon-fire"
+            = content_tag :span, checklist.tr_checks.find_by(trainee_id: @trainee.id).updated_at.in_time_zone('Tokyo').strftime('%m/%d') + '【退会者】', class: "glyphicon glyphicon-fire"
       - else
-        - tn = Trainer.find(checklist.tr_checks.first.trainer_id)
+        - tn = Trainer.find(checklist.tr_checks.find_by(trainee_id: @trainee.id).trainer_id)
         = form_for(checklist.tr_checks.find_by(trainee_id: trainee.id), html: { method: :delete, data: { confirm: 'この項目のMASTERが解除されます。本当に解除してよろしいですか？' } }) do |f|
           = hidden_field_tag :checklist_id, checklist.id
           = hidden_field_tag :trainee_id, trainee.id
           = button_tag( class: "btn btn-danger btn-xs") do
-            = content_tag :span, checklist.tr_checks.first.updated_at.in_time_zone('Tokyo').strftime('%m/%d') + '【' + tn.nickname + '】', class: "glyphicon glyphicon-fire"
+            = content_tag :span, checklist.tr_checks.find_by(trainee_id: @trainee.id).updated_at.in_time_zone('Tokyo').strftime('%m/%d') + '【' + tn.nickname + '】', class: "glyphicon glyphicon-fire"
     - else
       = form_for(checklist.tr_checks.find_by(trainee_id: trainee.id), html: { method: :delete, data: { confirm: 'この項目のセルフチェックがトレーニーにより解除されています。OKを押すと一旦MASTERが解除されますので、再度トレーニーの不安を解消したのちMASTERをしてください。' } }) do |f|
         = hidden_field_tag :checklist_id, checklist.id
@@ -41,11 +41,11 @@
     button.btn.btn-danger.btn-xs[disabled="disabled"]
       span.glyphicon.glyphicon-fire[aria-hidden="true"]
       |  MASTER: 
-      = checklist.tr_checks.first.updated_at.in_time_zone('Tokyo').strftime('%m/%d') if checklist.tr_checks.first
-      - if checklist.tr_checks.first.trainer_id.nil?
+      = checklist.tr_checks.find_by(trainee_id: @trainee.id).updated_at.in_time_zone('Tokyo').strftime('%m/%d') if checklist.tr_checks.first
+      - if checklist.tr_checks.find_by(trainee_id: @trainee.id).trainer_id.nil?
         |  (退会者) 
       - else
-        - tn = Trainer.find(checklist.tr_checks.first.trainer_id)
+        - tn = Trainer.find(checklist.tr_checks.find_by(trainee_id: @trainee.id).trainer_id)
         |  (
         = tn.nickname
         | ) 

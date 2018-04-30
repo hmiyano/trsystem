@@ -6,35 +6,35 @@ class TraineesController < ApplicationController
     # ADMIN
     if admin_logged_in?
       if params[:branchname]
-        @trainees = Trainee.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+        @trainees = Trainee.where(branch: params[:branchname]).order(updated_at: :desc).page(params[:page]).per(25)
       else
-        @trainees = Trainee.order(created_at: :asc).page(params[:page]).per(25)
+        @trainees = Trainee.order(updated_at: :desc).page(params[:page]).per(25)
       end  
     # TRAINER
     elsif tr_logged_in?
       if current_trainer.grade == "PG1" || current_trainer.grade == "PG2"
         if params[:branchname]
-           @trainees = Trainee.where(enable: true).where(grade: "PG1").where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+           @trainees = Trainee.where(enable: true).where(grade: "PG1").where(branch: params[:branchname]).order(updated_at: :desc).page(params[:page]).per(25)
         else
-          @trainees = Trainee.where(enable: true).where(grade: "PG1").order(created_at: :asc).page(params[:page]).per(25)
+          @trainees = Trainee.where(enable: true).where(grade: "PG1").order(updated_at: :desc).page(params[:page]).per(25)
         end
       elsif current_trainer.grade == "PG3" || current_trainer.grade == "G1"
         if params[:branchname]
-           @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3", "G1A").where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+           @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3", "G1A").where(branch: params[:branchname]).order(updated_at: :desc).page(params[:page]).per(25)
         else
-          @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ? OR (grade = ?))", "PG1", "PG2", "PG3", "G1A").order(created_at: :asc).page(params[:page]).per(25)
+          @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ? OR (grade = ?))", "PG1", "PG2", "PG3", "G1A").order(updated_at: :desc).page(params[:page]).per(25)
         end              
       elsif current_trainer.grade == "G2"
         if params[:branchname]
-           @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3", "G1").where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+           @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3", "G1").where(branch: params[:branchname]).order(updated_at: :desc).page(params[:page]).per(25)
         else
-          @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3", "G1").order(created_at: :asc).page(params[:page]).per(25)
+          @trainees = Trainee.where(enable: true).where("(grade = ?) OR (grade = ?) OR (grade = ?) OR (grade = ?)", "PG1", "PG2", "PG3", "G1").order(updated_at: :desc).page(params[:page]).per(25)
         end  
       else
         if params[:branchname]
-           @trainees = te_enable.where(branch: params[:branchname]).order(created_at: :asc).page(params[:page]).per(25)
+           @trainees = te_enable.where(branch: params[:branchname]).order(updated_at: :desc).page(params[:page]).per(25)
         else
-          @trainees = te_enable.order(created_at: :asc).page(params[:page]).per(25)
+          @trainees = te_enable.order(updated_at: :desc).page(params[:page]).per(25)
         end        
       end
     end

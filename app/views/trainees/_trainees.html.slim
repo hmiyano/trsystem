@@ -30,8 +30,8 @@
           | 未返信
         th
           | 最終更新
-        th
-          | TR開始
+        /th
+        /  | TR開始
         th
           | 進捗%
           br
@@ -68,38 +68,80 @@
         - start_date = Time.now - start_date.first.created_at.in_time_zone('Tokyo') if start_date.first
         - start_date = start_date.round(0) / 60 / 60 / 24 unless start_date.blank?
         - start_date = '-' if start_date.blank?
-        tr
-          td
-            = trainee.branch
-          td
-            = trainee.name
-            |  ( 
-            = trainee.nickname
-            |  )
-          td.check
-            = trainee.grade
-          td.check
-            = Trainer.find(trainee.trainer_id).nickname unless trainee.trainer_id.nil?
-          td.check.imp
-            = Comment.where(trainee_id: trainee.id, reply: nil).count
-          td.check
-            = (Time.now - TeCheck.where(trainee_id: trainee.id).order(:updated_at).last.updated_at).round(0) / 86400 unless TeCheck.where(trainee_id: trainee.id).blank?
-            |  日前
-          td.check
-            = start_date
-            | 日前
-          td.check
-            = s_percent.round(0) unless s_percent.nan?
-            | %
-          td.check
-            = m_percent.round(0) unless s_percent.nan?
-            | %
-          td.check
-            = link_to '', trainee, class: 'glyphicon glyphicon-fire'
-          - if admin_logged_in?
-            td.check.imp
-              - if trainee.enable
-                |  Y 
-            td.check.imp
-              = link_to '削除', trainee, method: :delete, data: { confirm: '本当にトレーニーを削除してよろしいですか？全てのトレーニーとチェックのデータが失われ復元することはできません！' }
+        
+        - if TeCheck.where(trainee_id: trainee.id).blank?
+          tr
+            td.none
+              = trainee.branch
+            td.none
+              = trainee.name
+              |  ( 
+              = trainee.nickname
+              |  )
+            td.check.none
+              = trainee.grade
+            td.check.none
+              = Trainer.find(trainee.trainer_id).nickname unless trainee.trainer_id.nil?
+            td.check.none
+              = Comment.where(trainee_id: trainee.id, reply: nil).count
+            td.check.none
+              font color='red'
+                | 未開始
+            /td.check.none
+            /  = start_date
+            /  | 日前
+            td.check.none
+              = s_percent.round(0) unless s_percent.nan?
+              | %
+            td.check.none
+              = m_percent.round(0) unless s_percent.nan?
+              | %
+            td.check.none
+              = link_to '', trainee, class: 'glyphicon glyphicon-fire'
+            - if admin_logged_in?
+              td.check.none
+                - if trainee.enable
+                  |  Y 
+              td.check.none
+                = link_to '削除', trainee, method: :delete, data: { confirm: '本当にトレーニーを削除してよろしいですか？全てのトレーニーとチェックのデータが失われ復元することはできません！' }
+
+        - else
+          tr
+            td
+              = trainee.branch
+            td
+              = trainee.name
+              |  ( 
+              = trainee.nickname
+              |  )
+            td.check
+              = trainee.grade
+            td.check
+              = Trainer.find(trainee.trainer_id).nickname unless trainee.trainer_id.nil?
+            td.check
+              = Comment.where(trainee_id: trainee.id, reply: nil).count
+            td.check
+              - if (Time.now - TeCheck.where(trainee_id: trainee.id).order(:updated_at).last.updated_at).round(0) < 86400
+                | 本日              
+              - else
+                = (Time.now - TeCheck.where(trainee_id: trainee.id).order(:updated_at).last.updated_at).round(0) / 86400
+                | 日前
+            /td.check
+            /  = start_date
+            /  | 日前
+            td.check
+              = s_percent.round(0) unless s_percent.nan?
+              | %
+            td.check
+              = m_percent.round(0) unless s_percent.nan?
+              | %
+            td.check
+              = link_to '', trainee, class: 'glyphicon glyphicon-fire'
+            - if admin_logged_in?
+              td.check
+                - if trainee.enable
+                  |  Y 
+              td.check
+                = link_to '削除', trainee, method: :delete, data: { confirm: '本当にトレーニーを削除してよろしいですか？全てのトレーニーとチェックのデータが失われ復元することはできません！' }
+
   = paginate trainees
