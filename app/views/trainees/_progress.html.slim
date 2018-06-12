@@ -28,10 +28,10 @@
       td.tcheck
         font[color="black"]
           b  
-          - if $all_grades.select { |permit| @trainee.try(permit) } == [:g1c]
-            | G1C
-          - else
-            = $all_grades.select { |permit| @trainee.try(permit) }
+          /- if $all_grades.select { |permit| @trainee.try(permit) } == [:pg1ac]
+          /  | PG1A/C
+          /- else
+          = $all_grades.select { |permit| @trainee.try(permit) }
       td.check
         = start_date
         font[size="1"]

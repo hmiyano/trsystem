@@ -24,6 +24,8 @@
           | 名前(ニックネーム)
         th
           | WG
+        th
+          | ﾁｪｯｸｼｰﾄ
         th[width="120"]
           | 専任トレーナー
         th
@@ -81,6 +83,8 @@
             td.check.none
               = trainee.grade
             td.check.none
+              = $all_grades.select { |permit| trainee.try(permit) }
+            td.check.none
               = Trainer.find(trainee.trainer_id).nickname unless trainee.trainer_id.nil?
             td.check.none
               - if Comment.where(trainee_id: trainee.id, reply: nil).count != 0
@@ -121,6 +125,8 @@
               |  )
             td.check
               = trainee.grade
+            td.check
+              = $all_grades.select { |permit| trainee.try(permit) }              
             td.check
               = Trainer.find(trainee.trainer_id).nickname unless trainee.trainer_id.nil?
             td.check
