@@ -38,9 +38,9 @@
           br
         th
           | マイページ
+        th
+          | 有効
         - if admin_logged_in?
-          th
-            | 有効
           th
             | 削除
       - trainers.each do |trainer|
@@ -70,16 +70,12 @@
             = TrCheck.where(trainer_id: trainer.id).count
             | 個
           td.check
-            - if admin_logged_in?
-              = link_to trainer, class: 'btn btn-default' do
-                i.glyphicon.glyphicon-edit
-            - elsif current_trainer == trainer
-              = link_to trainer, class: 'btn btn-default' do
-                i.glyphicon.glyphicon-edit            
+            = link_to trainer, class: 'btn btn-default' do
+              i.glyphicon.glyphicon-edit
+          td.check.imp
+            - if trainer.enable
+              |  Y 
           - if admin_logged_in?
-            td.check.imp
-              - if trainer.enable
-                |  Y 
             td.check.imp
               = link_to '削除', trainer, method: :delete, data: { confirm: '本当にトレーナーを削除してよろしいですか？全てのトレーナーとチェックのデータが失われ復元することはできません！' }
   = paginate trainers
