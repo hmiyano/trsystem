@@ -46,7 +46,10 @@
       ul
         li
           .status-label
-            = link_to 'トレーニー', new_trainee_path, class: 'btn btn-success'
+            = link_to 'トレーニー', new_trainee_path, class: 'btn btn-primary'
+        li
+          .status-label
+            = link_to 'トレーナー', new_trainer_path, class: 'btn btn-success'
       hr.line
   - elsif admin_logged_in?
     .name.text-center
