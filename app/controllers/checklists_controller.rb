@@ -87,6 +87,6 @@ class ChecklistsController < ApplicationController
   
   # Strong Parameter
   def checklist_params
-    params.require(:checklist).permit(:id, :enable, :category, :chapter, :section, :content, :admin_id, :pg1ac, :pg1ak, :pg1bc, :pg1bk, :pg2ac, :pg2ak, :pg2bc, :pg2bk, :pg2cc, :pg2ck, :pg3a, :pg3b, :pg3c, :g1a, :g1b, :g1c, :g1d, :g2a, :g2b, :g2c, :g2d)
+    params.require(:checklist).permit(:id, :enable, :category, :chapter, :section, :content, :admin_id, :pg1ac, :pg1ak, :pg1bc, :pg1bk, :pg2ac, :pg2ak, :pg2bc, :pg2bk, :pg2cc, :pg2ck, :pg3a, :pg3b, :pg3c, :g1a, :g1b, :g1c, :g1d, :g2a, :g2b, :g2c, :g2d, :rp_pg1ac, :rp_pg1ak)
   end
 end

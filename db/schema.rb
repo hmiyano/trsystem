@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180212105150) do
+ActiveRecord::Schema.define(version: 20190512090727) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -67,6 +67,8 @@ ActiveRecord::Schema.define(version: 20180212105150) do
     t.boolean  "g2b",        default: false, null: false
     t.boolean  "g2c",        default: false, null: false
     t.boolean  "g2d",        default: false, null: false
+    t.boolean  "rp_pg1ac"
+    t.boolean  "rp_pg1ak"
     t.index ["admin_id"], name: "index_checklists_on_admin_id", using: :btree
   end
 
@@ -151,6 +153,8 @@ ActiveRecord::Schema.define(version: 20180212105150) do
     t.boolean  "g2c",             default: false, null: false
     t.boolean  "g2d",             default: false, null: false
     t.string   "slack"
+    t.boolean  "rp_pg1ak"
+    t.boolean  "rp_pg1ac"
     t.index ["trainer_id"], name: "index_trainees_on_trainer_id", using: :btree
   end
 
